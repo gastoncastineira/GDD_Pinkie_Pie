@@ -10,11 +10,17 @@ using System.Windows.Forms;
 
 namespace FrbaCrucero
 {
-    public partial class Form1 : Form
+    public partial class Inicial : Form
     {
-        public Form1()
+        public Inicial()
         {
             InitializeComponent();
+        }
+
+        private void btnAdmin_Click(object sender, EventArgs e)
+        {
+            Hide();
+            new Acceso.Login().Show();
         }
     }
 }
