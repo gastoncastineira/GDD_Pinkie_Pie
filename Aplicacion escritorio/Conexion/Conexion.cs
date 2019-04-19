@@ -12,7 +12,7 @@ namespace ConsoleApp2.Conexion
         private const string comandoInsert = "INSERT INTO ";
         private const string comandoUpdate = "UPDATE ";
         private const string comandoSelect = "SELECT ";
-        private static string conectionString; //= ConfigurationHelper.ConnectionString
+        private static string conectionString = ConfigurationHelper.ConnectionString;
 
         private string PonerFiltros(string comando, List<Filtro> filtros)
         {
