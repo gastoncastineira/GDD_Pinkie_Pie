@@ -47,20 +47,20 @@ CREATE TABLE PINKIE_PIE.[Rol_X_Funcion](
 
 
 GO
-CREATE PROCEDURE [ESKHERE].existe_usuario @Usuario nvarchar(50), @Contrasenia nvarchar(max), @resultado bit OUTPUT
+CREATE PROCEDURE PINKIE_PIE.existe_usuario @Usuario nvarchar(50), @Contrasenia nvarchar(max), @resultado bit OUTPUT
 AS
 BEGIN
 	declare @hash binary(32) = (select HASHBYTES('SHA2_256', @Contrasenia))
-	select @resultado = (select case when (select count(*) from ESKHERE.Usuario where Contrasenia = @hash and Usuario = @Usuario) >=1 then 1 else 0 end)
+	select @resultado = (select case when (select count(*) from PINKIE_PIE.Usuario where Contrasenia = @hash and Usuario = @Usuario) >=1 then 1 else 0 end)
 	if(@resultado = 1)
 	begin
 		update Usuario set [cant_accesos_fallidos] = 0 where Usuario = @Usuario
 	end
 	else
 	begin
-		if(exists(select * from ESKHERE.Usuario where Usuario = @Usuario))
+		if(exists(select * from PINKIE_PIE.Usuario where Usuario = @Usuario))
 		begin
-			update Usuario set [cant_accesos_fallidos] = ((select cant_accesos_fallidos from ESKHERE.Usuario where Usuario = @Usuario) + 1) where Usuario = @Usuario
+			update Usuario set [cant_accesos_fallidos] = ((select cant_accesos_fallidos from PINKIE_PIE.Usuario where Usuario = @Usuario) + 1) where Usuario = @Usuario
 		end
 	end
 END
