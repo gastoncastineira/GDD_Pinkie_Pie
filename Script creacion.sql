@@ -11,16 +11,16 @@ END
 
 CREATE TABLE PINKIE_PIE.[Usuario](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Usuario] [nvarchar](50) NOT NULL UNIQUE,
-	[Contrasenia] [binary](32) NOT NULL,
+	[usuario] [nvarchar](50) NOT NULL UNIQUE,
+	[contrasenia] [binary](32) NOT NULL,
 	[cant_accesos_fallidos] int default 0,
 	[habilitado] [bit] default 1,
 );
 
 CREATE TABLE PINKIE_PIE.[Rol](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Nombre] [nvarchar](50) NOT NULL UNIQUE,
-	[Habilitado] [bit] default 1
+	[nombre] [nvarchar](50) NOT NULL UNIQUE,
+	[habilitado] [bit] default 1
 );	
 
 CREATE TABLE PINKIE_PIE.[Rol_X_Usuario](
@@ -142,3 +142,119 @@ BEGIN
 END
 GO
 
+-- Inserto funcionalidades
+INSERT INTO PINKIE_PIE.[Funcion](ID, nombre)
+VALUES (1,'ABM_ROL'); 
+GO
+INSERT INTO PINKIE_PIE.[Funcion](ID, nombre)
+VALUES (2,'ABM_PUERTO'); 
+GO
+INSERT INTO PINKIE_PIE.[Funcion](ID, nombre)
+VALUES (3,'ABM_RECORRIDO'); 
+GO
+INSERT INTO PINKIE_PIE.[Funcion](ID, nombre)
+VALUES (4,'ABM_CRUCERO'); 
+GO
+INSERT INTO PINKIE_PIE.[Funcion](ID, nombre)
+VALUES (5,'GENERAR_VIAJE'); 
+GO
+INSERT INTO PINKIE_PIE.[Funcion](ID, nombre)
+VALUES (6,'PAGO_RESERVA'); 
+GO
+INSERT INTO PINKIE_PIE.[Funcion](ID, nombre)
+VALUES (7,'LISTADO_ESTADISTICO'); 
+GO
+
+-- Inserto un rol
+
+INSERT INTO PINKIE_PIE.[Rol](nombre )
+VALUES ('ADMINISTRADOR');
+
+-- Cargo relaciones en al tabla intermedia
+
+INSERT INTO PINKIE_PIE.[Rol_X_Funcion](ID_Rol, ID_Funcion)
+VALUES 
+( 
+(SELECT ID FROM PINKIE_PIE.Rol WHERE nombre = 'ADMINISTRADOR'),
+(SELECT ID FROM PINKIE_PIE.Funcion WHERE nombre = 'ABM_ROL') 
+),
+( 
+(SELECT ID FROM PINKIE_PIE.Rol WHERE nombre = 'ADMINISTRADOR'),
+(SELECT ID FROM PINKIE_PIE.Funcion WHERE nombre = 'ABM_PUERTO') 
+),
+( 
+(SELECT ID FROM PINKIE_PIE.Rol WHERE nombre = 'ADMINISTRADOR'),
+(SELECT ID FROM PINKIE_PIE.Funcion WHERE nombre = 'ABM_RECORRIDO') 
+),
+( 
+(SELECT ID FROM PINKIE_PIE.Rol WHERE nombre = 'ADMINISTRADOR'),
+(SELECT ID FROM PINKIE_PIE.Funcion WHERE nombre = 'ABM_CRUCERO') 
+),
+( 
+(SELECT ID FROM PINKIE_PIE.Rol WHERE nombre = 'ADMINISTRADOR'),
+(SELECT ID FROM PINKIE_PIE.Funcion WHERE nombre = 'GENERAR_VIAJE') 
+),
+( 
+(SELECT ID FROM PINKIE_PIE.Rol WHERE nombre = 'ADMINISTRADOR'),
+(SELECT ID FROM PINKIE_PIE.Funcion WHERE nombre = 'PAGO_RESERVA') 
+),
+( 
+(SELECT ID FROM PINKIE_PIE.Rol WHERE nombre = 'ADMINISTRADOR'),
+(SELECT ID FROM PINKIE_PIE.Funcion WHERE nombre = 'LISTADO_ESTADISTICO') 
+)
+
+-- INSERT INTO PINKIE_PIE.[Usuario](usuario, contrasenia, cant_accesos_fallidos, habilitado)
+-- TODO tenemos que elegir el nombre del usuario administrativo.
+
+-- Inserto puertos
+INSERT INTO PINKIE_PIE.[Puerto](descripcion)
+SELECT DISTINCT PUERTO_DESDE FROM GD1C2019.gd_esquema.Maestra 
+UNION
+SELECT DISTINCT PUERTO_HASTA FROM GD1C2019.gd_esquema.Maestra 
+GO
+
+-- Inserto recorridos con 2 tramos
+INSERT INTO PINKIE_PIE.[Recorrido](codigo, puerto_origen_id, puerto_destino_id)
+SELECT DISTINCT Z.RECORRIDO_CODIGO, (select ID from PINKIE_PIE.[Puerto] where descripcion = Z.PUERTO_DESDE), (select ID from PINKIE_PIE.[Puerto] where descripcion = Z.PUERTO_HASTA)
+FROM
+	(SELECT DISTINCT M.RECORRIDO_CODIGO, P.PUERTO_DESDE, Q.PUERTO_HASTA
+	FROM [GD1C2019].[gd_esquema].[Maestra] M,
+	[GD1C2019].[gd_esquema].[Maestra] P,
+	[GD1C2019].[gd_esquema].[Maestra] Q
+	WHERE  M.RECORRIDO_CODIGO = P.RECORRIDO_CODIGO AND P.RECORRIDO_CODIGO = Q.RECORRIDO_CODIGO 
+	AND P.PUERTO_HASTA = Q.PUERTO_DESDE) Z
+
+-- consulta super poco performante.... xD
+
+-- Inserto recorridos con 1 tramo, literalmente son 2
+
+INSERT INTO PINKIE_PIE.[Recorrido](codigo, puerto_origen_id, puerto_destino_id)
+SELECT DISTINCT M.RECORRIDO_CODIGO, (select ID from PINKIE_PIE.[Puerto] where descripcion = M.PUERTO_DESDE), (select ID from PINKIE_PIE.[Puerto] where descripcion = M.PUERTO_HASTA)
+FROM
+  (SELECT RECORRIDO_CODIGO, PUERTO_DESDE, PUERTO_HASTA
+  FROM [GD1C2019].[gd_esquema].[Maestra]
+  WHERE RECORRIDO_CODIGO = 43820908
+  GROUP BY RECORRIDO_CODIGO, RECORRIDO_PRECIO_BASE, PUERTO_DESDE, PUERTO_HASTA) M
+
+INSERT INTO PINKIE_PIE.[Recorrido](codigo, puerto_origen_id, puerto_destino_id)
+SELECT DISTINCT M.RECORRIDO_CODIGO, (select ID from PINKIE_PIE.[Puerto] where descripcion = M.PUERTO_DESDE), (select ID from PINKIE_PIE.[Puerto] where descripcion = M.PUERTO_HASTA)
+FROM
+  (SELECT RECORRIDO_CODIGO, PUERTO_DESDE, PUERTO_HASTA
+  FROM [GD1C2019].[gd_esquema].[Maestra]
+  WHERE RECORRIDO_CODIGO = 43820864
+  GROUP BY RECORRIDO_CODIGO, RECORRIDO_PRECIO_BASE, PUERTO_DESDE, PUERTO_HASTA) M
+
+  -- si a alguien no les gustan los 3 insert de arriba (que la verdad es que estan feos) los puede cambiar o tunear
+
+
+  -- Inserto Tramos
+
+  INSERT INTO PINKIE_PIE.[Tramo]( recorrido_id, precio, puerto_origen_id, puerto_destino_id)
+  SELECT (select ID from PINKIE_PIE.[Recorrido] where codigo = M.RECORRIDO_CODIGO), 
+  RECORRIDO_PRECIO_BASE, 
+  (select ID from PINKIE_PIE.[Puerto] where descripcion = M.PUERTO_DESDE),
+  (select ID from PINKIE_PIE.[Puerto] where descripcion = M.PUERTO_HASTA)
+  FROM (SELECT DISTINCT RECORRIDO_CODIGO, RECORRIDO_PRECIO_BASE, PUERTO_DESDE, PUERTO_HASTA FROM [GD1C2019].[gd_esquema].[Maestra]) M
+
+  
+  
