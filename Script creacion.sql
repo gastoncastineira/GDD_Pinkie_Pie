@@ -54,8 +54,12 @@ CREATE TABLE PINKIE_PIE.[Tramo](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[precio] [decimal] (18,2),
 	[puerto_origen_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Puerto(ID),
-	[puerto_destino_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Puerto(ID),
-	[recorrido_id] [decimal] (18,0) NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Recorrido(ID)
+	[puerto_destino_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Puerto(ID)
+);
+
+CREATE TABLE PINKIE_PIE.[Tramo_X_Recorrido](
+	[ID_Recorrido] [decimal] (18,0) NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.[Recorrido](ID),
+	[ID_Tramo] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.[Tramo](ID)
 );
 
 CREATE TABLE PINKIE_PIE.[Viaje](
@@ -213,16 +217,61 @@ UNION
 SELECT DISTINCT PUERTO_HASTA FROM GD1C2019.gd_esquema.Maestra 
 GO
 
--- Inserto recorridos con 2 tramos
-INSERT INTO PINKIE_PIE.[Recorrido](codigo, puerto_origen_id, puerto_destino_id)
-SELECT DISTINCT Z.RECORRIDO_CODIGO, (select ID from PINKIE_PIE.[Puerto] where descripcion = Z.PUERTO_DESDE), (select ID from PINKIE_PIE.[Puerto] where descripcion = Z.PUERTO_HASTA)
-FROM
-	(SELECT DISTINCT M.RECORRIDO_CODIGO, P.PUERTO_DESDE, Q.PUERTO_HASTA
+-- Creo las tablas temporales para consultar por recorridos y tramos
+CREATE TABLE PINKIE_PIE.[#Recorridos_Primitivos]
+(
+	[RECORRIDO_CODIGO] [decimal] (18,0) PRIMARY KEY,
+	[PUERTO_DESDE] [nvarchar] (255) NULL,
+	[PUERTO_HASTA] [nvarchar] (255) NULL
+);
+
+CREATE TABLE PINKIE_PIE.[#Recorridos_Primitivos_Con1tramo]
+(
+	[RECORRIDO_CODIGO] [decimal] (18,0) PRIMARY KEY,
+	[PUERTO_DESDE] [nvarchar] (255) NULL,
+	[PUERTO_HASTA] [nvarchar] (255) NULL
+);
+
+CREATE TABLE PINKIE_PIE.[#Tramos_Primitivos_Agrupados]
+  (
+	[RECORRIDO_PRECIO_BASE] [decimal](18, 2) NULL,
+	[PUERTO_DESDE] [nvarchar] (255) NULL,
+	[PUERTO_HASTA] [nvarchar] (255) NULL
+  );
+
+    CREATE TABLE PINKIE_PIE.[#Tramos_Primitivos_Generales]
+  (
+	[RECORRIDO_CODIGO] [decimal](18, 0) NULL,
+	[PUERTO_DESDE] [nvarchar] (255) NULL,
+	[PUERTO_HASTA] [nvarchar] (255) NULL
+  );
+
+  -- Cargo tablas temporales
+
+INSERT INTO PINKIE_PIE.[#Recorridos_Primitivos](RECORRIDO_CODIGO, PUERTO_DESDE, PUERTO_HASTA)
+SELECT DISTINCT M.RECORRIDO_CODIGO, P.PUERTO_DESDE, Q.PUERTO_HASTA
 	FROM [GD1C2019].[gd_esquema].[Maestra] M,
 	[GD1C2019].[gd_esquema].[Maestra] P,
 	[GD1C2019].[gd_esquema].[Maestra] Q
 	WHERE  M.RECORRIDO_CODIGO = P.RECORRIDO_CODIGO AND P.RECORRIDO_CODIGO = Q.RECORRIDO_CODIGO 
-	AND P.PUERTO_HASTA = Q.PUERTO_DESDE) Z
+	AND P.PUERTO_HASTA = Q.PUERTO_DESDE
+
+INSERT INTO PINKIE_PIE.[#Recorridos_Primitivos_Con1tramo](RECORRIDO_CODIGO, PUERTO_DESDE, PUERTO_HASTA)
+SELECT RECORRIDO_CODIGO, PUERTO_DESDE, PUERTO_HASTA
+  FROM [GD1C2019].[gd_esquema].[Maestra]
+  WHERE RECORRIDO_CODIGO in ( 43820908, 43820864)
+  GROUP BY RECORRIDO_CODIGO, RECORRIDO_PRECIO_BASE, PUERTO_DESDE, PUERTO_HASTA
+
+  INSERT INTO PINKIE_PIE.[#Tramos_Primitivos_Agrupados](PUERTO_DESDE, PUERTO_HASTA, RECORRIDO_PRECIO_BASE)
+  SELECT PUERTO_DESDE, PUERTO_HASTA, RECORRIDO_PRECIO_BASE FROM [GD1C2019].[gd_esquema].[Maestra] GROUP BY PUERTO_DESDE, PUERTO_HASTA, RECORRIDO_PRECIO_BASE
+
+  INSERT INTO PINKIE_PIE.[#Tramos_Primitivos_Generales](RECORRIDO_CODIGO, PUERTO_DESDE, PUERTO_HASTA )
+  SELECT DISTINCT RECORRIDO_CODIGO, PUERTO_DESDE, PUERTO_HASTA FROM [GD1C2019].[gd_esquema].[Maestra]
+
+-- Inserto recorridos con 2 tramos
+INSERT INTO PINKIE_PIE.[Recorrido](codigo, puerto_origen_id, puerto_destino_id)
+SELECT DISTINCT Z.RECORRIDO_CODIGO, (select ID from PINKIE_PIE.[Puerto] where descripcion = Z.PUERTO_DESDE), (select ID from PINKIE_PIE.[Puerto] where descripcion = Z.PUERTO_HASTA)
+FROM PINKIE_PIE.#Recorridos_Primitivos Z
 
 -- consulta super poco performante.... xD
 
@@ -230,31 +279,36 @@ FROM
 
 INSERT INTO PINKIE_PIE.[Recorrido](codigo, puerto_origen_id, puerto_destino_id)
 SELECT DISTINCT M.RECORRIDO_CODIGO, (select ID from PINKIE_PIE.[Puerto] where descripcion = M.PUERTO_DESDE), (select ID from PINKIE_PIE.[Puerto] where descripcion = M.PUERTO_HASTA)
-FROM
-  (SELECT RECORRIDO_CODIGO, PUERTO_DESDE, PUERTO_HASTA
-  FROM [GD1C2019].[gd_esquema].[Maestra]
-  WHERE RECORRIDO_CODIGO = 43820908
-  GROUP BY RECORRIDO_CODIGO, RECORRIDO_PRECIO_BASE, PUERTO_DESDE, PUERTO_HASTA) M
+FROM PINKIE_PIE.#Recorridos_Primitivos_Con1tramo M WHERE M.RECORRIDO_CODIGO = 43820864
 
 INSERT INTO PINKIE_PIE.[Recorrido](codigo, puerto_origen_id, puerto_destino_id)
 SELECT DISTINCT M.RECORRIDO_CODIGO, (select ID from PINKIE_PIE.[Puerto] where descripcion = M.PUERTO_DESDE), (select ID from PINKIE_PIE.[Puerto] where descripcion = M.PUERTO_HASTA)
-FROM
-  (SELECT RECORRIDO_CODIGO, PUERTO_DESDE, PUERTO_HASTA
-  FROM [GD1C2019].[gd_esquema].[Maestra]
-  WHERE RECORRIDO_CODIGO = 43820864
-  GROUP BY RECORRIDO_CODIGO, RECORRIDO_PRECIO_BASE, PUERTO_DESDE, PUERTO_HASTA) M
+FROM PINKIE_PIE.#Recorridos_Primitivos_Con1tramo M WHERE M.RECORRIDO_CODIGO = 43820908
 
   -- si a alguien no les gustan los 3 insert de arriba (que la verdad es que estan feos) los puede cambiar o tunear
 
 
   -- Inserto Tramos
 
-  INSERT INTO PINKIE_PIE.[Tramo]( recorrido_id, precio, puerto_origen_id, puerto_destino_id)
-  SELECT (select ID from PINKIE_PIE.[Recorrido] where codigo = M.RECORRIDO_CODIGO), 
-  RECORRIDO_PRECIO_BASE, 
+  INSERT INTO PINKIE_PIE.[Tramo]( precio, puerto_origen_id, puerto_destino_id)
+  SELECT RECORRIDO_PRECIO_BASE, 
   (select ID from PINKIE_PIE.[Puerto] where descripcion = M.PUERTO_DESDE),
   (select ID from PINKIE_PIE.[Puerto] where descripcion = M.PUERTO_HASTA)
-  FROM (SELECT DISTINCT RECORRIDO_CODIGO, RECORRIDO_PRECIO_BASE, PUERTO_DESDE, PUERTO_HASTA FROM [GD1C2019].[gd_esquema].[Maestra]) M
+  FROM PINKIE_PIE.#Tramos_Primitivos_Agrupados M
+  
+  -- Inserto Tramo_X_Recorrido
 
-  
-  
+  INSERT INTO PINKIE_PIE.[Tramo_X_Recorrido](ID_Recorrido, ID_Tramo )
+  SELECT 
+  (SELECT ID FROM PINKIE_PIE.Recorrido R WHERE M.RECORRIDO_CODIGO = R.codigo),
+  (SELECT T.ID 
+  FROM PINKIE_PIE.Tramo T JOIN PINKIE_PIE.Puerto P1 ON P1.ID = T.puerto_destino_id JOIN PINKIE_PIE.Puerto P2 ON P2.ID = T.puerto_origen_id
+  WHERE P1.descripcion = M.PUERTO_HASTA AND P2.descripcion = M.PUERTO_DESDE)
+  FROM PINKIE_PIE.#Tramos_Primitivos_Generales M
+
+  -- Borro tablas temporales
+
+  DROP TABLE PINKIE_PIE.#Tramos_Primitivos_Generales
+  DROP TABLE PINKIE_PIE.#Tramos_Primitivos_Agrupados
+  DROP TABLE PINKIE_PIE.#Recorridos_Primitivos_Con1tramo 
+  DROP TABLE PINKIE_PIE.#Recorridos_Primitivos 
