@@ -115,7 +115,20 @@ namespace FrbaCrucero.GeneracionViaje
                 ViajeAGenerar.FechaInicio = dateTimeFechaInicio.Value.Date.AddHours(Convert.ToInt16(dateTimeHoraInicio.Value.Hour)).AddMinutes(dateTimeHoraInicio.Value.Minute).AddSeconds(dateTimeHoraInicio.Value.Second);
                 ViajeAGenerar.FechaFinalizacion = dateTimeFechaFin.Value.Date.AddHours(Convert.ToInt16(dateTimeHoraFin.Value.Hour)).AddMinutes(dateTimeHoraFin.Value.Minute).AddSeconds(dateTimeHoraFin.Value.Second);
                 ViajeAGenerar.Recorrido_id = Convert.ToInt16(txtRecorrido);
-                ViajeAGenerar.Crucero_id = Convert.ToInt16(txtCrucero);
+
+                List<Cabina> cabinasVacias = new List<Cabina>();
+                int cantidadCabinas = 0;
+                /*cantidadCabinas = 
+                SELECT cantidadDePasajes 
+                FROM Crucero c
+                WHERE c.Id = Convert.ToInt16(txtCrucero)
+                 */
+
+                for (int i = 0; i < cantidadCabinas; i++)
+                {
+                    cabinasVacias.Add(new Cabina(i, Convert.ToInt16(txtCrucero), ViajeAGenerar.Id, false));
+                }
+
                 ViajeAGenerar.PasajesVendidos = 0;
 
                 MessageBox.Show("Se ha guardado correctamente!");
@@ -134,10 +147,14 @@ namespace FrbaCrucero.GeneracionViaje
             // FECHA
             resultado += this.ValidarFechas();
 
-            //CRUCERO //validar que no este vacio y que este disponible en las fechas
+            //CRUCERO 
+            //validar que no este vacio
+            resultado += this.ValidarExisteCrucero();
             resultado += this.ValidarEsteDisponibleCrucero();
-            // RECORRIDO // validar que no este vacio
 
+            // RECORRIDO 
+            // validar que no este vacio
+            resultado += this.ValidarExisteRecorrido();
            
             return resultado;
         }
@@ -197,6 +214,42 @@ namespace FrbaCrucero.GeneracionViaje
 
 
             return resultado;
+        }
+
+        public String ValidarExisteCrucero() //TODO probarlo, tal vez se puede hacer una funcion ValidarExiste(le llega Crucero o Recorrido, "mesaje de error") 
+        {
+            try
+            {
+                /* // tal vez exite una forma tipo exists y en vez de tener var crucero tener var existe, ver despues sise una triy catch o hacer un if(existe) return "" else "El..0"
+                 int crucero = 
+                 SELECT crucero_id 
+                 FROM Crucero c
+                 WHERE c.crucero_id = Convert.ToInt16(txtCrucero)
+                 */
+                return "";
+            }
+            catch (Exception error)
+            {
+                return "El id del crucero ingresado no existe.\n";
+            }
+        }
+
+        public String ValidarExisteRecorrido() //TODO probarlo, tal vez se puede hacer una funcion ValidarExiste(le llega Crucero o Recorrido)
+        {
+            try
+            {
+                /* // tal vez exite una forma tipo exists y en vez de tener var crucero tener var existe, ver despues sise una triy catch o hacer un if(existe) return "" else "El..0"
+                 int recorrido = 
+                 SELECT recorrido_id 
+                 FROM Recorrido r
+                 WHERE c.recorrido_id = Convert.ToInt16(txtRecorrido)
+                 */
+                return "";
+            }
+            catch(Exception error)
+            {
+                return "El id del crucero ingresado no existe.\n";
+            }
         }
     }
 }

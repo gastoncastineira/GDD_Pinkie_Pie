@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.btnBuscarCruceros = new System.Windows.Forms.Button();
-            this.btnBuscarRecorridos = new System.Windows.Forms.Button();
+            this.btnConsultarCruceros = new System.Windows.Forms.Button();
+            this.btnConsultarRecorridos = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -55,25 +55,25 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Ingrese fechas";
             // 
-            // btnBuscarCruceros
+            // btnConsultarCruceros
             // 
-            this.btnBuscarCruceros.Location = new System.Drawing.Point(217, 183);
-            this.btnBuscarCruceros.Name = "btnBuscarCruceros";
-            this.btnBuscarCruceros.Size = new System.Drawing.Size(75, 23);
-            this.btnBuscarCruceros.TabIndex = 2;
-            this.btnBuscarCruceros.Text = "Buscar";
-            this.btnBuscarCruceros.UseVisualStyleBackColor = true;
-            this.btnBuscarCruceros.Click += new System.EventHandler(this.BtnCruceros_Click);
+            this.btnConsultarCruceros.Location = new System.Drawing.Point(217, 183);
+            this.btnConsultarCruceros.Name = "btnConsultarCruceros";
+            this.btnConsultarCruceros.Size = new System.Drawing.Size(121, 23);
+            this.btnConsultarCruceros.TabIndex = 2;
+            this.btnConsultarCruceros.Text = "Consultar Cruceros";
+            this.btnConsultarCruceros.UseVisualStyleBackColor = true;
+            this.btnConsultarCruceros.Click += new System.EventHandler(this.BtnCruceros_Click);
             // 
-            // btnBuscarRecorridos
+            // btnConsultarRecorridos
             // 
-            this.btnBuscarRecorridos.Location = new System.Drawing.Point(217, 222);
-            this.btnBuscarRecorridos.Name = "btnBuscarRecorridos";
-            this.btnBuscarRecorridos.Size = new System.Drawing.Size(75, 23);
-            this.btnBuscarRecorridos.TabIndex = 4;
-            this.btnBuscarRecorridos.Text = "Buscar";
-            this.btnBuscarRecorridos.UseVisualStyleBackColor = true;
-            this.btnBuscarRecorridos.Click += new System.EventHandler(this.BtnBuscarRecorridos_Click);
+            this.btnConsultarRecorridos.Location = new System.Drawing.Point(217, 222);
+            this.btnConsultarRecorridos.Name = "btnConsultarRecorridos";
+            this.btnConsultarRecorridos.Size = new System.Drawing.Size(121, 23);
+            this.btnConsultarRecorridos.TabIndex = 4;
+            this.btnConsultarRecorridos.Text = "Consultar Recorridos";
+            this.btnConsultarRecorridos.UseVisualStyleBackColor = true;
+            this.btnConsultarRecorridos.Click += new System.EventHandler(this.BtnBuscarRecorridos_Click);
             // 
             // btnGuardar
             // 
@@ -210,8 +210,8 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnGuardar);
-            this.Controls.Add(this.btnBuscarRecorridos);
-            this.Controls.Add(this.btnBuscarCruceros);
+            this.Controls.Add(this.btnConsultarRecorridos);
+            this.Controls.Add(this.btnConsultarCruceros);
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -227,8 +227,8 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnBuscarCruceros;
-        private System.Windows.Forms.Button btnBuscarRecorridos;
+        private System.Windows.Forms.Button btnConsultarCruceros;
+        private System.Windows.Forms.Button btnConsultarRecorridos;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
