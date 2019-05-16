@@ -104,12 +104,15 @@ CREATE TABLE PINKIE_PIE.[Reserva](
 CREATE TABLE PINKIE_PIE.[Crucero](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[marca] [nvarchar] (255),
-	[fecha_de_alta] [datetime2] (3),
-	[fecha_fuera_de_servicio] [datetime2] (3),
-	[fecha_reinicio_servicio] [datetime2] (3),
-	[fecha_baja_definitiva] [datetime2] (3),
-	[baja_fuera_de_servicio] [decimal] (18,2), -- no se cual es el tipo de dato de estos 2
-	[baja_vida_util] [decimal] (18,2) -- no se cual es el tipo de dato de estos 2
+	[modelo] [nvarchar] (50),
+	[identificador] [nvarchar] (50),
+	[fecha_de_alta] [datetime2] (3) NULL,
+	[fecha_fuera_de_servicio] [datetime2] (3) NULL,
+	[fecha_reinicio_servicio] [datetime2] (3) NULL,
+	[fecha_baja_definitiva] [datetime2] (3) NULL,
+	[baja_fuera_de_servicio] [bit]DEFAULT 0,
+	[baja_vida_util] [bit] DEFAULT 0,
+	[cantidad_de_pasajes] [int]
 );
 
 CREATE TABLE PINKIE_PIE.[Cabina](
@@ -312,3 +315,16 @@ FROM PINKIE_PIE.#Recorridos_Primitivos_Con1tramo M WHERE M.RECORRIDO_CODIGO = 43
   DROP TABLE PINKIE_PIE.#Tramos_Primitivos_Agrupados
   DROP TABLE PINKIE_PIE.#Recorridos_Primitivos_Con1tramo 
   DROP TABLE PINKIE_PIE.#Recorridos_Primitivos 
+
+  -- Inserto cruceros
+
+--  INSERT INTO PINKIE_PIE.Crucero( marca, modelo, identificador, fecha_de_alta, fecha_fuera_de_servicio, fecha_reinicio_servicio, fecha_baja_definitiva, cantidad_de_pasajes)
+--  SELECT M.CRU_FABRICANTE, M.CRUCERO_MODELO, M.CRUCERO_IDENTIFICADOR, NULL,NULL,NULL,NULL FROM gd_esquema.Maestra M
+
+--  SELECT N.CRUCERO_IDENTIFICADOR,
+--  (select COUNT(DISTINCT M.CABINA_NRO) from gd_esquema.Maestra M  GROUP BY M.CRUCERO_IDENTIFICADOR, M.CABINA_PISO HAVING M.CABINA_PISO = 0 AND M.CRUCERO_IDENTIFICADOR = N.CRUCERO_IDENTIFICADOR) +
+--  (select COUNT(DISTINCT M.CABINA_NRO) from gd_esquema.Maestra M  GROUP BY M.CRUCERO_IDENTIFICADOR, M.CABINA_PISO HAVING M.CABINA_PISO = 1 AND M.CRUCERO_IDENTIFICADOR = N.CRUCERO_IDENTIFICADOR)
+--  FROM gd_esquema.Maestra N ORDER BY 1
+
+-- AL INSERT LE FALTAN LA CANTIDAD DE PASAJES, LA CONSULTA DE ABAJO ES MI INTENTO POR CONSEGUIRLO, PERO SALE MAL
+  
