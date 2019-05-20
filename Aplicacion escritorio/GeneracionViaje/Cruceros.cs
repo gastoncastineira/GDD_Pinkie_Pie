@@ -35,7 +35,7 @@ namespace FrbaCrucero.GeneracionViaje
 
         private void Cruceros_Load(object sender, EventArgs e)
         {
-            // dataGridRecorridos.DataSource = LlenarDataGV("Recorrido"); // ver 10.10
+            // dataGridRecorridos.DataSource = LlenarDataGV("Recorrido"); // ver 10.10 TODO
         }
 
         private void BtnBuscarCrucero_Click(object sender, EventArgs e)
@@ -45,7 +45,7 @@ namespace FrbaCrucero.GeneracionViaje
                 try
                 {
                     // "SELECT * FROM Crucero WHERE Id LIKE ('%" + txtBuscar.Text.Trim() + "%')"
-                    // 15.12
+                    // 15.12 TODO
                 }
                 catch (Exception error)
                 {

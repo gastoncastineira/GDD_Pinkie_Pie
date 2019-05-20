@@ -24,8 +24,7 @@ namespace FrbaCrucero.GeneracionViaje
             ViajeAGenerar = new Viaje();
         }
 
-        // a la hora de hacer recorridos y cruceros por ahi conviene mirar video 35 TODO sacar
-        // cuando haga guardar un viaje mirar video 39
+        
         // a la hora de hacer la validacion esperar para ver si los chicos suben del año pasado algo que valide y si no mirar video 40
         
             // TODO viaje_id
@@ -35,75 +34,45 @@ namespace FrbaCrucero.GeneracionViaje
             Application.Exit();
         }
 
-        private void BtnCruceros_Click(object sender, EventArgs e)
+        private void BtnConsultarCruceros_Click(object sender, EventArgs e) //TODO ver video 44
         {
-            if (string.IsNullOrEmpty(txtRecorrido.Text.Trim()) == false) {
-                try
-                {
-                    // TODO ver video 44
-
-                    txtRecorrido.Focus();
-                }
-                catch (Exception error)
-                {
-                    MessageBox.Show("Ha ocurrido un error: " + error.Message);
-                }
-
-            }
-            else
+            try
             {
-                try
-                {
-                    Cruceros VenCru = new Cruceros();
-                    VenCru.ShowDialog();
+                Cruceros VenCru = new Cruceros();
+                VenCru.ShowDialog();
 
-                    if (VenCru.DialogResult == DialogResult.OK)
-                    {
-                        txtCrucero.Text = VenCru.dataGridCruceros.Rows[VenCru.dataGridCruceros.CurrentRow.Index].Cells[0].Value.ToString(); //sacado de video 47
-;
-                    }
-                }
-                catch (Exception error)
+                if (VenCru.DialogResult == DialogResult.OK)
                 {
-                    MessageBox.Show("Ha ocurrido un error: " + error.Message);
+                    txtCrucero.Text = VenCru.dataGridCruceros.Rows[VenCru.dataGridCruceros.CurrentRow.Index].Cells[0].Value.ToString(); //sacado de video 47
                 }
+
             }
+            catch (Exception error)
+            {
+                MessageBox.Show("Ha ocurrido un error: " + error.Message, "Error");
+            }
+            
             
         }
 
-        private void BtnBuscarRecorridos_Click(object sender, EventArgs e)
+        private void BtnConsultarRecorridos_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtRecorrido.Text.Trim()) == false) {
-                try
-                {
-                    // TODO ver video 44
-                    
-                }
-                catch(Exception error)
-                {
-                    MessageBox.Show("Ha ocurrido un error: " + error.Message);
-                }
-
-            }
-
-            else
+            try
             {
-                try
-                {
-                    Recorridos VenRe = new Recorridos();
-                    VenRe.ShowDialog();
+                Recorridos VenRe = new Recorridos();
+                VenRe.ShowDialog();
 
-                    if (VenRe.DialogResult == DialogResult.OK)
-                    {
-                        txtRecorrido.Text = VenRe.dataGridRecorridos.Rows[VenRe.dataGridRecorridos.CurrentRow.Index].Cells[0].Value.ToString();
-                        
-                    }
-                }
-                catch (Exception error)
+                if (VenRe.DialogResult == DialogResult.OK)
                 {
-                    MessageBox.Show("Error: " + error.Message);
+                    txtRecorrido.Text = VenRe.dataGridRecorridos.Rows[VenRe.dataGridRecorridos.CurrentRow.Index].Cells[0].Value.ToString();
+
                 }
             }
+            catch (Exception error)
+            {
+                MessageBox.Show("Error: " + error.Message, "Error");
+            }
+            
            
         }
 
@@ -112,9 +81,10 @@ namespace FrbaCrucero.GeneracionViaje
             String mensaje = ValidarCampos();
             if (mensaje == "")
             {
-                ViajeAGenerar.FechaInicio = dateTimeFechaInicio.Value.Date.AddHours(Convert.ToInt16(dateTimeHoraInicio.Value.Hour)).AddMinutes(dateTimeHoraInicio.Value.Minute).AddSeconds(dateTimeHoraInicio.Value.Second);
-                ViajeAGenerar.FechaFinalizacion = dateTimeFechaFin.Value.Date.AddHours(Convert.ToInt16(dateTimeHoraFin.Value.Hour)).AddMinutes(dateTimeHoraFin.Value.Minute).AddSeconds(dateTimeHoraFin.Value.Second);
+                ViajeAGenerar.FechaInicio = dtFechaInicio.Value.Date.AddHours(Convert.ToInt16(dtHoraInicio.Value.Hour)).AddMinutes(dtHoraInicio.Value.Minute).AddSeconds(dtHoraInicio.Value.Second);
+                ViajeAGenerar.FechaFinalizacion = dtFechaFin.Value.Date.AddHours(Convert.ToInt16(dtHoraFin.Value.Hour)).AddMinutes(dtHoraFin.Value.Minute).AddSeconds(dtHoraFin.Value.Second);
                 ViajeAGenerar.Recorrido_id = Convert.ToInt16(txtRecorrido);
+                ViajeAGenerar.PasajesVendidos = 0;
 
                 List<Cabina> cabinasVacias = new List<Cabina>();
                 int cantidadCabinas = 0;
@@ -129,9 +99,7 @@ namespace FrbaCrucero.GeneracionViaje
                     cabinasVacias.Add(new Cabina(i, Convert.ToInt16(txtCrucero), ViajeAGenerar.Id, false));
                 }
 
-                ViajeAGenerar.PasajesVendidos = 0;
-
-                MessageBox.Show("Se ha guardado correctamente!");
+                MessageBox.Show("Se ha guardado correctamente!", "Generar viaje");
             }
             else
             {
@@ -139,6 +107,7 @@ namespace FrbaCrucero.GeneracionViaje
             }
         }
 
+        // VALIDACIONES
         private String ValidarCampos()
         {
             // TODO ver validar que no este vacio cuando casti haya subido la validacion
@@ -161,8 +130,8 @@ namespace FrbaCrucero.GeneracionViaje
 
         private String ValidarFechas() {
             
-            FechaInicio = dateTimeFechaInicio.Value.Date.AddHours(Convert.ToInt16(dateTimeHoraInicio.Value.Hour)).AddMinutes(dateTimeHoraInicio.Value.Minute).AddSeconds(dateTimeHoraInicio.Value.Second);
-            FechaFinalizacion = dateTimeFechaFin.Value.Date.AddHours(Convert.ToInt16(dateTimeHoraFin.Value.Hour)).AddMinutes(dateTimeHoraFin.Value.Minute).AddSeconds(dateTimeHoraFin.Value.Second);
+            FechaInicio = dtFechaInicio.Value.Date.AddHours(Convert.ToInt16(dtHoraInicio.Value.Hour)).AddMinutes(dtHoraInicio.Value.Minute).AddSeconds(dtHoraInicio.Value.Second);
+            FechaFinalizacion = dtFechaFin.Value.Date.AddHours(Convert.ToInt16(dtHoraFin.Value.Hour)).AddMinutes(dtHoraFin.Value.Minute).AddSeconds(dtHoraFin.Value.Second);
 
             if (FechaFinalizacion > FechaInicio)
             {
@@ -251,5 +220,7 @@ namespace FrbaCrucero.GeneracionViaje
                 return "El id del crucero ingresado no existe.\n";
             }
         }
+
+        
     }
 }
