@@ -12,7 +12,7 @@ END
 CREATE TABLE PINKIE_PIE.[Usuario](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[usuario] [nvarchar](50) NOT NULL UNIQUE,
-	[contrasenia] [binary](32) NOT NULL,
+	[contrasenia] [binary](32) NOT NULL, -- <-- TODO este campo tiene que estar cifrado.
 	[cant_accesos_fallidos] int default 0,
 	[habilitado] [bit] default 1,
 );
@@ -80,14 +80,16 @@ CREATE TABLE PINKIE_PIE.[Cliente](
 	[DNI] [decimal] (18,0),
 	[direccion] [nvarchar] (255),
 	[mail] [nvarchar] (255),
-	[puntos] [int]
+	[puntos] [int] DEFAULT 0
 );
 
 CREATE TABLE PINKIE_PIE.[Pasaje](
-	[ID] [decimal] (18,0) NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[ID] [decimal] (18,0) NOT NULL PRIMARY KEY IDENTITY (1,1),
+	[codigo] [decimal] (18,0) NULL,
 	[cliente_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Cliente(ID),
 	[precio] [decimal] (18,2),
-	[medio_de_pago] [nvarchar] (50)
+	[medio_de_pago] [nvarchar] (50) NULL,
+	[fecha_de_compra] [datetime2] (3)
 );
 
 CREATE TABLE PINKIE_PIE.[Reserva](
@@ -121,9 +123,9 @@ CREATE TABLE PINKIE_PIE.[Cabina](
 	[viaje_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Viaje(ID),
 	[pasaje_id] [decimal] (18,0) NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Pasaje(ID),
 	[reserva_id] [decimal] (18,0) NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Reserva(ID),
-	--[servicio]
-	--[descripcion]
-	--[porcentaje_costo]
+	[servicio] [nvarchar] (50),
+	[descripcion] [nvarchar] (255),
+	[porcentaje_costo] [decimal] (18,2),
 	[ocupado] bit
 	-- me gustaria que charlemos esta tabla, por que no refleja 
 	-- los campos que vienen en la tabla maestra 
@@ -327,4 +329,28 @@ FROM PINKIE_PIE.#Recorridos_Primitivos_Con1tramo M WHERE M.RECORRIDO_CODIGO = 43
 --  FROM gd_esquema.Maestra N ORDER BY 1
 
 -- AL INSERT LE FALTAN LA CANTIDAD DE PASAJES, LA CONSULTA DE ABAJO ES MI INTENTO POR CONSEGUIRLO, PERO SALE MAL
+
+  -- Inserto viaje 
+
+  INSERT INTO PINKIE_PIE.Viaje( fecha_inicio, fecha_fin, recorrido_id, pasajes_vendidos)
+  SELECT M.FECHA_SALIDA, M.FECHA_LLEGADA,(SELECT R.ID FROM PINKIE_PIE.Recorrido R WHERE R.codigo = M.RECORRIDO_CODIGO), COUNT(M.PASAJE_FECHA_COMPRA)
+  FROM gd_esquema.Maestra M GROUP BY M.FECHA_SALIDA, M.FECHA_LLEGADA, M.RECORRIDO_CODIGO
+
+  -- Inserto cliente
+  INSERT INTO PINKIE_PIE.Cliente( DNI, fecha_nacimiento, telefono, nombre, apellido, direccion, mail )
+  SELECT DISTINCT M.CLI_DNI, M.CLI_FECHA_NAC, M.CLI_TELEFONO, M.CLI_NOMBRE, M.CLI_APELLIDO, M.CLI_DIRECCION, M.CLI_MAIL FROM gd_esquema.Maestra M 
+
+  -- Inserto pasaje
+  INSERT INTO PINKIE_PIE.Pasaje(codigo, precio, fecha_de_compra, cliente_id)
+  SELECT M.PASAJE_CODIGO, M.PASAJE_PRECIO, M.PASAJE_FECHA_COMPRA, 
+ (SELECT R.ID FROM PINKIE_PIE.Cliente R WHERE M.CLI_DNI = R.DNI AND M.CLI_APELLIDO = R.apellido AND M.CLI_NOMBRE = R.nombre AND M.CLI_DIRECCION = R.direccion AND M.CLI_MAIL = R.mail AND M.CLI_TELEFONO = R.telefono) 
+  FROM gd_esquema.Maestra M WHERE M.PASAJE_CODIGO IS NOT NULL
+  -- TENGO QUE HACER UN ALTER TABLE PARA HACER EL ID IDENTITI DESDE EL ULTIMO PASAJE CODIGO INSERTADO
+
+  
+
+
+  
+
+
   
