@@ -60,27 +60,25 @@
             this.btnConsultarCruceros.Location = new System.Drawing.Point(217, 183);
             this.btnConsultarCruceros.Name = "btnConsultarCruceros";
             this.btnConsultarCruceros.Size = new System.Drawing.Size(121, 23);
-            this.btnConsultarCruceros.TabIndex = 5;
+            this.btnConsultarCruceros.TabIndex = 2;
             this.btnConsultarCruceros.Text = "Consultar Cruceros";
             this.btnConsultarCruceros.UseVisualStyleBackColor = true;
-            this.btnConsultarCruceros.Click += new System.EventHandler(this.BtnConsultarCruceros_Click);
             // 
             // btnConsultarRecorridos
             // 
             this.btnConsultarRecorridos.Location = new System.Drawing.Point(217, 222);
             this.btnConsultarRecorridos.Name = "btnConsultarRecorridos";
             this.btnConsultarRecorridos.Size = new System.Drawing.Size(121, 23);
-            this.btnConsultarRecorridos.TabIndex = 7;
+            this.btnConsultarRecorridos.TabIndex = 4;
             this.btnConsultarRecorridos.Text = "Consultar Recorridos";
             this.btnConsultarRecorridos.UseVisualStyleBackColor = true;
-            this.btnConsultarRecorridos.Click += new System.EventHandler(this.BtnConsultarRecorridos_Click);
             // 
             // btnGuardar
             // 
             this.btnGuardar.Location = new System.Drawing.Point(533, 401);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 23);
-            this.btnGuardar.TabIndex = 8;
+            this.btnGuardar.TabIndex = 7;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.BtnGuardar_Click);
@@ -117,7 +115,7 @@
             this.txtRecorrido.Location = new System.Drawing.Point(102, 224);
             this.txtRecorrido.Name = "txtRecorrido";
             this.txtRecorrido.Size = new System.Drawing.Size(100, 20);
-            this.txtRecorrido.TabIndex = 6;
+            this.txtRecorrido.TabIndex = 15;
             this.txtRecorrido.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // dtFechaInicio
@@ -188,7 +186,7 @@
             this.txtCrucero.Location = new System.Drawing.Point(102, 186);
             this.txtCrucero.Name = "txtCrucero";
             this.txtCrucero.Size = new System.Drawing.Size(100, 20);
-            this.txtCrucero.TabIndex = 4;
+            this.txtCrucero.TabIndex = 23;
             this.txtCrucero.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // GenerarViaje

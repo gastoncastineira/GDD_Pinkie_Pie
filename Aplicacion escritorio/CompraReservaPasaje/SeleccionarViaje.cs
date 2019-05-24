@@ -25,7 +25,7 @@ namespace FrbaCrucero.CompraReservaPasaje
         {
             // Load list  TODO LlenarLista al final va a ser una data grid view
             LlenarDataGridViajes();
-            
+
         }
 
         private void LlenarDataGridViajes()
@@ -79,7 +79,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             if (mensaje == "")
             {
                 this.Visible = false;
-                new DatosPersonales(this.CantidadDePasajes).Show();
+                //new DatosPersonales(this.CantidadDePasajes).Show();
             }
             else
             {
@@ -94,5 +94,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             // Validar que selecciono un campo TODO ver video
             return "";
         }
+
+       
     }
 }

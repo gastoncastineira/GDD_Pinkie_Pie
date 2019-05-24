@@ -8,24 +8,22 @@ namespace FrbaCrucero.model
 {
     class Cabina
     {
-        private int Id { get;  }
+        public int Id { get; }
         public int Crucero_id { get; set; }
         public int Viaje_id { get; set; }
-        private int Pasaje_id { get; set; }
-        private int Reserva_id { get; set; }
-        private String Servicio { get; set; }
-        private String Descripcion { get; set; }
-        private int PorcentajeCosto { get; set; }
-        private Boolean Ocupado { get; set; }
+        public int Pasaje_id { get; set; }
+        public int Reserva_id { get; set; }
+        public int Tipo_id { get; set; }
+        public int NumeroPiso { get; set; }
+        public Boolean Ocupado { get; set; }
 
-
-        public Cabina(int id, int crucero_id, int viaje_id, Boolean ocupado)
+        public Cabina(int id, int crucero, int viaje, int nroPiso, Boolean ocupado)
         {
             Id = id;
-            Crucero_id = crucero_id;
-            Viaje_id = viaje_id;
+            Crucero_id = crucero;
+            Viaje_id = viaje;
+            NumeroPiso = nroPiso;
             Ocupado = ocupado;
         }
-
     }
 }

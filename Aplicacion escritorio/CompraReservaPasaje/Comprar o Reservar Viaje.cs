@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FrbaCrucero.CompraReservaPasaje;
+//using FrbaCrucero.CompraReservaPasaje;
 using FrbaCrucero.model;
 
 namespace FrbaCrucero.CompraPasaje
@@ -24,7 +24,7 @@ namespace FrbaCrucero.CompraPasaje
         private void ComprarReservarViaje_Load(object sender, EventArgs e)
         {
             AutoCompletarDestino(txtDestino);
-         
+
         }
 
         public void AutoCompletarDestino(TextBox cajaTexto) // hacer idem con origen TODO
@@ -45,13 +45,13 @@ namespace FrbaCrucero.CompraPasaje
                 if (HayViajes())
                 {
                     this.Visible = false;
-                    new SeleccionarViaje(txtCantidadPasajes.Text).Show();
+                    //new SeleccionarViaje(txtCantidadPasajes.Text).Show();
                 }
                 else
                 {
                     MessageBox.Show("No hay viajes para los campos seleccionados.\n", "No hay viajes", MessageBoxButtons.OK);
                 }
-                
+
             }
             else
             {
@@ -68,17 +68,28 @@ namespace FrbaCrucero.CompraPasaje
         // VALIDACIONES
         private String ValidarCampos() // TODO
         {
-            String resultado;
+            String resultado = "";
+
+            resultado += this.ValidarCamposVacios();
+
             // PUERTO ORIGEN
-            // validar que no este vacío
             resultado = ValidarExistenciaPuerto(txtOrigen.Text, "origen");
 
             // PUERTO DESTINO
-            // validar que no este vacío
             resultado = ValidarExistenciaPuerto(txtDestino.Text, "destino");
-
+            
             //  A PASAJES A COMPRAR
             // validar de que sea un entero
+
+            return resultado;
+        }
+
+        private String ValidarCamposVacios()
+        {
+            if (string.IsNullOrEmpty(txtOrigen.Text) || string.IsNullOrEmpty(txtDestino.Text) || string.IsNullOrEmpty(txtCantidadPasajes.Text))
+            {
+                return "Se detecto un campo vacio. Revise. \n";
+            }
 
             return "";
         }

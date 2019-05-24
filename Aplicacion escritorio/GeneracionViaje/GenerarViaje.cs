@@ -24,10 +24,10 @@ namespace FrbaCrucero.GeneracionViaje
             ViajeAGenerar = new Viaje();
         }
 
-        
+
         // a la hora de hacer la validacion esperar para ver si los chicos suben del año pasado algo que valide y si no mirar video 40
-        
-            // TODO viaje_id
+
+        // TODO viaje_id
 
         private void GenerarViaje_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -51,8 +51,8 @@ namespace FrbaCrucero.GeneracionViaje
             {
                 MessageBox.Show("Ha ocurrido un error: " + error.Message, "Error");
             }
-            
-            
+
+
         }
 
         private void BtnConsultarRecorridos_Click(object sender, EventArgs e)
@@ -72,8 +72,8 @@ namespace FrbaCrucero.GeneracionViaje
             {
                 MessageBox.Show("Error: " + error.Message, "Error");
             }
-            
-           
+
+
         }
 
         private void BtnGuardar_Click(object sender, EventArgs e) //ver video 39, ver poner un try catch
@@ -96,8 +96,11 @@ namespace FrbaCrucero.GeneracionViaje
 
                 for (int i = 0; i < cantidadCabinas; i++)
                 {
-                    cabinasVacias.Add(new Cabina(i, Convert.ToInt16(txtCrucero), ViajeAGenerar.Id, false));
+                    cabinasVacias.Add(new Cabina(i, Convert.ToInt16(txtCrucero), ViajeAGenerar.Id, 0, false)); // TODO nro piso
                 }
+
+                ViajeAGenerar.cabinas = cabinasVacias;
+
 
                 MessageBox.Show("Se ha guardado correctamente!", "Generar viaje");
             }
@@ -113,23 +116,34 @@ namespace FrbaCrucero.GeneracionViaje
             // TODO ver validar que no este vacio cuando casti haya subido la validacion
             String resultado = "";
 
+            resultado += this.ValidarCamposVacios();
+
             // FECHA
             resultado += this.ValidarFechas();
 
             //CRUCERO 
-            //validar que no este vacio
             resultado += this.ValidarExisteCrucero();
             resultado += this.ValidarEsteDisponibleCrucero();
 
             // RECORRIDO 
-            // validar que no este vacio
             resultado += this.ValidarExisteRecorrido();
-           
+
             return resultado;
         }
 
-        private String ValidarFechas() {
-            
+        private String ValidarCamposVacios()
+        {
+            if (string.IsNullOrEmpty(txtCrucero.Text) || string.IsNullOrEmpty(txtRecorrido.Text))
+            {
+                return "Se detecto un campo vacio. Revise. \n";
+            }
+
+            return "";
+        }
+
+        private String ValidarFechas()
+        {
+
             FechaInicio = dtFechaInicio.Value.Date.AddHours(Convert.ToInt16(dtHoraInicio.Value.Hour)).AddMinutes(dtHoraInicio.Value.Minute).AddSeconds(dtHoraInicio.Value.Second);
             FechaFinalizacion = dtFechaFin.Value.Date.AddHours(Convert.ToInt16(dtHoraFin.Value.Hour)).AddMinutes(dtHoraFin.Value.Minute).AddSeconds(dtHoraFin.Value.Second);
 
@@ -144,7 +158,8 @@ namespace FrbaCrucero.GeneracionViaje
                 return "La fecha de finalizacion debe ser posterior a la fecha de inicio.\n";
         }
 
-        private String ValidarEsteDisponibleCrucero() { // fijarse si hay que poner try catchs
+        private String ValidarEsteDisponibleCrucero()
+        { // fijarse si hay que poner try catchs
             String resultado = ""; //lo dejo para que no me rompa, pero desp borrar
 
             /*
@@ -215,12 +230,13 @@ namespace FrbaCrucero.GeneracionViaje
                  */
                 return "";
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 return "El id del crucero ingresado no existe.\n";
             }
         }
 
-        
+
     }
 }
+
