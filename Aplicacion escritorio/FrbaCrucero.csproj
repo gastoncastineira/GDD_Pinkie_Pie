@@ -81,14 +81,32 @@
     <Compile Include="AbmRol\ModificarRol.Designer.cs">
       <DependentUpon>ModificarRol.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConfigurationHelper.cs" />
-    <Compile Include="Funcion.cs" />
-    <Compile Include="CompraReservaPasaje\Form1.cs">
+    <Compile Include="CompraReservaPasaje\Comprar o Reservar Viaje.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CompraReservaPasaje\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="CompraReservaPasaje\Comprar o Reservar Viaje.Designer.cs">
+      <DependentUpon>Comprar o Reservar Viaje.cs</DependentUpon>
     </Compile>
+    <Compile Include="CompraReservaPasaje\Confirmacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\Confirmacion.Designer.cs">
+      <DependentUpon>Confirmacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\DatosPersonales.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\DatosPersonales.Designer.cs">
+      <DependentUpon>DatosPersonales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\SeleccionarViaje.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\SeleccionarViaje.Designer.cs">
+      <DependentUpon>SeleccionarViaje.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigurationHelper.cs" />
+    <Compile Include="Funcion.cs" />
     <Compile Include="Conexiones\Conexion.cs" />
     <Compile Include="Conexiones\Filtro.cs" />
     <Compile Include="Conexiones\FiltroFactory.cs" />
@@ -130,6 +148,7 @@
     <Compile Include="ListadoEstadistico\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="model\Cabina.cs" />
     <Compile Include="model\Viaje.cs" />
     <Compile Include="PagoReserva\Form1.cs">
       <SubType>Form</SubType>
@@ -157,6 +176,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CompraReservaPasaje\Comprar o Reservar Viaje.resx">
+      <DependentUpon>Comprar o Reservar Viaje.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompraReservaPasaje\Confirmacion.resx">
+      <DependentUpon>Confirmacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompraReservaPasaje\DatosPersonales.resx">
+      <DependentUpon>DatosPersonales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompraReservaPasaje\SeleccionarViaje.resx">
+      <DependentUpon>SeleccionarViaje.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GeneracionViaje\Cruceros.resx">
       <DependentUpon>Cruceros.cs</DependentUpon>
     </EmbeddedResource>
