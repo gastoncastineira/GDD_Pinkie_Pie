@@ -29,7 +29,12 @@ TRUNCATE TABLE [PINKIE_PIE].[Usuario]
 DROP TABLE [PINKIE_PIE].[Usuario]
 TRUNCATE TABLE [PINKIE_PIE].[Rol]
 DROP TABLE [PINKIE_PIE].[Rol]
+TRUNCATE TABLE [PINKIE_PIE].[Tipo]
+DROP TABLE [PINKIE_PIE].[Tipo]
+TRUNCATE TABLE [PINKIE_PIE].[MedioDePago]
+DROP TABLE [PINKIE_PIE].[MedioDePago]
 DROP PROCEDURE [PINKIE_PIE].existe_usuario
 DROP SCHEMA [PINKIE_PIE] 
+
 -- puesto que tenemos el if al inicio del script de creacion 
 -- quiza no hace falta borrar el schema
