@@ -68,17 +68,28 @@ namespace FrbaCrucero.CompraPasaje
         // VALIDACIONES
         private String ValidarCampos() // TODO
         {
-            String resultado;
+            String resultado = "";
+
+            resultado += this.ValidarCamposVacios();
+
             // PUERTO ORIGEN
-            // validar que no este vacío
             resultado = ValidarExistenciaPuerto(txtOrigen.Text, "origen");
 
             // PUERTO DESTINO
-            // validar que no este vacío
             resultado = ValidarExistenciaPuerto(txtDestino.Text, "destino");
             
             //  A PASAJES A COMPRAR
             // validar de que sea un entero
+
+            return resultado;
+        }
+
+        private String ValidarCamposVacios()
+        {
+            if (string.IsNullOrEmpty(txtOrigen.Text) || string.IsNullOrEmpty(txtDestino.Text) || string.IsNullOrEmpty(txtCantidadPasajes.Text))
+            {
+                return "Se detecto un campo vacio. Revise. \n";
+            }
 
             return "";
         }

@@ -36,10 +36,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtRecorrido = new System.Windows.Forms.TextBox();
-            this.dateTimeFechaInicio = new System.Windows.Forms.DateTimePicker();
-            this.dateTimeHoraInicio = new System.Windows.Forms.DateTimePicker();
-            this.dateTimeHoraFin = new System.Windows.Forms.DateTimePicker();
-            this.dateTimeFechaFin = new System.Windows.Forms.DateTimePicker();
+            this.dtFechaInicio = new System.Windows.Forms.DateTimePicker();
+            this.dtHoraInicio = new System.Windows.Forms.DateTimePicker();
+            this.dtHoraFin = new System.Windows.Forms.DateTimePicker();
+            this.dtFechaFin = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -63,7 +63,6 @@
             this.btnConsultarCruceros.TabIndex = 2;
             this.btnConsultarCruceros.Text = "Consultar Cruceros";
             this.btnConsultarCruceros.UseVisualStyleBackColor = true;
-            this.btnConsultarCruceros.Click += new System.EventHandler(this.BtnCruceros_Click);
             // 
             // btnConsultarRecorridos
             // 
@@ -73,7 +72,6 @@
             this.btnConsultarRecorridos.TabIndex = 4;
             this.btnConsultarRecorridos.Text = "Consultar Recorridos";
             this.btnConsultarRecorridos.UseVisualStyleBackColor = true;
-            this.btnConsultarRecorridos.Click += new System.EventHandler(this.BtnBuscarRecorridos_Click);
             // 
             // btnGuardar
             // 
@@ -120,41 +118,41 @@
             this.txtRecorrido.TabIndex = 15;
             this.txtRecorrido.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // dateTimeFechaInicio
+            // dtFechaInicio
             // 
-            this.dateTimeFechaInicio.Location = new System.Drawing.Point(182, 64);
-            this.dateTimeFechaInicio.Name = "dateTimeFechaInicio";
-            this.dateTimeFechaInicio.Size = new System.Drawing.Size(200, 20);
-            this.dateTimeFechaInicio.TabIndex = 0;
+            this.dtFechaInicio.Location = new System.Drawing.Point(182, 64);
+            this.dtFechaInicio.Name = "dtFechaInicio";
+            this.dtFechaInicio.Size = new System.Drawing.Size(200, 20);
+            this.dtFechaInicio.TabIndex = 0;
             // 
-            // dateTimeHoraInicio
+            // dtHoraInicio
             // 
-            this.dateTimeHoraInicio.CustomFormat = "hh:mm:ss";
-            this.dateTimeHoraInicio.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimeHoraInicio.Location = new System.Drawing.Point(497, 63);
-            this.dateTimeHoraInicio.Name = "dateTimeHoraInicio";
-            this.dateTimeHoraInicio.ShowUpDown = true;
-            this.dateTimeHoraInicio.Size = new System.Drawing.Size(70, 20);
-            this.dateTimeHoraInicio.TabIndex = 1;
-            this.dateTimeHoraInicio.Value = new System.DateTime(2019, 5, 12, 16, 30, 0, 0);
+            this.dtHoraInicio.CustomFormat = "hh:mm:ss";
+            this.dtHoraInicio.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtHoraInicio.Location = new System.Drawing.Point(497, 63);
+            this.dtHoraInicio.Name = "dtHoraInicio";
+            this.dtHoraInicio.ShowUpDown = true;
+            this.dtHoraInicio.Size = new System.Drawing.Size(70, 20);
+            this.dtHoraInicio.TabIndex = 1;
+            this.dtHoraInicio.Value = new System.DateTime(2019, 5, 12, 16, 30, 0, 0);
             // 
-            // dateTimeHoraFin
+            // dtHoraFin
             // 
-            this.dateTimeHoraFin.CustomFormat = "hh:mm:ss";
-            this.dateTimeHoraFin.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimeHoraFin.Location = new System.Drawing.Point(497, 101);
-            this.dateTimeHoraFin.Name = "dateTimeHoraFin";
-            this.dateTimeHoraFin.ShowUpDown = true;
-            this.dateTimeHoraFin.Size = new System.Drawing.Size(70, 20);
-            this.dateTimeHoraFin.TabIndex = 3;
-            this.dateTimeHoraFin.Value = new System.DateTime(2019, 5, 12, 16, 30, 0, 0);
+            this.dtHoraFin.CustomFormat = "hh:mm:ss";
+            this.dtHoraFin.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtHoraFin.Location = new System.Drawing.Point(497, 101);
+            this.dtHoraFin.Name = "dtHoraFin";
+            this.dtHoraFin.ShowUpDown = true;
+            this.dtHoraFin.Size = new System.Drawing.Size(70, 20);
+            this.dtHoraFin.TabIndex = 3;
+            this.dtHoraFin.Value = new System.DateTime(2019, 5, 12, 16, 30, 0, 0);
             // 
-            // dateTimeFechaFin
+            // dtFechaFin
             // 
-            this.dateTimeFechaFin.Location = new System.Drawing.Point(182, 100);
-            this.dateTimeFechaFin.Name = "dateTimeFechaFin";
-            this.dateTimeFechaFin.Size = new System.Drawing.Size(200, 20);
-            this.dateTimeFechaFin.TabIndex = 2;
+            this.dtFechaFin.Location = new System.Drawing.Point(182, 100);
+            this.dtFechaFin.Name = "dtFechaFin";
+            this.dtFechaFin.Size = new System.Drawing.Size(200, 20);
+            this.dtFechaFin.TabIndex = 2;
             // 
             // label5
             // 
@@ -201,10 +199,10 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.dateTimeFechaFin);
-            this.Controls.Add(this.dateTimeHoraFin);
-            this.Controls.Add(this.dateTimeHoraInicio);
-            this.Controls.Add(this.dateTimeFechaInicio);
+            this.Controls.Add(this.dtFechaFin);
+            this.Controls.Add(this.dtHoraFin);
+            this.Controls.Add(this.dtHoraInicio);
+            this.Controls.Add(this.dtFechaInicio);
             this.Controls.Add(this.txtRecorrido);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -234,10 +232,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtRecorrido;
-        private System.Windows.Forms.DateTimePicker dateTimeFechaInicio;
-        private System.Windows.Forms.DateTimePicker dateTimeHoraInicio;
-        private System.Windows.Forms.DateTimePicker dateTimeHoraFin;
-        private System.Windows.Forms.DateTimePicker dateTimeFechaFin;
+        private System.Windows.Forms.DateTimePicker dtFechaInicio;
+        private System.Windows.Forms.DateTimePicker dtHoraInicio;
+        private System.Windows.Forms.DateTimePicker dtHoraFin;
+        private System.Windows.Forms.DateTimePicker dtFechaFin;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;

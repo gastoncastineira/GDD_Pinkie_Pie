@@ -53,44 +53,6 @@ namespace FrbaCrucero.CompraReservaPasaje
             }
         }
 
-
-        // VALIDACIONES
-        private String ValidarCampos() // TODO
-        {
-            // no puede hacer compras sobre viajes pasados.
-
-            // DNI
-            // validar que no este vaco
-            // validar que sean sólo números
-
-            // Nombre
-            // validar que no este vacio
-            // validar que sean sólo letras
-
-            // Apellido
-            // validar que no este vacio
-            // validar que sean sólo letras
-
-            // Dirección
-            // validar que no este vacio
-
-            // Teléfono
-            // validar que no este vacio
-            // validar que son solo numeros
-
-            // Mail
-            // validar de que sea un mail
-
-            // Fecha de nacimiento
-            // validar que no este vacio
-            // validar que sea mayor de edad
-
-            // Método de pago
-            // validar que no este vacio
-
-            return "";
-        }
-
         private void DatosPersonales_Load(object sender, EventArgs e)
         {
             // TODO cargar metodos de pago
@@ -131,6 +93,51 @@ namespace FrbaCrucero.CompraReservaPasaje
             }
         }
 
-        
+        // VALIDACIONES
+        private String ValidarCampos() // TODO
+        {
+            // no puede hacer compras sobre viajes pasados.
+
+            String resultado = "";
+
+            resultado += this.ValidarCamposVacios();
+
+            // DNI
+            // validar que sean sólo números
+
+            // Nombre
+            // validar que sean sólo letras
+
+            // Apellido
+            // validar que sean sólo letras
+
+            // Teléfono
+            // validar que son solo numeros
+
+            // Mail
+            // validar de que sea un mail
+
+            // Fecha de nacimiento
+            // validar que sea mayor de edad
+
+            // Método de pago
+            // validar que no este vacio
+
+            return resultado;
+        }
+
+        private String ValidarCamposVacios()
+        {
+            if (string.IsNullOrEmpty(txtDNI.Text) || string.IsNullOrEmpty(txtNombre.Text) 
+                || string.IsNullOrEmpty(txtApellido.Text) || string.IsNullOrEmpty(txtDireccion.Text) 
+                || string.IsNullOrEmpty(txtTelefono.Text))
+            {
+                return "Se detecto un campo vacio. Revise. \n";
+            }
+
+            return "";
+        }
+
+
     }
 }
