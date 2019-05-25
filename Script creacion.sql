@@ -12,7 +12,7 @@ END
 CREATE TABLE PINKIE_PIE.[Usuario](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[usuario] [nvarchar](50) NOT NULL UNIQUE,
-	[contrasenia] [binary](32) NOT NULL, -- <-- TODO este campo tiene que estar cifrado.
+	[contrasenia] [binary](32) NOT NULL, 
 	[cant_accesos_fallidos] int default 0,
 	[habilitado] [bit] default 1,
 );
@@ -66,10 +66,11 @@ CREATE TABLE PINKIE_PIE.[Viaje](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[fecha_inicio] [datetime2] (3),
 	[fecha_fin] [datetime2] (3),
+	[fecha_fin_estimada] [datetime2] (3),
 	[pasajes_vendidos] [int],
-	[recorrido_id] [decimal] (18,0) NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Recorrido(ID)
+	[recorrido_id] [decimal] (18,0) NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Recorrido(ID),
+	[crucero_identificador] [nvarchar] (50)
 );
--- Existe un campo que se llama fecha llegada estimada que no pusimos en ningun lugar
 
 CREATE TABLE PINKIE_PIE.[Cliente](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
@@ -108,7 +109,6 @@ CREATE TABLE PINKIE_PIE.[Reserva](
 
 );
 
---existe un campo llamado CRUCERO_IDENTIFICADOR que no reflejamos en el der
 CREATE TABLE PINKIE_PIE.[Crucero](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[marca] [nvarchar] (50), 
@@ -130,13 +130,14 @@ CREATE TABLE PINKIE_PIE.[Tipo](
 );
 
 CREATE TABLE PINKIE_PIE.[Cabina](
-	[ID] [decimal] (18,0) NOT NULL PRIMARY KEY,
+	[ID] [decimal] (18,0) NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[crucero_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Crucero(ID),
 	[viaje_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Viaje(ID),
 	[pasaje_id] [decimal] (18,0) NULL FOREIGN KEY REFERENCES PINKIE_PIE.Pasaje(ID),
 	[reserva_id] [decimal] (18,0) NULL FOREIGN KEY REFERENCES PINKIE_PIE.Reserva(ID),
 	[tipo_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Tipo(ID),
 	[numero_piso] [int],
+	[numero_habitacion] [int],
 	[ocupado] bit
 );
 
@@ -188,6 +189,15 @@ GO
 INSERT INTO PINKIE_PIE.[Rol](nombre )
 VALUES ('ADMINISTRADOR');
 
+-- Inserto el usuario
+INSERT INTO PINKIE_PIE.[Usuario](usuario, contrasenia )
+VALUES ('admin', HASHBYTES('SHA2_256', 'w23e'))
+
+-- Inserto rol_x_usuario
+INSERT INTO PINKIE_PIE.[Rol_X_Usuario](ID_ROL, ID_Usuario)
+SELECT R.ID, U.ID FROM PINKIE_PIE.Rol R, PINKIE_PIE.Usuario U WHERE R.nombre = 'ADMINISTRADOR' AND U.usuario = 'admin'
+
+
 -- Cargo relaciones en al tabla intermedia
 
 INSERT INTO PINKIE_PIE.[Rol_X_Funcion](ID_Rol, ID_Funcion)
@@ -220,9 +230,6 @@ VALUES
 (SELECT ID FROM PINKIE_PIE.Rol WHERE nombre = 'ADMINISTRADOR'),
 (SELECT ID FROM PINKIE_PIE.Funcion WHERE nombre = 'LISTADO_ESTADISTICO') 
 )
-
--- INSERT INTO PINKIE_PIE.[Usuario](usuario, contrasenia, cant_accesos_fallidos, habilitado)
--- TODO tenemos que elegir el nombre del usuario administrativo.
 
 -- Inserto puertos
 INSERT INTO PINKIE_PIE.[Puerto](descripcion)
@@ -361,9 +368,9 @@ FROM PINKIE_PIE.#Recorridos_Primitivos_Con1tramo M WHERE M.RECORRIDO_CODIGO = 43
 	DROP FUNCTION PINKIE_PIE.contarPasajes
 
   -- Inserto viaje 
-  INSERT INTO PINKIE_PIE.Viaje( fecha_inicio, fecha_fin, recorrido_id, pasajes_vendidos)
-  SELECT M.FECHA_SALIDA, M.FECHA_LLEGADA,(SELECT R.ID FROM PINKIE_PIE.Recorrido R WHERE R.codigo = M.RECORRIDO_CODIGO), COUNT(M.PASAJE_FECHA_COMPRA)
-  FROM gd_esquema.Maestra M GROUP BY M.FECHA_SALIDA, M.FECHA_LLEGADA, M.RECORRIDO_CODIGO
+  INSERT INTO PINKIE_PIE.Viaje( fecha_inicio, fecha_fin, recorrido_id, pasajes_vendidos, fecha_fin_estimada, crucero_identificador)
+  SELECT M.FECHA_SALIDA, M.FECHA_LLEGADA,(SELECT R.ID FROM PINKIE_PIE.Recorrido R WHERE R.codigo = M.RECORRIDO_CODIGO), COUNT(M.PASAJE_FECHA_COMPRA), M.FECHA_LLEGADA_ESTIMADA, M.CRUCERO_IDENTIFICADOR
+  FROM gd_esquema.Maestra M GROUP BY M.FECHA_SALIDA, M.FECHA_LLEGADA, M.RECORRIDO_CODIGO, M.FECHA_LLEGADA_ESTIMADA, M.CRUCERO_IDENTIFICADOR
 
   -- Inserto cliente
   INSERT INTO PINKIE_PIE.Cliente( DNI, fecha_nacimiento, telefono, nombre, apellido, direccion, mail )
@@ -394,30 +401,43 @@ FROM PINKIE_PIE.#Recorridos_Primitivos_Con1tramo M WHERE M.RECORRIDO_CODIGO = 43
 	-- Inserto Tipo
 	INSERT INTO PINKIE_PIE.Tipo (tipo, porcentaje_costo)
 	SELECT  M.CABINA_TIPO, M.CABINA_TIPO_PORC_RECARGO
-	FROM gd_esquema.Maestra M
+	FROM gd_esquema.Maestra M GROUP BY M.CABINA_TIPO, M.CABINA_TIPO_PORC_RECARGO
+
 
 	-- Inserto Cabina
-	/*
-  INSERT INTO PINKIE_PIE.Cabina(ID, crucero_id, viaje_id, pasaje_id, reserva_id, tipo_id, numero_piso)
+	
+  INSERT INTO PINKIE_PIE.Cabina(numero_habitacion, crucero_id, viaje_id, pasaje_id, reserva_id, tipo_id, numero_piso)
   SELECT M.CABINA_NRO,
   (SELECT C.ID FROM PINKIE_PIE.Crucero C WHERE C.identificador = M.CRUCERO_IDENTIFICADOR),
-  (SELECT V.ID FROM PINKIE_PIE.Viaje V WHERE V.fecha_inicio = M.FECHA_SALIDA AND V.fecha_fin = M.FECHA_LLEGADA), -- esto podria estar mal migrado.
+  (SELECT V.ID FROM PINKIE_PIE.Viaje V 
+  WHERE 
+  V.fecha_inicio = M.FECHA_SALIDA AND 
+  V.fecha_fin = M.FECHA_LLEGADA AND 
+  V.crucero_identificador = M.CRUCERO_IDENTIFICADOR AND
+  V.recorrido_id = (SELECT R.ID FROM PINKIE_PIE.Recorrido R WHERE R.codigo = M.RECORRIDO_CODIGO)
+  GROUP BY V.ID, v.fecha_inicio, v.fecha_fin, v.crucero_identificador, v.recorrido_id ), -- esto podria estar mal migrado.
   (SELECT P.ID FROM PINKIE_PIE.Pasaje P WHERE P.codigo = M.PASAJE_CODIGO),
   NULL,
   (SELECT T.ID FROM PINKIE_PIE.Tipo T WHERE M.CABINA_TIPO = T.tipo ),
-  M.CABINA_PISO 
+  M.CABINA_PISO
   FROM gd_esquema.Maestra M WHERE M.RESERVA_CODIGO IS NULL
-  GROUP BY M.CABINA_NRO, M.CRUCERO_IDENTIFICADOR, M.FECHA_SALIDA, M.FECHA_LLEGADA, M.PASAJE_CODIGO, M.CABINA_TIPO, M.CABINA_PISO
+  GROUP BY M.CABINA_NRO, M.CRUCERO_IDENTIFICADOR, M.FECHA_SALIDA, M.FECHA_LLEGADA, M.PASAJE_CODIGO, M.CABINA_TIPO, M.CABINA_PISO, M.RECORRIDO_CODIGO
 
-  INSERT INTO PINKIE_PIE.Cabina(ID, crucero_id, viaje_id, pasaje_id, reserva_id, tipo_id, numero_piso)
+  INSERT INTO PINKIE_PIE.Cabina( numero_habitacion, crucero_id, viaje_id, pasaje_id, reserva_id, tipo_id, numero_piso)
   SELECT M.CABINA_NRO,
   (SELECT C.ID FROM PINKIE_PIE.Crucero C WHERE C.identificador = M.CRUCERO_IDENTIFICADOR),
-  (SELECT V.ID FROM PINKIE_PIE.Viaje V WHERE V.fecha_inicio = M.FECHA_SALIDA AND V.fecha_fin = M.FECHA_LLEGADA), -- esto podria estar mal migrado.
+  (SELECT V.ID FROM PINKIE_PIE.Viaje V 
+  WHERE 
+  V.fecha_inicio = M.FECHA_SALIDA AND 
+  V.fecha_fin = M.FECHA_LLEGADA AND 
+  V.crucero_identificador = M.CRUCERO_IDENTIFICADOR AND
+  V.recorrido_id = (SELECT R.ID FROM PINKIE_PIE.Recorrido R WHERE R.codigo = M.RECORRIDO_CODIGO)
+  GROUP BY V.ID, v.fecha_inicio, v.fecha_fin, v.crucero_identificador,v.recorrido_id ), -- esto podria estar mal migrado.
   NULL,
   (SELECT R.ID FROM PINKIE_PIE.Reserva R WHERE R.codigo = M.RESERVA_CODIGO),
   (SELECT T.ID FROM PINKIE_PIE.Tipo T WHERE M.CABINA_TIPO = T.tipo ),
   M.CABINA_PISO 
   FROM gd_esquema.Maestra M WHERE M.PASAJE_CODIGO IS NULL
-  GROUP BY M.CABINA_NRO, M.CRUCERO_IDENTIFICADOR, M.FECHA_SALIDA, M.FECHA_LLEGADA, M.RESERVA_CODIGO, M.CABINA_TIPO, M.CABINA_PISO
-  */
-  
+  GROUP BY M.CABINA_NRO, M.CRUCERO_IDENTIFICADOR, M.FECHA_SALIDA, M.FECHA_LLEGADA, M.RESERVA_CODIGO, M.CABINA_TIPO, M.CABINA_PISO, M.RECORRIDO_CODIGO
+
+  ALTER TABLE PINKIE_PIE.Viaje DROP COLUMN crucero_identificador
