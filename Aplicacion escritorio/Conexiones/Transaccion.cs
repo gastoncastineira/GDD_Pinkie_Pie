@@ -86,7 +86,7 @@ namespace Conexiones
         public bool eliminarTablaIntermedia(string tabla, string col1, string col2, int pk1, int pk2)
         {
             string comando = "DELETE FROM " + tabla + " WHERE " + col1 + "= @pk1 AND " + col2 + " = @pk2";
-            using (SqlConnection connection = new SqlConnection(conectionString))
+            using (SqlConnection connection = new SqlConnection(FrbaCrucero.ConfigurationHelper.ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand())
@@ -114,7 +114,7 @@ namespace Conexiones
         public bool InsertarTablaIntermedia(string tabla, string col1, string col2, int pk1, int pk2)
         {
             string comando = "INSERT INTO " + tabla + "( " + col1 + ", " + col2 + ") VALUES (@pk1, @pk2)";
-            using (SqlConnection connection = new SqlConnection(conectionString))
+            using (SqlConnection connection = new SqlConnection(FrbaCrucero.ConfigurationHelper.ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand())
