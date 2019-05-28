@@ -259,9 +259,9 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
 
   -- Inserto pasaje
   INSERT INTO PINKIE_PIE.Pasaje(codigo, precio, fecha_de_compra, cliente_id, medio_de_pago_id, cabina_id)
-  SELECT DISTINCT M.PASAJE_CODIGO, M.PASAJE_PRECIO, M.PASAJE_FECHA_COMPRA, 
+  SELECT M.PASAJE_CODIGO, M.PASAJE_PRECIO, M.PASAJE_FECHA_COMPRA, 
   cli.ID,
- (SELECT ID FROM PINKIE_PIE.MedioDePago WHERE tipo = 'EFECTIVO'),
+ 1,
  c.ID
   FROM gd_esquema.Maestra m
 	JOIN PINKIE_PIE.Cliente cli ON (m.CLI_APELLIDO = cli.apellido AND m.CLI_DIRECCION = cli.direccion AND m.CLI_DNI = cli.DNI AND m.CLI_FECHA_NAC = cli.fecha_nacimiento AND m.CLI_MAIL = cli.mail AND m.CLI_NOMBRE = cli.nombre AND m.CLI_TELEFONO = cli.telefono)
@@ -271,19 +271,30 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
 	c.crucero_id = 
 		(SELECT ID FROM PINKIE_PIE.Crucero c WHERE m.CRU_FABRICANTE = c.fabricante AND m.CRUCERO_IDENTIFICADOR = c.identificador AND m.CRUCERO_MODELO = c.modelo)
 	 AND c.viaje_id =
-		(SELECT ID FROM PINKIE_PIE.Viaje v WHERE m.FECHA_LLEGADA = v.fecha_fin AND m.FECHA_LLEGADA_ESTIMADA = v.fecha_fin_estimada AND m.FECHA_SALIDA = v.fecha_inicio 
-		AND v.recorrido_id = (SELECT ID FROM PINKIE_PIE.Recorrido r WHERE m.RECORRIDO_CODIGO = r.codigo)))
-
+		(SELECT TOP 1 ID FROM PINKIE_PIE.Viaje v WHERE m.FECHA_LLEGADA = v.fecha_fin AND m.FECHA_LLEGADA_ESTIMADA = v.fecha_fin_estimada AND m.FECHA_SALIDA = v.fecha_inicio 
+		AND v.recorrido_id = (SELECT ID FROM PINKIE_PIE.Recorrido r 
+								WHERE m.RECORRIDO_CODIGO = r.codigo)))
+	WHERE M.PASAJE_CODIGO IS NOT NULL AND M.PASAJE_PRECIO IS NOT NULL AND M.PASAJE_FECHA_COMPRA IS NOT NULL
 
   -- Inserto reserva
 	INSERT INTO PINKIE_PIE.Reserva (codigo, fecha_de_reserva, cliente_id, precio, medio_de_pago_id, cabina_id)
-	SELECT DISTINCT  M.RESERVA_CODIGO, 
+	SELECT  M.RESERVA_CODIGO, 
 	M.RESERVA_FECHA, 
-	(SELECT R.ID FROM PINKIE_PIE.Cliente R WHERE M.CLI_DNI = R.DNI AND M.CLI_APELLIDO = R.apellido AND M.CLI_NOMBRE = R.nombre AND M.CLI_DIRECCION = R.direccion AND M.CLI_MAIL = R.mail AND M.CLI_TELEFONO = R.telefono), 
+	r.ID,
 	M.PASAJE_PRECIO,
-	(SELECT ID FROM PINKIE_PIE.MedioDePago WHERE tipo = 'EFECTIVO'),
+	1,
 	(SELECT ID FROM PINKIE_PIE.Cabina c WHERE M.CABINA_NRO = c.numero_habitacion AND M.CABINA_PISO = c.numero_piso)
 	FROM gd_esquema.Maestra M
+	JOIN PINKIE_PIE.Cliente r ON (M.CLI_DNI = R.DNI AND M.CLI_APELLIDO = R.apellido AND M.CLI_NOMBRE = R.nombre AND M.CLI_DIRECCION = R.direccion AND M.CLI_MAIL = R.mail AND M.CLI_TELEFONO = R.telefono)
+	JOIN PINKIE_PIE.Cabina c ON (m.CABINA_NRO = c.numero_habitacion AND m.CABINA_PISO = c.numero_piso AND 
+  m.CABINA_TIPO =
+	 (SELECT t.tipo FROM PINKIE_PIE.Tipo t WHERE t.ID = c.tipo_id) AND 
+	c.crucero_id = 
+		(SELECT TOP 1 ID FROM PINKIE_PIE.Crucero c WHERE m.CRU_FABRICANTE = c.fabricante AND m.CRUCERO_IDENTIFICADOR = c.identificador AND m.CRUCERO_MODELO = c.modelo)
+	 AND c.viaje_id =
+		(SELECT TOP 1 ID FROM PINKIE_PIE.Viaje v WHERE m.FECHA_LLEGADA = v.fecha_fin AND m.FECHA_LLEGADA_ESTIMADA = v.fecha_fin_estimada AND m.FECHA_SALIDA = v.fecha_inicio 
+		AND v.recorrido_id = (SELECT ID FROM PINKIE_PIE.Recorrido r 
+								WHERE m.RECORRIDO_CODIGO = r.codigo)))
 	WHERE M.RESERVA_CODIGO IS NOT NULL
 
 
