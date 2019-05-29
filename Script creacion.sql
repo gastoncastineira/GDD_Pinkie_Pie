@@ -47,7 +47,8 @@ CREATE TABLE PINKIE_PIE.[Recorrido](
 	[ID] [decimal] (18,0) NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[codigo] [decimal](18,0),  
 	[puerto_origen_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Puerto(ID),
-	[puerto_destino_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Puerto(ID)
+	[puerto_destino_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Puerto(ID),
+	[habilitado] bit DEFAULT 1
 );
 
 CREATE TABLE PINKIE_PIE.[Tramo](

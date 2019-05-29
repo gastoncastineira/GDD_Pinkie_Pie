@@ -159,7 +159,7 @@ namespace Conexiones
 
                     command.ExecuteNonQuery();
 
-                    return Convert.ToBoolean(command.Parameters["@resultado"].Value);                
+                    return Convert.ToBoolean(command.Parameters["@resultado"].Value);
                 }
             }
         }
@@ -413,5 +413,90 @@ namespace Conexiones
             con.Open();
             return new Transaccion(con);
         }
+
+        public void LlenarDataGridViewRecorridos(ref DataGridView dataGrid)
+        {
+            string comandoString =
+                "SELECT R.Id AS RECORRIDO, Po.descripcion AS PUERTO_ORIGEN, pd.descripcion AS PUERTO_DESTINO, SUM(precio) AS PRECIO " +
+                "FROM PINKIE_PIE.Recorrido R JOIN PINKIE_PIE.Tramo_X_Recorrido TR ON R.ID = TR.ID_Recorrido" +
+                                            "JOIN PINKIE_PIE.Tramo T ON T.ID = TR.ID_Tramo" +
+                                            "JOIN PINKIE_PIE.Puerto Po ON Po.ID = R.puerto_origen_id" +
+                                            "JOIN PINKIE_PIE.Puerto Pd ON Pd.ID = R.puerto_destino_id" +
+                                            "WEHERE R.habilitado = 1" +
+                "GROUP BY R.ID, Po.descripcion, pd.descripcion";
+
+            using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCmd = new SqlCommand())
+                {
+                    sqlCmd.Connection = sqlConnection;
+                    sqlCmd.CommandType = CommandType.Text;
+                    sqlCmd.CommandText = comandoString;
+                    SqlDataAdapter sqlDataAdap = new SqlDataAdapter(sqlCmd);
+
+                    DataTable dtRecord = new DataTable();
+                    sqlDataAdap.Fill(dtRecord);
+
+                    dataGrid.DataSource = dtRecord;
+                }
+            }
+        }
+
+
+        public void LlenarDataGridViewTramos(ref DataGridView dataGrid, string idRecorrido)
+        {
+            string comandoString =
+                        "SELECT Po.descripcion AS PUERTO_ORIGEN, pd.descripcion AS PUERTO_DESTINO" +
+                        "FROM PINKIE_PIE.Tramo_X_Recorrido TR    JOIN PINKIE_PIE.Tramo T ON T.ID = TR.ID_Tramo" +
+                                                                "JOIN PINKIE_PIE.Puerto Po ON Po.ID = T.puerto_origen_id" +
+                                                                "JOIN PINKIE_PIE.Puerto Pd ON Pd.ID = T.puerto_destino_id" +
+                        "WHERE TR.ID_Recorrido = " + idRecorrido;
+
+            using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCmd = new SqlCommand())
+                {
+                    sqlCmd.Connection = sqlConnection;
+                    sqlCmd.CommandType = CommandType.Text;
+                    sqlCmd.CommandText = comandoString;
+                    SqlDataAdapter sqlDataAdap = new SqlDataAdapter(sqlCmd);
+
+                    DataTable dtRecord = new DataTable();
+                    sqlDataAdap.Fill(dtRecord);
+
+                    dataGrid.DataSource = dtRecord;
+                }
+            }
+        }
+
+        public void LlenarCheckedListConTramosDescriptos(ref CheckedListBox list)
+        {
+            string comandoString =
+                        "SELECT Po.descripcion AS PUERTO_ORIGEN, pd.descripcion AS PUERTO_DESTINO" +
+                        "FROM PINKIE_PIE.Tramo_X_Recorrido TR    JOIN PINKIE_PIE.Tramo T ON T.ID = TR.ID_Tramo" +
+                                                                "JOIN PINKIE_PIE.Puerto Po ON Po.ID = T.puerto_origen_id" +
+                                                                "JOIN PINKIE_PIE.Puerto Pd ON Pd.ID = T.puerto_destino_id";
+            using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.CommandText = comandoString;
+                    command.CommandType = CommandType.Text;
+                    command.Connection = sqlConnection;
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        list.Items.Add("Desde: " + reader[0].ToString() + " Hasta: " + reader[1].ToString(), false);
+                    }
+                }
+            }
+        }
+
+
     }
 }
