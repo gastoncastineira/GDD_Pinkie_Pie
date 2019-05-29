@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using FrbaCrucero.CompraReservaPasaje;
+using FrbaCrucero.CompraReservaPasaje;
 using FrbaCrucero.model;
 
 namespace FrbaCrucero.CompraPasaje
@@ -45,7 +45,7 @@ namespace FrbaCrucero.CompraPasaje
                 if (HayViajes())
                 {
                     this.Visible = false;
-                    //new SeleccionarViaje(txtCantidadPasajes.Text).Show();
+                    new SeleccionarViaje(txtCantidadPasajes.Text).Show();
                 }
                 else
                 {
@@ -77,7 +77,7 @@ namespace FrbaCrucero.CompraPasaje
 
             // PUERTO DESTINO
             resultado = ValidarExistenciaPuerto(txtDestino.Text, "destino");
-            
+
             //  A PASAJES A COMPRAR
             // validar de que sea un entero
 

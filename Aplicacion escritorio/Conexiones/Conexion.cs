@@ -127,12 +127,6 @@ namespace Conexiones
             }
         }
 
-        public bool existeRegistro(string tabla, List<string> columnas, List<Filtro> filtros)
-        {
-            var datos = ConsultaPlana(tabla, columnas, filtros);
-            return (datos[columnas[0]].Count > 0);
-        }
-
         public bool ValidarLogin(string usuario, string contraseña)
         {
             using (SqlConnection connection = new SqlConnection(conectionString))

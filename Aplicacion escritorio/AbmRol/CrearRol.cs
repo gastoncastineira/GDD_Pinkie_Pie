@@ -39,7 +39,7 @@ namespace FrbaCrucero.AbmRol
             List<Filtro> filtrosNom = new List<Filtro>();
             filtrosNom.Add(FiltroFactory.Exacto("Nombre", txtNombre.Text));
 
-            if (!conexion.existeRegistro(Tabla.Rol, columnas, filtrosNom))
+            if (!conexion.ExisteRegistro(Tabla.Rol, columnas, filtrosNom))
             {
                 List<Funcion> funciones = new List<Funcion>();
                 for (int i = 0; i < checkedListBoxFuncion.Items.Count; i++)

@@ -236,7 +236,10 @@ namespace FrbaCrucero.GeneracionViaje
             }
         }
 
+        private void GenerarViaje_Load(object sender, EventArgs e)
+        {
 
+        }
     }
 }
 

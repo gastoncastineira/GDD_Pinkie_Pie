@@ -30,7 +30,7 @@ namespace FrbaCrucero.Acceso
             }
             List<Filtro> filtros = new List<Filtro>();
             filtros.Add(FiltroFactory.Exacto("usuario", txtusuario.Text));
-            if (!conexion.existeRegistro(Tabla.Usuario, new List<string>(new string[] { "usuario" }), filtros))
+            if (!conexion.ExisteRegistro(Tabla.Usuario, new List<string>(new string[] { "usuario" }), filtros))
             {
                 MessageBox.Show("No existe dicho usuario en el sistema");
                 return;
