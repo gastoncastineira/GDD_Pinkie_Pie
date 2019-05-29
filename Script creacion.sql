@@ -297,7 +297,6 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
 								WHERE m.RECORRIDO_CODIGO = r.codigo)))
 	WHERE M.RESERVA_CODIGO IS NOT NULL
 
-
 	GO
 CREATE PROCEDURE PINKIE_PIE.existe_usuario @Usuario nvarchar(50), @Contrasenia nvarchar(max), @resultado bit OUTPUT
 AS
