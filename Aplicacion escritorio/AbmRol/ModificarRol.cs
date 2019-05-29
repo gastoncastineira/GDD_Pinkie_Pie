@@ -37,7 +37,7 @@ namespace FrbaCrucero.AbmRol
             {
                 filtros.Add(FiltroFactory.Exacto("id_rol", idRol.ToString()));
                 filtros.Add(FiltroFactory.Exacto("id_rol", i.ToString()));
-                checkedListBoxFuncion.Items.Add(resul["nombre"][i - 1], (conexion.existeRegistro(Tabla.RolXFuncion, new List<string>(new string[] { "id_rol", "id_funcion" }), filtros)));
+                checkedListBoxFuncion.Items.Add(resul["nombre"][i - 1], (conexion.ExisteRegistro(Tabla.RolXFuncion, new List<string>(new string[] { "id_rol", "id_funcion" }), filtros)));
             }
 
             for (int i = 1; i <= checkedListBoxFuncion.Items.Count; i++)
@@ -109,7 +109,7 @@ namespace FrbaCrucero.AbmRol
             filtrosNom.Add(FiltroFactory.Exacto("Nombre", txtNombre.Text));
             filtrosNom.Add(FiltroFactory.Exacto("Nombre", nombreOG));
 
-            if (conexion.existeRegistro(Tabla.Rol, columnas, filtrosNom))
+            if (conexion.ExisteRegistro(Tabla.Rol, columnas, filtrosNom))
             {
                 MessageBox.Show("Ese rol ya existe. Elija otro o siga usando el mismo.");
                 txtNombre.Text = nombreOG;

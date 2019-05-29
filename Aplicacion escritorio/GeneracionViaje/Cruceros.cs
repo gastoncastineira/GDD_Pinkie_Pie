@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Conexiones;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,8 @@ namespace FrbaCrucero.GeneracionViaje
 {
     public partial class Cruceros : Form //TODO Poner un Consultasen gral y que Cruceros y Recorridos hereden de ellos
     {
+        private Conexion conexion = new Conexion();
+
         public Cruceros()
         {
             InitializeComponent();
@@ -19,39 +22,47 @@ namespace FrbaCrucero.GeneracionViaje
 
         private void BtnSeleccionar_Click(object sender, EventArgs e)
         {
-           
+
             if (dataGridCruceros.Rows.Count == 0)
             {
-                return;
+                MessageBox.Show("Tiene que seleccionar un crucero. \n", "Error");
             }
             else
             {
                 DialogResult = DialogResult.OK;
                 Close();
             }
-            
-        }
 
+        }
 
         private void Cruceros_Load(object sender, EventArgs e)
         {
-            // dataGridRecorridos.DataSource = LlenarDataGV("Recorrido"); // ver 10.10
+            List<Filtro> filtros = new List<Filtro>();
+            filtros.Add(FiltroFactory.Exacto("bajaPorFueraDeServicio", "false"));
+            filtros.Add(FiltroFactory.Exacto("bajaPorVidaUtil", "false"));
+
+            LlenarDataGV(filtros);
         }
 
-        private void BtnBuscarCrucero_Click(object sender, EventArgs e)
+        private void BtnBuscarCrucero_Click(object sender, EventArgs e) // TODO cuando haya SQL video 42
         {
-            if (string.IsNullOrEmpty(txtBuscarCrucero.Text.Trim()) == false) // ver si sigue quedando si suben algun validador (supongo que no)
+            try
             {
-                try
-                {
-                    // "SELECT * FROM Crucero WHERE Id LIKE ('%" + txtBuscar.Text.Trim() + "%')"
-                    // 15.12
-                }
-                catch (Exception error)
-                {
-                    MessageBox.Show("Error: " + error.Message);
-                }
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(FiltroFactory.Exacto("bajaPorFueraDeServicio", "false"));
+                filtros.Add(FiltroFactory.Exacto("bajaPorVidaUtil", "false"));
+
+                if (string.IsNullOrEmpty(txtBuscarCrucero.Text.Trim()) == false)
+                    filtros.Add(FiltroFactory.Libre("ID", txtBuscarCrucero.Text.Trim()));
+
+                LlenarDataGV(filtros);
             }
+            catch (Exception error)
+            {
+                MessageBox.Show("Error: " + error.Message);
+            }
+
+
         }
 
         private void Crucero_FormClosed(object sender, FormClosedEventArgs e)
@@ -59,29 +70,33 @@ namespace FrbaCrucero.GeneracionViaje
             Application.Exit();
         }
 
-        /* public DataSet LlenarDataGV(string tabla) // TODO cuando haya SQL video 42
-         * 
-         * // Se debe tener en cuenta que al momento de seleccionar un crucero este deberá
-            // estar disponible y no estar asignado previamente a otro viaje en la fecha que se está ingresando
-    {
-        DataSet DS;
+        private void LlenarDataGV(List<Filtro> filtros)
+        {
+            DataTable data = conexion.ConseguirTabla(Tabla.Crucero, filtros);
 
-        string cmd = string.Format("SELECT * FROM " + tabla);
-        //DS = ;//ver
+            data.Columns.Remove("baja_vida_util");
+            data.Columns.RemoveAt(9);
+            data.Columns.Remove("baja_fuera_de_servicio");
+            data.Columns.RemoveAt(8);
+            data.Columns.Remove("fecha_baja_definitiva");
+            data.Columns.RemoveAt(7);
+            data.Columns.Remove("fecha_reinicio_servicio");
+            data.Columns.RemoveAt(6);
+            data.Columns.Remove("fecha_fuera_de_servicio");
+            data.Columns.RemoveAt(5);
+            data.Columns.Remove("fecha_de_alta");
+            data.Columns.RemoveAt(4);
 
-        return DS;
+            dataGridCruceros.DataSource = data;
+        }
 
-
-        // SELECT crucero_id, marca
-           FROM Crucero c
-           WHERE (c.bajaPorFueraDeServicio == false && c.bajaPorVidaUtil == false)
-           JOIN Viaje v
-                ON v.crucero_id = c.id
-           HAVING  
-        viaje.get_Id()
-           // TODO ver como se hace el get
-    }*/
+        private void BtnSalir_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            new GenerarViaje().Show();
+        }
     }
+
 
 
 }
