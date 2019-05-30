@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Conexiones;
 using FrbaCrucero.model;
 
 namespace FrbaCrucero.GeneracionViaje
@@ -17,15 +17,13 @@ namespace FrbaCrucero.GeneracionViaje
         private Viaje ViajeAGenerar;
         DateTime FechaInicio;
         DateTime FechaFinalizacion;
+        private Conexion conexion = new Conexion();
 
         public GenerarViaje()
         {
             InitializeComponent();
             ViajeAGenerar = new Viaje();
         }
-
-
-        // a la hora de hacer la validacion esperar para ver si los chicos suben del año pasado algo que valide y si no mirar video 40
 
         // TODO viaje_id
 
@@ -51,8 +49,6 @@ namespace FrbaCrucero.GeneracionViaje
             {
                 MessageBox.Show("Ha ocurrido un error: " + error.Message, "Error");
             }
-
-
         }
 
         private void BtnConsultarRecorridos_Click(object sender, EventArgs e)
@@ -72,8 +68,6 @@ namespace FrbaCrucero.GeneracionViaje
             {
                 MessageBox.Show("Error: " + error.Message, "Error");
             }
-
-
         }
 
         private void BtnGuardar_Click(object sender, EventArgs e) //ver video 39, ver poner un try catch
@@ -81,26 +75,35 @@ namespace FrbaCrucero.GeneracionViaje
             String mensaje = ValidarCampos();
             if (mensaje == "")
             {
-                ViajeAGenerar.FechaInicio = dtFechaInicio.Value.Date.AddHours(Convert.ToInt16(dtHoraInicio.Value.Hour)).AddMinutes(dtHoraInicio.Value.Minute).AddSeconds(dtHoraInicio.Value.Second);
-                ViajeAGenerar.FechaFinalizacion = dtFechaFin.Value.Date.AddHours(Convert.ToInt16(dtHoraFin.Value.Hour)).AddMinutes(dtHoraFin.Value.Minute).AddSeconds(dtHoraFin.Value.Second);
                 ViajeAGenerar.Recorrido_id = Convert.ToInt16(txtRecorrido);
                 ViajeAGenerar.PasajesVendidos = 0;
 
-                List<Cabina> cabinasVacias = new List<Cabina>();
-                int cantidadCabinas = 0;
-                /*cantidadCabinas = 
-                SELECT cantidadDePasajes 
-                FROM Crucero c
-                WHERE c.Id = Convert.ToInt16(txtCrucero)
-                 */
+                // Agrego cabinas vacias al Viaje que se va a generar
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(FiltroFactory.Exacto("crucero_id", txtCrucero.ToString()));
 
-                for (int i = 0; i < cantidadCabinas; i++)
+                List<string> camposCantCabinas = new List<string>();
+
+                Dictionary<string, List<object>> cantCabinas = conexion.ConsultaPlana(Tabla.Piso, new List<string>(new string[] { "isnull(SUM(cant_cabina), 0) AS cantidadCabinas" }), filtros);
+
+                List<string> camposCabinas = new List<string>();
+                camposCabinas.Add("tipo_id");
+                camposCabinas.Add("numero_piso");
+                camposCabinas.Add("numero_habitacion");
+
+                Dictionary<string, List<object>> cabinas = conexion.ConsultaPlana(Tabla.Cabina, camposCabinas, filtros);
+
+                List<Cabina> cabinasVacias = new List<Cabina>();
+                for (int i = 0; i < Convert.ToInt16(cantCabinas["cantidadCabinas"].First()); i++)
                 {
-                    cabinasVacias.Add(new Cabina(i, Convert.ToInt16(txtCrucero), ViajeAGenerar.Id, 0, false)); // TODO nro piso
+                    Cabina cabina = new Cabina(Convert.ToInt16(txtCrucero), ViajeAGenerar.Id, Convert.ToInt16(cabinas["tipo_id"][i]), Convert.ToInt16(cabinas["numero_piso"][i]), Convert.ToInt16(cabinas["numero_habitacion"][i]), false);
+
+                    cabinasVacias.Add(cabina);
                 }
 
-                ViajeAGenerar.cabinas = cabinasVacias;
+                ViajeAGenerar.Cabinas = cabinasVacias;
 
+                InsertarViaje();
 
                 MessageBox.Show("Se ha guardado correctamente!", "Generar viaje");
             }
@@ -110,23 +113,57 @@ namespace FrbaCrucero.GeneracionViaje
             }
         }
 
+        private void InsertarViaje()
+        {
+            Dictionary<string, object> datosViaje = new Dictionary<string, object>();
+            datosViaje["fecha_inicio"] = ViajeAGenerar.FechaInicio;
+            datosViaje["fecha_fin"] = null;
+            datosViaje["fecha_fin_estimada"] = ViajeAGenerar.FechaFinalizacion;
+            datosViaje["pasajes_vendidos"] = ViajeAGenerar.PasajesVendidos;
+            datosViaje["recorrido_id"] = ViajeAGenerar.Recorrido_id;
+
+            Transaccion tr = conexion.IniciarTransaccion();
+            
+            int idViajeInsertado = tr.Insertar(Tabla.Rol, datosViaje);
+
+            ViajeAGenerar.Id = idViajeInsertado;
+            datosViaje["ID"] = idViajeInsertado;
+
+            Dictionary<string, object> datosCabina = new Dictionary<string, object>();
+
+            foreach (Cabina cabina in ViajeAGenerar.Cabinas)
+            {
+                datosCabina["crucero_id"] = cabina.Crucero_id;
+                datosCabina["viaje_id"] = idViajeInsertado;
+                datosCabina["tipo_id"] = cabina.Tipo_id;
+                datosCabina["numero_piso"] = cabina.NumeroPiso;
+                datosCabina["numero_habitacion"] = cabina.NumeroHabitacion;
+                datosCabina["ocupado"] = cabina.Ocupado;
+
+                int idCabinaInsertada = tr.Insertar(Tabla.RolXFuncion, datosCabina);
+
+                datosCabina["ID"] = idCabinaInsertada;
+            }
+
+            tr.Commit();
+        }
+
         // VALIDACIONES
         private String ValidarCampos()
         {
-            // TODO ver validar que no este vacio cuando casti haya subido la validacion
             String resultado = "";
-
+            
             resultado += this.ValidarCamposVacios();
 
             // FECHA
             resultado += this.ValidarFechas();
 
             //CRUCERO 
-            resultado += this.ValidarExisteCrucero();
-            resultado += this.ValidarEsteDisponibleCrucero();
+            resultado += this.ValidarExisteCrucero(resultado);
+            resultado += this.ValidarEsteDisponibleCrucero(resultado);
 
             // RECORRIDO 
-            resultado += this.ValidarExisteRecorrido();
+            resultado += this.ValidarExisteRecorrido(resultado);
 
             return resultado;
         }
@@ -158,88 +195,82 @@ namespace FrbaCrucero.GeneracionViaje
                 return "La fecha de finalizacion debe ser posterior a la fecha de inicio.\n";
         }
 
-        private String ValidarEsteDisponibleCrucero()
-        { // fijarse si hay que poner try catchs
-            String resultado = ""; //lo dejo para que no me rompa, pero desp borrar
-
-            /*
-
-            DateTime fechaBajaDefinitivaCrucero = SELECT fechaBajaDefinitiva FROM Crucero  // no se si se puede hacer esto pero es la idea
-            
-            if(fechaBajaDefinitiva == NULL || fechaBajaDefinitiva > FechaFinalizacion)
+        public String ValidarExisteCrucero(string resultado) //TODO probarlo, tal vez se puede hacer una funcion ValidarExiste(le llega Crucero o Recorrido, "mesaje de error") 
+        {
+            if (resultado == "")
             {
-                DateTime fechaReinicioServicioCrucero = SELECT fechaReinicioServicio FROM Crucero
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(FiltroFactory.Exacto("ID", txtCrucero.ToString()));
 
-                if(fechaReinicioServicioCrucero < FechaInicio)
+                Dictionary<string, List<object>> crucero = conexion.ConsultaPlana(Tabla.Crucero, new List<string>(new string[] { "ID" }), filtros);
+
+                if (crucero["ID"].First() != null)
+                    return "";
+                return "El id del crucero ingresado no existe.\n";
+
+            }
+            return "";
+        }
+
+        private String ValidarEsteDisponibleCrucero(string resultado)
+        { 
+            if (resultado == "")
+            {
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(FiltroFactory.Exacto("crucero_id", txtCrucero.ToString()));
+
+                Dictionary<string, List<object>> fechaBajaDefinitiva = conexion.ConsultaPlana(Tabla.Crucero, new List<string>(new string[] { "fecha_baja_definitiva" }), filtros);
+
+                if (fechaBajaDefinitiva == null || Convert.ToDateTime(fechaBajaDefinitiva["fecha_baja_definitiva"].First()) > ViajeAGenerar.FechaFinalizacion)
                 {
-                    List<Viaje> viajesConEseCruceroOcupado =
-                     SELECT Id 
-                     FROM Viaje v 
-                     JOIN Crucero c
-                        ON c.Id == Convert.ToInt16(txtCrucero)
-                     WHERE (v.Id != ViajeAGenerar.Id 
-                            && !(FechaInicio > v.FechaFinalizacion || FechaFinalizacion < v.FechaInicio ))
-             
-                    // ver si lo del WHERE tiene que ir ahi hoy hay que hacer una funcion o algo así, porque dentro estoy "haciendo" la funcion EstaDisponible()
+                    Dictionary<string, List<object>> fechaReinicioServicio = conexion.ConsultaPlana(Tabla.Crucero, new List<string>(new string[] { "fecha_reinicio_servicio" }), filtros);
 
+                    if (Convert.ToDateTime(fechaReinicioServicio["fecha_baja_definitiva"].First()) < ViajeAGenerar.FechaInicio)
+                    {
+                        /*
+                     List<Viaje> viajesConEseCruceroOcupado =
+                         SELECT ID 
+                         FROM Viaje v 
+                         JOIN Cabina ca 
+                            ON ca.crucero_id = Convert.ToInt16(txtCrucero)
+                         WHERE ( !(ViajeAGenerar.FechaInicio > v.FechaFinalizacion || ViajeAGenerar.FechaFinalizacion < v.FechaInicio ))
+                     )
+                     
                     if (viajesConEseCruceroOcupado.IsNull())
-                        return "";
+                            return "";
+                        else
+                            return "El crucero está ocupado en otro viaje en el rango de fechas que eligió.\n"
+                     */
+                    }
                     else
-                        return "El crucero está ocupado en otro viaje en el rango de fechas que eligió.\n"
+                        return "El crucero está fuera de servicio en rango de fechas que eligió.\n";
                 }
                 else
-                    return "El crucero está fuera de servicio en rango de fechas que eligió.\n"
+                    return "El crucero está de baja de forma definitiva en el rango de fechas que eligió.\n";
+            }
+            return "";
+        }
+
+        
+
+        public String ValidarExisteRecorrido(string resultado) 
+        {
+            if (resultado == "")
+            {
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(FiltroFactory.Exacto("ID", txtRecorrido.ToString()));
+
+                Dictionary<string, List<object>> recorrido = conexion.ConsultaPlana(Tabla.Recorrido, new List<string>(new string[] { "ID" }), filtros);
+
+                if(recorrido["ID"].First() != null)
+                    return "";
+                return "El id del recorrido ingresado no existe.\n";
                 
             }
-            else
-                return "El crucero está de baja de forma definitiva en el rango de fechas que eligió.\n"
-            
-             */
-
-
-            return resultado;
+            return "";
         }
 
-        public String ValidarExisteCrucero() //TODO probarlo, tal vez se puede hacer una funcion ValidarExiste(le llega Crucero o Recorrido, "mesaje de error") 
-        {
-            try
-            {
-                /* // tal vez exite una forma tipo exists y en vez de tener var crucero tener var existe, ver despues sise una triy catch o hacer un if(existe) return "" else "El..0"
-                 int crucero = 
-                 SELECT crucero_id 
-                 FROM Crucero c
-                 WHERE c.crucero_id = Convert.ToInt16(txtCrucero)
-                 */
-                return "";
-            }
-            catch (Exception error)
-            {
-                return "El id del crucero ingresado no existe.\n";
-            }
-        }
 
-        public String ValidarExisteRecorrido() //TODO probarlo, tal vez se puede hacer una funcion ValidarExiste(le llega Crucero o Recorrido)
-        {
-            try
-            {
-                /* // tal vez exite una forma tipo exists y en vez de tener var crucero tener var existe, ver despues sise una triy catch o hacer un if(existe) return "" else "El..0"
-                 int recorrido = 
-                 SELECT recorrido_id 
-                 FROM Recorrido r
-                 WHERE c.recorrido_id = Convert.ToInt16(txtRecorrido)
-                 */
-                return "";
-            }
-            catch (Exception error)
-            {
-                return "El id del crucero ingresado no existe.\n";
-            }
-        }
-
-        private void GenerarViaje_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }
 

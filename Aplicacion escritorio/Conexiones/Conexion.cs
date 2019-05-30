@@ -157,7 +157,7 @@ namespace Conexiones
                 }
             }
         }
-
+/*
         public int InsertarUsuario(string usuario, string contraseña, string rol)
         {
             using (SqlConnection connection = new SqlConnection(conectionString))
@@ -240,7 +240,7 @@ namespace Conexiones
                 }
             }
         }
-
+*/
         public bool ActualizarContraseña(string contraseña, string usuario)
         {
             string comandoString = string.Copy(comandoUpdate) + Tabla.Usuario + " SET contrasenia = HASHBYTES('SHA2_256', @contrasenia), contrasena_autogenerada = 0 WHERE usuario = @usuario";

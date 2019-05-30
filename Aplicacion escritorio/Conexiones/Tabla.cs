@@ -20,5 +20,7 @@ namespace Conexiones
         public static string Tramo_X_Recorrido { get { return "PINKIE_PIE.[Tramo_X_Recorrido]"; } }
         public static string Puerto { get { return "PINKIE_PIE.[Puerto]"; } }
         public static string Crucero { get { return "PINKIE_PIE.[Crucero]"; } }
+        public static string Cabina { get { return "PINKIE_PIE.[Cabina]"; } }
+        public static string Piso { get { return "PINKIE_PIE.[Piso]"; } }
     }
 }
