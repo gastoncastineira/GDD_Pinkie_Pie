@@ -3,6 +3,7 @@ GO
 
 SET QUOTED_IDENTIFIER OFF
 SET ANSI_NULLS ON 
+SET DATEFORMAT ymd;
 
 IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'PINKIE_PIE')
 BEGIN
@@ -95,8 +96,6 @@ CREATE TABLE PINKIE_PIE.[Crucero](
 	[fabricante] [nvarchar] (255),
 	[identificador] [nvarchar] (50),
 	[fecha_de_alta] [datetime2] (3) NULL, 
-	[fecha_fuera_de_servicio] [datetime2] (3) NULL,
-	[fecha_reinicio_servicio] [datetime2] (3) NULL,
 	[fecha_baja_definitiva] [datetime2] (3) NULL,
 	[baja_fuera_de_servicio] [bit] DEFAULT 0, 
 	[baja_vida_util] [bit] DEFAULT 0,
@@ -139,10 +138,17 @@ CREATE TABLE PINKIE_PIE.[Reserva](
 );
 
 CREATE TABLE PINKIE_PIE.[Piso](
-[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-[Nro_piso] int NOT NULL,
-[cant_cabina] int NOT NULL,
-[id_crucero] INT NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Crucero(ID)
+	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[Nro_piso] int NOT NULL,
+	[cant_cabina] int NOT NULL,
+	[id_crucero] INT NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Crucero(ID)
+);
+
+CREATE TABLE PINKIE_PIE.[fecha_fuera_servicio](
+	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[fecha_fuera_de_servicio] [datetime2] (3) NULL,
+	[fecha_reinicio_servicio] [datetime2] (3) NULL,
+	[id_crucero] INT NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Crucero(ID)
 );
 
 -- Inserto funcionalidades
@@ -297,7 +303,8 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
 								WHERE m.RECORRIDO_CODIGO = r.codigo)))
 	WHERE M.RESERVA_CODIGO IS NOT NULL
 
-	GO
+
+GO
 CREATE PROCEDURE PINKIE_PIE.existe_usuario @Usuario nvarchar(50), @Contrasenia nvarchar(max), @resultado bit OUTPUT
 AS
 BEGIN
@@ -315,4 +322,35 @@ BEGIN
 		end
 	end
 END
+
 GO
+CREATE VIEW PINKIE_PIE.top_5_recorridos AS 
+SELECT TOP 5 r.codigo as codigo_recorrido , (SELECT p.descripcion FROM PINKIE_PIE.Puerto p WHERE r.puerto_origen_id = p.ID) AS puerto_origen, (SELECT p.descripcion FROM PINKIE_PIE.Puerto p WHERE r.puerto_destino_id = p.ID) AS puerto_destino, COUNT(p.ID) AS cant_pasaje, v.fecha_inicio as fecha_inicio, v.fecha_fin as fecha_fin
+FROM PINKIE_PIE.Recorrido r
+JOIN PINKIE_PIE.Viaje v ON r.ID = v.recorrido_id
+JOIN PINKIE_PIE.Cabina c ON c.viaje_id = v.ID
+JOIN PINKIE_PIE.Pasaje p ON p.cabina_id = c.ID
+GROUP BY r.codigo, puerto_origen_id, puerto_destino_id, v.fecha_inicio, v.fecha_fin
+ORDER BY cant_pasaje DESC 
+
+GO
+CREATE VIEW PINKIE_PIE.top_5_clientes_puntos AS
+SELECT TOP 5 * FROM PINKIE_PIE.Cliente c ORDER BY c.puntos DESC
+
+GO
+CREATE VIEW PINKIE_PIE.top_5_viajes_cabinas_vacias AS
+SELECT TOP 5 v.ID AS viaje_id, (SELECT r.codigo FROM PINKIE_PIE.Recorrido r WHERE r.ID = v.recorrido_id) AS cod_recorrido, COUNT(DISTINCT Cabina.ID) AS cant_cabinas, v.fecha_inicio as fecha_inicio, v.fecha_fin as fecha_fin FROM PINKIE_PIE.Viaje v
+JOIN PINKIE_PIE.Cabina ON Cabina.viaje_id = v.ID 
+LEFT JOIN PINKIE_PIE.Pasaje ON Pasaje.cabina_id = Cabina.ID 
+FULL OUTER JOIN PINKIE_PIE.Reserva ON Reserva.ID = Cabina.ID
+WHERE Reserva.ID IS NULL AND Pasaje.ID IS NULL
+GROUP BY v.ID, v.recorrido_id, v.fecha_inicio, v.fecha_fin
+ORDER BY cant_cabinas DESC
+
+GO
+CREATE VIEW PINKIE_PIE.top_5_dias_crucero_fuera_servicio AS
+SELECT TOP 5 c.identificador, c.fabricante, c.modelo, fs.fecha_fuera_de_servicio as fecha_inicio, fs.fecha_reinicio_servicio as fecha_fin, DATEDIFF(DAY, fs.fecha_fuera_de_servicio, fs.fecha_reinicio_servicio) AS cant_dias
+FROM PINKIE_PIE.Crucero c
+JOIN PINKIE_PIE.fecha_fuera_servicio fs ON c.ID = fs.id_crucero
+GROUP BY c.identificador, c.fabricante, c.modelo, fs.fecha_fuera_de_servicio, fs.fecha_reinicio_servicio
+ORDER BY cant_dias DESC

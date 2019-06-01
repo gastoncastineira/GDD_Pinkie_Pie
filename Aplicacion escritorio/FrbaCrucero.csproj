@@ -142,11 +142,11 @@
     <Compile Include="GeneracionViaje\GenerarViaje.Designer.cs">
       <DependentUpon>GenerarViaje.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListadoEstadistico\Form1.cs">
+    <Compile Include="ListadoEstadistico\ListadoEstadistico.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ListadoEstadistico\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ListadoEstadistico\ListadoEstadistico.Designer.cs">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </Compile>
     <Compile Include="model\Cabina.cs" />
     <Compile Include="model\Viaje.cs" />
@@ -211,6 +211,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acceso\EnrutarRoles.resx">
       <DependentUpon>EnrutarRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\ListadoEstadistico.resx">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

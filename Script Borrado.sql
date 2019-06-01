@@ -15,8 +15,11 @@ DROP TABLE [PINKIE_PIE].[Recorrido]
 DROP TABLE [PINKIE_PIE].[Puerto]
 DROP TABLE [PINKIE_PIE].[Tipo]
 DROP TABLE [PINKIE_PIE].[Piso]
+DROP TABLE PINKIE_PIE.[fecha_fuera_servicio]
 DROP TABLE [PINKIE_PIE].[Crucero]
 DROP TABLE [PINKIE_PIE].[MedioDePago]
 DROP PROCEDURE [PINKIE_PIE].existe_usuario
--- puesto que tenemos el if al inicio del script de creacion 
--- quiza no hace falta borrar el schema
+DROP VIEW PINKIE_PIE.top_5_recorridos
+DROP VIEW PINKIE_PIE.top_5_clientes_puntos
+DROP VIEW PINKIE_PIE.top_5_viajes_cabinas_vacias
+DROP VIEW PINKIE_PIE.top_5_dias_crucero_fuera_servicio
