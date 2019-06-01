@@ -49,7 +49,7 @@ namespace FrbaCrucero.Acceso
                     //new Comprar.Comprar(usuario).Show();
                     break;
                 case Funcion.LISTADO_ESTADISTICO:
-                    //new Listado_Estadistico.ListadoEstadistico().Show();
+                    new ListadoEstadistico.ListadoEstadistico().Show();
                     break;
                 case Funcion.ABM_ROL:
                     new AbmRol.ListadoRoles().Show();

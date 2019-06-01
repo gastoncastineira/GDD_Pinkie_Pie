@@ -22,5 +22,9 @@ namespace Conexiones
         public static string Crucero { get { return "PINKIE_PIE.[Crucero]"; } }
         public static string Cabina { get { return "PINKIE_PIE.[Cabina]"; } }
         public static string Piso { get { return "PINKIE_PIE.[Piso]"; } }
+        public static string Top5RecorridosPasajes { get { return "PINKIE_PIE.top_5_recorridos"; } }
+        public static string Top5PuntosClientes { get { return "PINKIE_PIE.top_5_clientes_puntos"; } }
+        public static string Top5ViajesCabinasVacias { get { return "PINKIE_PIE.top_5_viajes_cabinas_vacias"; } }
+        public static string Top5CrucerosFueraServicio { get { return "PINKIE_PIE.top_5_dias_crucero_fuera_servicio"; } }
     }
 }

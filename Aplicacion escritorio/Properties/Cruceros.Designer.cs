@@ -26,8 +26,8 @@ namespace FrbaCrucero.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Server=localhost\\\\SQLSERVER2012;Database=GD1C2019;User Id=gdCruceros2019; Passwor" +
-            "d=gd2019")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Server=localhost\\SQLSERVER2012;Database=GD1C2019;User Id=gdCruceros2019;Password=" +
+            "gd2019")]
         public string ConnectionString {
             get {
                 return ((string)(this["ConnectionString"]));

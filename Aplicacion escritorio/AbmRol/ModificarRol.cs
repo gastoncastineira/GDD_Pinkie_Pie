@@ -24,19 +24,19 @@ namespace FrbaCrucero.AbmRol
             InitializeComponent();
             nombreOG = nombre;
             txtNombre.Text = nombre;
-            if (nombre.ToLower() == "administrador" || nombre.ToLower() == "cliente")
+            if (nombre.ToLower() == "administrador")
                 txtNombre.Enabled = false;
         }
 
         private void ModificarRol_Load(object sender, EventArgs e)
         {
             Dictionary<string, List<object>> resul = conexion.ConsultaPlana(Tabla.Funcion, new List<string>(new string[] { "id", "nombre" }), null);
-            //resul["nombre"].ForEach(o => checkedListBoxFuncion.Items.Add(o.ToString(), false));
             List<Filtro> filtros = new List<Filtro>();
+            filtros.Add(FiltroFactory.Exacto("id_rol", idRol.ToString()));
+            filtros.Add(null);
             for (int i = 1; i <= resul["nombre"].Count; i++)
             {
-                filtros.Add(FiltroFactory.Exacto("id_rol", idRol.ToString()));
-                filtros.Add(FiltroFactory.Exacto("id_rol", i.ToString()));
+                filtros[1] = FiltroFactory.Exacto("id_funcion", i.ToString());
                 checkedListBoxFuncion.Items.Add(resul["nombre"][i - 1], (conexion.ExisteRegistro(Tabla.RolXFuncion, new List<string>(new string[] { "id_rol", "id_funcion" }), filtros)));
             }
 

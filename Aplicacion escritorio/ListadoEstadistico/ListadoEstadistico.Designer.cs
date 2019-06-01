@@ -30,8 +30,8 @@
         {
             this.dgvResultados = new System.Windows.Forms.DataGridView();
             this.cbbSemestre = new System.Windows.Forms.ComboBox();
-            this.cbbAnio = new System.Windows.Forms.ComboBox();
-            this.cbbAño = new System.Windows.Forms.Label();
+            this.cbbAño = new System.Windows.Forms.ComboBox();
+            this.lblAño = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnClientes = new System.Windows.Forms.Button();
             this.btnRecorrido = new System.Windows.Forms.Button();
@@ -64,22 +64,22 @@
             this.cbbSemestre.Size = new System.Drawing.Size(121, 21);
             this.cbbSemestre.TabIndex = 1;
             // 
-            // cbbAnio
-            // 
-            this.cbbAnio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbbAnio.Location = new System.Drawing.Point(250, 16);
-            this.cbbAnio.Name = "cbbAnio";
-            this.cbbAnio.Size = new System.Drawing.Size(121, 21);
-            this.cbbAnio.TabIndex = 2;
-            // 
             // cbbAño
             // 
-            this.cbbAño.AutoSize = true;
-            this.cbbAño.Location = new System.Drawing.Point(157, 19);
+            this.cbbAño.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbbAño.Location = new System.Drawing.Point(250, 16);
             this.cbbAño.Name = "cbbAño";
-            this.cbbAño.Size = new System.Drawing.Size(26, 13);
-            this.cbbAño.TabIndex = 3;
-            this.cbbAño.Text = "Año";
+            this.cbbAño.Size = new System.Drawing.Size(121, 21);
+            this.cbbAño.TabIndex = 2;
+            // 
+            // lblAño
+            // 
+            this.lblAño.AutoSize = true;
+            this.lblAño.Location = new System.Drawing.Point(157, 19);
+            this.lblAño.Name = "lblAño";
+            this.lblAño.Size = new System.Drawing.Size(26, 13);
+            this.lblAño.TabIndex = 3;
+            this.lblAño.Text = "Año";
             // 
             // label2
             // 
@@ -140,13 +140,12 @@
             this.Controls.Add(this.btnRecorrido);
             this.Controls.Add(this.btnClientes);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblAño);
             this.Controls.Add(this.cbbAño);
-            this.Controls.Add(this.cbbAnio);
             this.Controls.Add(this.cbbSemestre);
             this.Controls.Add(this.dgvResultados);
             this.Name = "ListadoEstadistico";
             this.Text = "Listado Estadístico";
-            this.Load += new System.EventHandler(this.ListadoEstadistico_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultados)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -157,8 +156,8 @@
 
         private System.Windows.Forms.DataGridView dgvResultados;
         private System.Windows.Forms.ComboBox cbbSemestre;
-        private System.Windows.Forms.ComboBox cbbAnio;
-        private System.Windows.Forms.Label cbbAño;
+        private System.Windows.Forms.ComboBox cbbAño;
+        private System.Windows.Forms.Label lblAño;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnClientes;
         private System.Windows.Forms.Button btnRecorrido;

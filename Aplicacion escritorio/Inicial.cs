@@ -22,5 +22,10 @@ namespace FrbaCrucero
             Hide();
             new Acceso.Login().Show();
         }
+
+        private void btnIngresar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

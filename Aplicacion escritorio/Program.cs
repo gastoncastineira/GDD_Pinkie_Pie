@@ -15,9 +15,9 @@ namespace FrbaCrucero
         [STAThread]
         static void Main()
         {
-            FormInicial = new Inicial();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            FormInicial = new Inicial();
             Application.Run(FormInicial);
         }
     }

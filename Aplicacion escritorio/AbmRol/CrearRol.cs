@@ -60,12 +60,10 @@ namespace FrbaCrucero.AbmRol
                 Transaccion tr = conexion.IniciarTransaccion();
 
                 int idinsertada = tr.Insertar(Tabla.Rol, datos);
-                datos.Remove("nombre");
-                datos["id_rol"] = idinsertada;
                 foreach (int f in funciones)
                 {
-                    datos["id_funcion"] = f;
-                    tr.Insertar(Tabla.RolXFuncion, datos);
+                    
+                    tr.InsertarTablaIntermedia(Tabla.RolXFuncion, "id_rol", "id_funcion", idinsertada, f);
                 }
 
                 tr.Commit();
@@ -90,6 +88,10 @@ namespace FrbaCrucero.AbmRol
         private void btnLimpia_Click(object sender, EventArgs e)
         {
             txtNombre.Text = string.Empty;
+            foreach (int i in checkedListBoxFuncion.CheckedIndices)
+            {
+                checkedListBoxFuncion.SetItemCheckState(i, CheckState.Unchecked);
+            }
         }
     }
 }

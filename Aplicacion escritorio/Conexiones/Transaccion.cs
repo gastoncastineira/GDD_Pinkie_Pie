@@ -86,25 +86,22 @@ namespace Conexiones
         public bool eliminarTablaIntermedia(string tabla, string col1, string col2, int pk1, int pk2)
         {
             string comando = "DELETE FROM " + tabla + " WHERE " + col1 + "= @pk1 AND " + col2 + " = @pk2";
-            using (SqlConnection connection = new SqlConnection(FrbaCrucero.ConfigurationHelper.ConnectionString))
+            using (SqlCommand command = new SqlCommand())
             {
-                connection.Open();
-                using (SqlCommand command = new SqlCommand())
+                try
                 {
-                    try
-                    {
-                        command.Connection = connection;
-                        command.CommandText = comando;
-                        command.CommandType = CommandType.Text;
-                        command.Parameters.AddWithValue("@pk1", pk1);
-                        command.Parameters.AddWithValue("@pk2", pk2);
+                    command.Connection = connection;
+                    command.CommandText = comando;
+                    command.CommandType = CommandType.Text;
+                    command.Transaction = transaction;
+                    command.Parameters.AddWithValue("@pk1", pk1);
+                    command.Parameters.AddWithValue("@pk2", pk2);
 
-                        command.ExecuteNonQuery();
-                    }
-                    catch (SqlException)
-                    {
-                        return false;
-                    }
+                    command.ExecuteNonQuery();
+                }
+                catch (SqlException)
+                {
+                    return false;
                 }
             }
             return true;
@@ -114,25 +111,22 @@ namespace Conexiones
         public bool InsertarTablaIntermedia(string tabla, string col1, string col2, int pk1, int pk2)
         {
             string comando = "INSERT INTO " + tabla + "( " + col1 + ", " + col2 + ") VALUES (@pk1, @pk2)";
-            using (SqlConnection connection = new SqlConnection(FrbaCrucero.ConfigurationHelper.ConnectionString))
+            using (SqlCommand command = new SqlCommand())
             {
-                connection.Open();
-                using (SqlCommand command = new SqlCommand())
+                try
                 {
-                    try
-                    {
-                        command.Connection = connection;
-                        command.CommandText = comando;
-                        command.CommandType = CommandType.Text;
-                        command.Parameters.AddWithValue("@pk1", pk1);
-                        command.Parameters.AddWithValue("@pk2", pk2);
+                    command.Connection = connection;
+                    command.CommandText = comando;
+                    command.CommandType = CommandType.Text;
+                    command.Transaction = transaction;
+                    command.Parameters.AddWithValue("@pk1", pk1);
+                    command.Parameters.AddWithValue("@pk2", pk2);
 
-                        command.ExecuteNonQuery();
-                    }
-                    catch (SqlException)
-                    {
-                        return false;
-                    }
+                    command.ExecuteNonQuery();
+                }
+                catch (SqlException)
+                {
+                    return false;
                 }
             }
             return true;

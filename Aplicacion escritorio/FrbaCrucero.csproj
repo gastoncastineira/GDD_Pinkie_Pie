@@ -118,10 +118,10 @@
     <Compile Include="Conexiones\FiltroFactory.cs" />
     <Compile Include="Conexiones\Tabla.cs" />
     <Compile Include="Conexiones\Transaccion.cs" />
-    <Compile Include="Acceso\FormTemplate.cs">
+    <Compile Include="FormTemplate.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Acceso\FormTemplate.Designer.cs">
+    <Compile Include="FormTemplate.Designer.cs">
       <DependentUpon>FormTemplate.cs</DependentUpon>
     </Compile>
     <Compile Include="GeneracionViaje\Cruceros.cs">
@@ -215,7 +215,7 @@
     <EmbeddedResource Include="Acceso\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceso\FormTemplate.resx">
+    <EmbeddedResource Include="FormTemplate.resx">
       <DependentUpon>FormTemplate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceso\EnrutarFuncion.resx">

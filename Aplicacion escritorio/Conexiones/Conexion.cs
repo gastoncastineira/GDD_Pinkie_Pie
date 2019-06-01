@@ -9,11 +9,10 @@ namespace Conexiones
 {
     public class Conexion
     {
-        private static Conexion instance = null;
         private const string comandoInsert = "INSERT INTO ";
         private const string comandoUpdate = "UPDATE ";
         private const string comandoSelect = "SELECT ";
-        private static string conectionString; //= ConfigurationHelper.ConnectionString
+        private static string conectionString = FrbaCrucero.ConfigurationHelper.ConnectionString;
 
         private string PonerFiltros(string comando, List<Filtro> filtros)
         {
@@ -135,7 +134,7 @@ namespace Conexiones
                 using (SqlCommand command = new SqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = "[ESKHERE].existe_usuario";
+                    command.CommandText = "PINKIE_PIE.existe_usuario";
                     command.CommandType = CommandType.StoredProcedure;
 
                     SqlParameter parameter1 = new SqlParameter("@Usuario", SqlDbType.NVarChar);
@@ -157,90 +156,7 @@ namespace Conexiones
                 }
             }
         }
-/*
-        public int InsertarUsuario(string usuario, string contraseña, string rol)
-        {
-            using (SqlConnection connection = new SqlConnection(conectionString))
-            {
-                connection.Open();
-                using (SqlCommand command = new SqlCommand())
-                {
-                    try
-                    {
-                        command.Connection = connection;
-                        command.CommandText = "[ESKHERE].insertar_usuario";
-                        command.CommandType = CommandType.StoredProcedure;
 
-                        SqlParameter parameter1 = new SqlParameter("@usuario", SqlDbType.NVarChar);
-                        parameter1.Direction = ParameterDirection.Input;
-                        parameter1.Value = usuario;
-                        SqlParameter parameter2 = new SqlParameter("@contrasenia", SqlDbType.NVarChar);
-                        parameter2.Direction = ParameterDirection.Input;
-                        parameter2.Value = contraseña;
-                        SqlParameter parameter3 = new SqlParameter("@nombreTipo", SqlDbType.NVarChar);
-                        parameter3.Direction = ParameterDirection.Input;
-                        parameter3.Value = rol;
-                        SqlParameter retorno = new SqlParameter("@ReturnVal", SqlDbType.Int);
-                        retorno.Direction = ParameterDirection.ReturnValue;
-
-                        command.Parameters.Add(parameter1);
-                        command.Parameters.Add(parameter2);
-                        command.Parameters.Add(parameter3);
-                        command.Parameters.Add(retorno);
-
-                        command.ExecuteNonQuery();
-                        return Convert.ToInt32(retorno.Value);
-                    }
-                    catch (SqlException)
-                    {
-                        return -1;
-                    }
-
-                }
-            }
-        }
-
-        public int GenerarUsuarioAleatorio(string documento, string rol, ref string usuario, ref string contraseña)
-        {
-            using (SqlConnection connection = new SqlConnection(conectionString))
-            {
-                connection.Open();
-                using (SqlCommand command = new SqlCommand())
-                {
-                    command.Connection = connection;
-                    command.CommandText = "[ESKHERE].crear_usuario_aleatorio";
-                    command.CommandType = CommandType.StoredProcedure;
-
-                    SqlParameter parameter1 = new SqlParameter("@Usuario", SqlDbType.NVarChar);
-                    parameter1.Direction = ParameterDirection.Output;
-                    parameter1.Size = 20;
-                    SqlParameter parameter2 = new SqlParameter("@Contrasenia", SqlDbType.NVarChar);
-                    parameter2.Direction = ParameterDirection.Output;
-                    parameter2.Size = 5;
-                    SqlParameter parameter3 = new SqlParameter("@id", SqlDbType.Int);
-                    parameter3.Direction = ParameterDirection.Output;
-                    SqlParameter parameter4 = new SqlParameter("@documento", SqlDbType.NVarChar);
-                    parameter4.Direction = ParameterDirection.Input;
-                    parameter4.Value = documento;
-                    SqlParameter parameter5 = new SqlParameter("@NombreTipo", SqlDbType.NVarChar);
-                    parameter5.Direction = ParameterDirection.Input;
-                    parameter5.Value = rol;
-
-                    command.Parameters.Add(parameter1);
-                    command.Parameters.Add(parameter2);
-                    command.Parameters.Add(parameter3);
-                    command.Parameters.Add(parameter4);
-                    command.Parameters.Add(parameter5);
-
-                    command.ExecuteNonQuery();
-
-                    usuario = Convert.ToString(command.Parameters["@Usuario"].Value);
-                    contraseña = Convert.ToString(command.Parameters["@Contrasenia"].Value);
-                    return Convert.ToInt32(command.Parameters["@id"].Value);
-                }
-            }
-        }
-*/
         public bool ActualizarContraseña(string contraseña, string usuario)
         {
             string comandoString = string.Copy(comandoUpdate) + Tabla.Usuario + " SET contrasenia = HASHBYTES('SHA2_256', @contrasenia), contrasena_autogenerada = 0 WHERE usuario = @usuario";
@@ -406,6 +322,46 @@ namespace Conexiones
             SqlConnection con = new SqlConnection(conectionString);
             con.Open();
             return new Transaccion(con);
+        }
+
+        public DataTable TraerLitadoEstadistico(string nombreView, DateTime fechaInicio, DateTime fechaFin)
+        {
+            string condicion = " WHERE fecha_inicio BETWEEN '" + fechaInicio.ToString("yyyy-MM-dd") + "' AND '" + fechaFin.ToString("yyyy-MM-dd") + "' AND fecha_fin BETWEEN '" + fechaInicio.ToString("yyyy-MM-dd") + "' AND '" + fechaFin.ToString("yyyy-MM-dd") + "'";
+            string comandoString = null;
+            switch (nombreView)
+            {
+                case "PINKIE_PIE.top_5_recorridos":
+                    comandoString = "SELECT TOP 5 codigo_recorrido, puerto_origen, puerto_destino, SUM(cant_pasaje) as cant FROM PINKIE_PIE.top_5_recorridos " +
+                        condicion + " GROUP BY codigo_recorrido, puerto_origen, puerto_destino ORDER BY cant DESC";
+                    break;
+                case "PINKIE_PIE.top_5_clientes_puntos":
+                    return ConseguirTabla(nombreView, null);
+                case "PINKIE_PIE.top_5_viajes_cabinas_vacias":
+                    comandoString = "SELECT TOP 5 viaje_id, cod_recorrido, SUM(cant_cabinas) as cant FROM " + nombreView + condicion
+                       + " GROUP BY viaje_id, cod_recorrido ORDER BY cant DESC";
+                    break;
+                case "PINKIE_PIE.top_5_dias_crucero_fuera_servicio":
+                    comandoString = "SELECT TOP 5 identificador, fabricante, modelo, SUM(cant_dias) as cant FROM PINKIE_PIE.top_5_dias_crucero_fuera_servicio"
+                        + condicion + " GROUP BY identificador, fabricante, modelo ORDER BY cant DESC";
+                    break;
+            }
+            DataTable dtRecord = new DataTable();
+            using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCmd = new SqlCommand())
+                {
+                    sqlCmd.Connection = sqlConnection;
+                    sqlCmd.CommandType = CommandType.Text;
+                    sqlCmd.CommandText = comandoString;
+                    SqlDataAdapter sqlDataAdap = new SqlDataAdapter(sqlCmd);
+
+                    sqlDataAdap.Fill(dtRecord);
+
+                    
+                }
+            }
+            return dtRecord;
         }
 
         public void LlenarDataGridViewRecorridos(ref DataGridView dataGrid)

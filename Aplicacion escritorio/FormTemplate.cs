@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace FrbaCrucero.Acceso
+namespace FrbaCrucero
 {
     public partial class FormTemplate : Form
     {
@@ -113,7 +113,7 @@ namespace FrbaCrucero.Acceso
         {
             flag = true;
             Close();
-            //new ListadoEstadistico.ListadoEstadistico().Show();
+            new ListadoEstadistico.ListadoEstadistico().Show();
         }
 
         private void FormTemplate_FormClosed(object sender, FormClosedEventArgs e)
@@ -121,6 +121,16 @@ namespace FrbaCrucero.Acceso
             if(!flag)
                 Program.FormInicial.Show();
             flag = false;
+        }
+
+        private void FormTemplate_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void verToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

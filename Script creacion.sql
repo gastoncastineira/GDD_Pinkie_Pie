@@ -179,7 +179,7 @@ SET IDENTITY_INSERT PINKIE_PIE.[Rol] OFF
 -- Inserto el usuario
 SET IDENTITY_INSERT PINKIE_PIE.[Usuario] ON
 INSERT INTO PINKIE_PIE.[Usuario](usuario, contrasenia, ID)
-VALUES ('admin', HASHBYTES('SHA2_256', 'w23e'), 1)
+VALUES ('admin', HASHBYTES('SHA2_256', N'w23e'), 1)
 SET IDENTITY_INSERT PINKIE_PIE.[Usuario] OFF
 
 -- Inserto rol_x_usuario
@@ -326,13 +326,12 @@ END
 
 GO
 CREATE VIEW PINKIE_PIE.top_5_recorridos AS 
-SELECT TOP 5 r.codigo as codigo_recorrido , (SELECT p.descripcion FROM PINKIE_PIE.Puerto p WHERE r.puerto_origen_id = p.ID) AS puerto_origen, (SELECT p.descripcion FROM PINKIE_PIE.Puerto p WHERE r.puerto_destino_id = p.ID) AS puerto_destino, COUNT(p.ID) AS cant_pasaje, v.fecha_inicio as fecha_inicio, v.fecha_fin as fecha_fin
+SELECT r.codigo as codigo_recorrido , (SELECT p.descripcion FROM PINKIE_PIE.Puerto p WHERE r.puerto_origen_id = p.ID) AS puerto_origen, (SELECT p.descripcion FROM PINKIE_PIE.Puerto p WHERE r.puerto_destino_id = p.ID) AS puerto_destino, COUNT(p.ID) AS cant_pasaje, v.fecha_inicio as fecha_inicio, v.fecha_fin as fecha_fin
 FROM PINKIE_PIE.Recorrido r
 JOIN PINKIE_PIE.Viaje v ON r.ID = v.recorrido_id
 JOIN PINKIE_PIE.Cabina c ON c.viaje_id = v.ID
 JOIN PINKIE_PIE.Pasaje p ON p.cabina_id = c.ID
 GROUP BY r.codigo, puerto_origen_id, puerto_destino_id, v.fecha_inicio, v.fecha_fin
-ORDER BY cant_pasaje DESC 
 
 GO
 CREATE VIEW PINKIE_PIE.top_5_clientes_puntos AS
@@ -340,18 +339,34 @@ SELECT TOP 5 * FROM PINKIE_PIE.Cliente c ORDER BY c.puntos DESC
 
 GO
 CREATE VIEW PINKIE_PIE.top_5_viajes_cabinas_vacias AS
-SELECT TOP 5 v.ID AS viaje_id, (SELECT r.codigo FROM PINKIE_PIE.Recorrido r WHERE r.ID = v.recorrido_id) AS cod_recorrido, COUNT(DISTINCT Cabina.ID) AS cant_cabinas, v.fecha_inicio as fecha_inicio, v.fecha_fin as fecha_fin FROM PINKIE_PIE.Viaje v
+SELECT v.ID AS viaje_id, (SELECT r.codigo FROM PINKIE_PIE.Recorrido r WHERE r.ID = v.recorrido_id) AS cod_recorrido, COUNT(DISTINCT Cabina.ID) AS cant_cabinas, v.fecha_inicio as fecha_inicio, v.fecha_fin as fecha_fin FROM PINKIE_PIE.Viaje v
 JOIN PINKIE_PIE.Cabina ON Cabina.viaje_id = v.ID 
 LEFT JOIN PINKIE_PIE.Pasaje ON Pasaje.cabina_id = Cabina.ID 
 FULL OUTER JOIN PINKIE_PIE.Reserva ON Reserva.ID = Cabina.ID
 WHERE Reserva.ID IS NULL AND Pasaje.ID IS NULL
 GROUP BY v.ID, v.recorrido_id, v.fecha_inicio, v.fecha_fin
-ORDER BY cant_cabinas DESC
 
 GO
 CREATE VIEW PINKIE_PIE.top_5_dias_crucero_fuera_servicio AS
-SELECT TOP 5 c.identificador, c.fabricante, c.modelo, fs.fecha_fuera_de_servicio as fecha_inicio, fs.fecha_reinicio_servicio as fecha_fin, DATEDIFF(DAY, fs.fecha_fuera_de_servicio, fs.fecha_reinicio_servicio) AS cant_dias
+SELECT c.identificador, c.fabricante, c.modelo, fs.fecha_fuera_de_servicio as fecha_inicio, fs.fecha_reinicio_servicio as fecha_fin, DATEDIFF(DAY, fs.fecha_fuera_de_servicio, fs.fecha_reinicio_servicio) AS cant_dias
 FROM PINKIE_PIE.Crucero c
 JOIN PINKIE_PIE.fecha_fuera_servicio fs ON c.ID = fs.id_crucero
 GROUP BY c.identificador, c.fabricante, c.modelo, fs.fecha_fuera_de_servicio, fs.fecha_reinicio_servicio
-ORDER BY cant_dias DESC
+
+GO
+CREATE VIEW PINKIE_PIE.funciones_usuarios
+AS
+SELECT u.Usuario, r.Nombre as nombre_rol, f.nombre as nombre_funcion, f.ID as funcion_id FROM PINKIE_PIE.Usuario u 
+join PINKIE_PIE.Rol_X_Usuario ru on ru.ID_Usuario = u.ID 
+join PINKIE_PIE.Rol r on r.ID = ru.ID_ROL 
+join PINKIE_PIE.Rol_X_Funcion rf on rf.ID_Rol = r.ID 
+join PINKIE_PIE.Funcion f on f.ID = rf.ID_Funcion 
+WHERE r.Habilitado = 1
+
+GO
+CREATE VIEW PINKIE_PIE.Roles_usuario
+AS
+SELECT u.Usuario, r.Nombre as nombre_rol, r.ID as rol_id FROM PINKIE_PIE.Usuario u 
+join PINKIE_PIE.Rol_X_Usuario ru on ru.ID_Usuario = u.ID 
+join PINKIE_PIE.Rol r on r.ID = ru.ID_ROL 
+WHERE r.Habilitado = 1

@@ -1,4 +1,4 @@
-﻿namespace FrbaCrucero.Acceso
+﻿namespace FrbaCrucero
 {
     partial class FormTemplate
     {
@@ -50,6 +50,7 @@
             this.verToolStripMenuItem.Name = "verToolStripMenuItem";
             this.verToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.verToolStripMenuItem.Text = "Ver";
+            this.verToolStripMenuItem.Click += new System.EventHandler(this.verToolStripMenuItem_Click);
             // 
             // cerrarSesionToolStripMenuItem
             // 
@@ -69,6 +70,7 @@
             this.Name = "FormTemplate";
             this.Text = "FormTemplate";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormTemplate_FormClosed);
+            this.Load += new System.EventHandler(this.FormTemplate_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
