@@ -40,7 +40,7 @@ namespace FrbaCrucero.Acceso
                     //new Abm_Empresa_Espectaculo.ListadoEmpresas().Show();
                     break;
                 case Funcion.ABM_RECORRIDO:
-                    //new Abm_Grado.ListaGrado().Show();
+                    new AbmRecorrido.ListaDeRecorridos().Show();
                     break;
                 case Funcion.GENERAR_VIAJE:
                     //new Canje_Puntos.Canje_Puntos(idCliente).Show();
