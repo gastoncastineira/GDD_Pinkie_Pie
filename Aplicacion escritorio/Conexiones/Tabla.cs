@@ -26,5 +26,8 @@ namespace Conexiones
         public static string Top5PuntosClientes { get { return "PINKIE_PIE.top_5_clientes_puntos"; } }
         public static string Top5ViajesCabinasVacias { get { return "PINKIE_PIE.top_5_viajes_cabinas_vacias"; } }
         public static string Top5CrucerosFueraServicio { get { return "PINKIE_PIE.top_5_dias_crucero_fuera_servicio"; } }
+        public static string Cliente { get { return "PINKIE_PIE.[Cliente]"; } }
+        public static string Fuera_Servicio { get { return "PINKIE_PIE.[fecha_fuera_servicio]"; } }
+
     }
 }

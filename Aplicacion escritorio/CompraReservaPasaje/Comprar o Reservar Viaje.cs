@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Conexiones;
 using FrbaCrucero.CompraReservaPasaje;
 using FrbaCrucero.model;
 
@@ -14,8 +15,11 @@ namespace FrbaCrucero.CompraPasaje
 {
     public partial class ComprarReservarViaje : Form
     {
-        private int Recorrido_id;
+        private String IdOrigen;
+        private String IdDestino;
         private List<Viaje> Viajes = new List<Viaje>();
+        private Conexion conexion = new Conexion();
+
         public ComprarReservarViaje()
         {
             InitializeComponent();
@@ -23,18 +27,50 @@ namespace FrbaCrucero.CompraPasaje
 
         private void ComprarReservarViaje_Load(object sender, EventArgs e)
         {
-            AutoCompletarDestino(txtDestino);
-
+            AutoCompletarOrigen();
+            AutoCompletarDestino();
         }
 
-        public void AutoCompletarDestino(TextBox cajaTexto) // hacer idem con origen TODO
+        public void AutoCompletarOrigen()
         {
-            //  ver https://www.youtube.com/watch?v=PTod0kV91Xs
-            /* 
-            SELECT descripcion FROM Puerto 
-            WHERE (descripcion LIKE ('%" + cajaTexto.Text.Trim() + "%')) && descripcion != txtOrigen.Text 
-             */
+            if (txtOrigen != null)
+            {
+                List<Filtro> filtrosOrigen = new List<Filtro>();
+                filtrosOrigen.Add(FiltroFactory.Libre("descripcion", txtOrigen.ToString()));
 
+                Dictionary<string, List<object>> dicOrigen = conexion.ConsultaPlana(Tabla.Puerto, new List<string>(new string[] { "ID" }), filtrosOrigen);
+
+                if (dicOrigen["ID"].Count == 1)
+                    IdOrigen = dicOrigen["ID"].First().ToString();
+            }
+
+            List<Filtro> filtros = new List<Filtro>();
+            filtros.Add(FiltroFactory.Distinto("ID", IdOrigen));
+            filtros.Add(FiltroFactory.Libre("descripcion", txtDestino.ToString()));
+
+            Dictionary<string, List<object>> origen = conexion.ConsultaPlana(Tabla.Puerto, new List<string>(new string[] { "ID" }), filtros);
+            //  TODO seguir, ver https://www.youtube.com/watch?v=PTod0kV91Xs
+        }
+
+        public void AutoCompletarDestino()
+        {
+            if (txtDestino != null)
+            {
+                List<Filtro> filtrosDestino = new List<Filtro>();
+                filtrosDestino.Add(FiltroFactory.Libre("descripcion", txtOrigen.ToString()));
+
+                Dictionary<string, List<object>> dicDestino = conexion.ConsultaPlana(Tabla.Puerto, new List<string>(new string[] { "ID" }), filtrosDestino);
+
+                if (dicDestino["ID"].Count == 1)
+                    IdDestino = dicDestino["ID"].First().ToString();
+            }
+
+            List<Filtro> filtros = new List<Filtro>();
+            filtros.Add(FiltroFactory.Distinto("ID", IdDestino));
+            filtros.Add(FiltroFactory.Libre("descripcion", txtDestino.ToString()));
+
+            Dictionary<string, List<object>> destino = conexion.ConsultaPlana(Tabla.Puerto, new List<string>(new string[] { "ID" }), filtros);
+            //  TODO seguir, ver https://www.youtube.com/watch?v=PTod0kV91Xs
         }
 
         private void BtnBuscarViajes_Click(object sender, EventArgs e)
@@ -62,24 +98,36 @@ namespace FrbaCrucero.CompraPasaje
         private bool HayViajes() // TODO
         {
             return true;
+            /*
+             SELECT viaje_id
+	FROM Viaje v
+	JOIN Recorrido r
+		ON r.puertoOrigen_id = idOrigen
+	JOIN Tramo_Recorrido tr
+		ON tr.recorrido_id = r.recorrido_id
+	JOIN Tramo t
+		ON t.tramo_id = tr.tramo_id
+	WHERE v.fechaInicio = fechaInicio AND 
+	(t.puertoDestino_id = idDestino || r.puertoDestino_id = idDestino)
+             */
         }
 
 
         // VALIDACIONES
-        private String ValidarCampos() // TODO
+        private String ValidarCampos()
         {
             String resultado = "";
 
             resultado += this.ValidarCamposVacios();
 
+            //  A PASAJES A COMPRAR
+            resultado += this.ValidarSoloNumeros(txtCantidadPasajes.Text);
+
             // PUERTO ORIGEN
-            resultado = ValidarExistenciaPuerto(txtOrigen.Text, "origen");
+            resultado += this.ValidarExistenciaPuerto(resultado, IdOrigen, "origen");
 
             // PUERTO DESTINO
-            resultado = ValidarExistenciaPuerto(txtDestino.Text, "destino");
-
-            //  A PASAJES A COMPRAR
-            // validar de que sea un entero
+            resultado += this.ValidarExistenciaPuerto(resultado, IdDestino, "destino");
 
             return resultado;
         }
@@ -94,23 +142,31 @@ namespace FrbaCrucero.CompraPasaje
             return "";
         }
 
-        private String ValidarExistenciaPuerto(String puerto, String tipoPuerto)
+        private String ValidarSoloNumeros(String texto)
         {
-            try // TODO ver si es try catch o if else, no tengo seguro este tema
+            foreach (char letra in texto.Trim())
             {
-                String puertoExiste;
-                /* TODO debe estar mal esto
-                 puertoExiste = 
-                 SELECT descripcion FROM Puerto WHERE descripcion == puerto
-                 
-                 */
-
-                return "";
+                if (!char.IsNumber(letra))
+                    return "En cantidad de pasajes solo se pueden ingresar numeros. \n";
             }
-            catch (Exception error)
+
+            return "";
+        }
+
+        private String ValidarExistenciaPuerto(String resultado, String idPuerto, String tipoPuerto)
+        {
+            if (resultado == "")
             {
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(FiltroFactory.Exacto("ID", idPuerto));
+
+                if (conexion.ExisteRegistro(Tabla.Puerto, new List<string>(new string[] { "ID" }), filtros))
+                    return "";
+
                 return "El puerto " + tipoPuerto + " no existe.\n";
             }
+
+            return "";
         }
     }
 }

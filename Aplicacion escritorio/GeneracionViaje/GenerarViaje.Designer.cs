@@ -44,6 +44,14 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.txtCrucero = new System.Windows.Forms.TextBox();
+            this.mostrar1 = new System.Windows.Forms.Label();
+            this.mostrar2 = new System.Windows.Forms.Label();
+            this.mostrar3 = new System.Windows.Forms.Label();
+            this.mostrar4 = new System.Windows.Forms.Label();
+            this.mostrar5 = new System.Windows.Forms.Label();
+            this.mostrar6 = new System.Windows.Forms.Label();
+            this.mostrar7 = new System.Windows.Forms.Label();
+            this.mostrar8 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -63,6 +71,7 @@
             this.btnConsultarCruceros.TabIndex = 2;
             this.btnConsultarCruceros.Text = "Consultar Cruceros";
             this.btnConsultarCruceros.UseVisualStyleBackColor = true;
+            this.btnConsultarCruceros.Click += new System.EventHandler(this.BtnConsultarCruceros_Click);
             // 
             // btnConsultarRecorridos
             // 
@@ -72,6 +81,7 @@
             this.btnConsultarRecorridos.TabIndex = 4;
             this.btnConsultarRecorridos.Text = "Consultar Recorridos";
             this.btnConsultarRecorridos.UseVisualStyleBackColor = true;
+            this.btnConsultarRecorridos.Click += new System.EventHandler(this.BtnConsultarRecorridos_Click);
             // 
             // btnGuardar
             // 
@@ -189,12 +199,92 @@
             this.txtCrucero.TabIndex = 23;
             this.txtCrucero.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // mostrar1
+            // 
+            this.mostrar1.AutoSize = true;
+            this.mostrar1.Location = new System.Drawing.Point(90, 322);
+            this.mostrar1.Name = "mostrar1";
+            this.mostrar1.Size = new System.Drawing.Size(77, 13);
+            this.mostrar1.TabIndex = 24;
+            this.mostrar1.Text = "Ingrese fechas";
+            // 
+            // mostrar2
+            // 
+            this.mostrar2.AutoSize = true;
+            this.mostrar2.Location = new System.Drawing.Point(90, 346);
+            this.mostrar2.Name = "mostrar2";
+            this.mostrar2.Size = new System.Drawing.Size(77, 13);
+            this.mostrar2.TabIndex = 25;
+            this.mostrar2.Text = "Ingrese fechas";
+            // 
+            // mostrar3
+            // 
+            this.mostrar3.AutoSize = true;
+            this.mostrar3.Location = new System.Drawing.Point(90, 359);
+            this.mostrar3.Name = "mostrar3";
+            this.mostrar3.Size = new System.Drawing.Size(77, 13);
+            this.mostrar3.TabIndex = 26;
+            this.mostrar3.Text = "Ingrese fechas";
+            // 
+            // mostrar4
+            // 
+            this.mostrar4.AutoSize = true;
+            this.mostrar4.Location = new System.Drawing.Point(90, 372);
+            this.mostrar4.Name = "mostrar4";
+            this.mostrar4.Size = new System.Drawing.Size(77, 13);
+            this.mostrar4.TabIndex = 27;
+            this.mostrar4.Text = "Ingrese fechas";
+            // 
+            // mostrar5
+            // 
+            this.mostrar5.AutoSize = true;
+            this.mostrar5.Location = new System.Drawing.Point(90, 385);
+            this.mostrar5.Name = "mostrar5";
+            this.mostrar5.Size = new System.Drawing.Size(77, 13);
+            this.mostrar5.TabIndex = 28;
+            this.mostrar5.Text = "Ingrese fechas";
+            // 
+            // mostrar6
+            // 
+            this.mostrar6.AutoSize = true;
+            this.mostrar6.Location = new System.Drawing.Point(90, 398);
+            this.mostrar6.Name = "mostrar6";
+            this.mostrar6.Size = new System.Drawing.Size(77, 13);
+            this.mostrar6.TabIndex = 29;
+            this.mostrar6.Text = "Ingrese fechas";
+            // 
+            // mostrar7
+            // 
+            this.mostrar7.AutoSize = true;
+            this.mostrar7.Location = new System.Drawing.Point(90, 411);
+            this.mostrar7.Name = "mostrar7";
+            this.mostrar7.Size = new System.Drawing.Size(77, 13);
+            this.mostrar7.TabIndex = 30;
+            this.mostrar7.Text = "Ingrese fechas";
+            // 
+            // mostrar8
+            // 
+            this.mostrar8.AutoSize = true;
+            this.mostrar8.Location = new System.Drawing.Point(90, 424);
+            this.mostrar8.Name = "mostrar8";
+            this.mostrar8.Size = new System.Drawing.Size(77, 13);
+            this.mostrar8.TabIndex = 31;
+            this.mostrar8.Text = "Ingrese fechas";
+            // 
             // GenerarViaje
             // 
             this.AcceptButton = this.btnGuardar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(659, 461);
+            this.Controls.Add(this.mostrar8);
+            this.Controls.Add(this.mostrar7);
+            this.Controls.Add(this.mostrar6);
+            this.Controls.Add(this.mostrar5);
+            this.Controls.Add(this.mostrar4);
+            this.Controls.Add(this.mostrar3);
+            this.Controls.Add(this.mostrar2);
+            this.Controls.Add(this.mostrar1);
             this.Controls.Add(this.txtCrucero);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -240,5 +330,13 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtCrucero;
+        private System.Windows.Forms.Label mostrar1;
+        private System.Windows.Forms.Label mostrar2;
+        private System.Windows.Forms.Label mostrar3;
+        private System.Windows.Forms.Label mostrar4;
+        private System.Windows.Forms.Label mostrar5;
+        private System.Windows.Forms.Label mostrar6;
+        private System.Windows.Forms.Label mostrar7;
+        private System.Windows.Forms.Label mostrar8;
     }
 }

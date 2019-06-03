@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace FrbaCrucero.GeneracionViaje
 {
-    public partial class Cruceros : Form //TODO Poner un Consultasen gral y que Cruceros y Recorridos hereden de ellos
+    public partial class Cruceros : Form //TODO ver si pongo un Consultasen gral y que Cruceros y Recorridos hereden de ellos
     {
         private Conexion conexion = new Conexion();
 
@@ -22,56 +22,49 @@ namespace FrbaCrucero.GeneracionViaje
 
         private void BtnSeleccionar_Click(object sender, EventArgs e)
         {
-
             if (dataGridCruceros.Rows.Count == 0)
             {
-                MessageBox.Show("Tiene que seleccionar un crucero. \n", "Error");
+                return;
             }
             else
             {
                 DialogResult = DialogResult.OK;
-                Close();
+                this.Close();
             }
-
         }
 
         private void Cruceros_Load(object sender, EventArgs e)
         {
             List<Filtro> filtros = new List<Filtro>();
-            filtros.Add(FiltroFactory.Exacto("bajaPorFueraDeServicio", "false"));
-            filtros.Add(FiltroFactory.Exacto("bajaPorVidaUtil", "false"));
+            filtros.Add(FiltroFactory.Exacto("baja_fuera_de_servicio", "false"));
+            filtros.Add(FiltroFactory.Exacto("baja_vida_util", "false"));
 
-            LlenarDataGV(filtros);
+            conexion.LlenarDataGridView(Tabla.Crucero, ref dataGridCruceros, filtros);
         }
 
-        private void BtnBuscarCrucero_Click(object sender, EventArgs e) // TODO cuando haya SQL video 42
+        private void BtnBuscarCrucero_Click(object sender, EventArgs e)
         {
             try
             {
                 List<Filtro> filtros = new List<Filtro>();
-                filtros.Add(FiltroFactory.Exacto("bajaPorFueraDeServicio", "false"));
-                filtros.Add(FiltroFactory.Exacto("bajaPorVidaUtil", "false"));
+                filtros.Add(FiltroFactory.Exacto("baja_fuera_de_servicio", "false"));
+                filtros.Add(FiltroFactory.Exacto("baja_vida_util", "false"));
 
                 if (string.IsNullOrEmpty(txtBuscarCrucero.Text.Trim()) == false)
                     filtros.Add(FiltroFactory.Libre("ID", txtBuscarCrucero.Text.Trim()));
 
-                LlenarDataGV(filtros);
+                conexion.LlenarDataGridView(Tabla.Crucero, ref dataGridCruceros, filtros);
             }
             catch (Exception error)
             {
                 MessageBox.Show("Error: " + error.Message);
             }
-
-
         }
 
-        private void Crucero_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
-        }
-
+        /*
         private void LlenarDataGV(List<Filtro> filtros)
         {
+            // TODO cocultar cosas
             DataTable data = conexion.ConseguirTabla(Tabla.Crucero, filtros);
 
             data.Columns.Remove("baja_vida_util");
@@ -89,14 +82,10 @@ namespace FrbaCrucero.GeneracionViaje
 
             dataGridCruceros.DataSource = data;
         }
-
+        */
         private void BtnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
-            new GenerarViaje().Show();
         }
     }
-
-
-
 }
