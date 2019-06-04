@@ -24,87 +24,40 @@ namespace FrbaCrucero.GeneracionViaje
         {
             if (dataGridRecorridos.Rows.Count == 0)
             {
-                MessageBox.Show("Tiene que seleccionar un recorrido. \n", "Error");
+                return;
             }
             else
             {
                 DialogResult = DialogResult.OK;
-                Close();
+                this.Close();
             }
         }
 
         private void Recorridos_Load(object sender, EventArgs e)
         {
-            LlenarDataGV(null);
+            conexion.LlenarDataGridView(Tabla.Recorrido, ref dataGridRecorridos, null);
         }
 
         private void BtlBuscar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtBuscar.Text.Trim()) == false) 
+            try
             {
-                try
-                {
-                    List<Filtro> filtros = new List<Filtro>();
+                List<Filtro> filtros = new List<Filtro>();
 
-                    if (string.IsNullOrEmpty(txtBuscar.Text.Trim()) == false)
-                        filtros.Add(FiltroFactory.Libre("ID", txtBuscar.Text.Trim()));
+                if (string.IsNullOrEmpty(txtBuscar.Text.Trim()) == false)
+                    filtros.Add(FiltroFactory.Libre("ID", txtBuscar.Text.Trim()));
 
-                    LlenarDataGV(filtros);
-                }
-                catch (Exception error)
-                {
-                    MessageBox.Show("Error: " + error.Message);
-                }
+                conexion.LlenarDataGridView(Tabla.Recorrido, ref dataGridRecorridos, filtros);
             }
-        }
-
-        private void LlenarDataGV(List<Filtro> filtros)
-        {
-            DataTable data = conexion.ConseguirTabla(Tabla.Recorrido, filtros);
-
-            data.Columns.Remove("codigo");
-            data.Columns.RemoveAt(1);
-            data.Columns.Add("origenNombre", typeof(String));
-            data.Columns.Add("destinoNombre", typeof(String));
-
-            // le agrego al dataTable la descripcion de origen y la descripcion de destino
-            for (int i = 0; i < data.Rows.Count; i++)
+            catch (Exception error)
             {
-                List<string> campos = new List<string>();
-                campos.Add("descripcion");
-
-                // obtengo el nombre del puerto origen
-                List<Filtro> filtroOrigen = new List<Filtro>();
-                filtroOrigen.Add(FiltroFactory.Exacto("ID", Convert.ToString(data.Rows[i]["puerto_origen_id"])));
-
-                Dictionary<string, List<object>> origen = conexion.ConsultaPlana(Tabla.Puerto, campos, filtroOrigen);
-
-                // obtengo el nombre del puerto destino
-                List<Filtro> filtroDestino = new List<Filtro>();
-                filtroDestino.Add(FiltroFactory.Exacto("ID", Convert.ToString(data.Rows[i]["puerto_destino_id"])));
-
-                Dictionary<string, List<object>> destino = conexion.ConsultaPlana(Tabla.Puerto, campos, filtroDestino);
-
-
-                // los agrego al dataTable
-                DataRow dr = data.Rows[i];
-                dr[3] = origen["descripcion"].First();
-                dr[4] = destino["descripcion"].First();
+                MessageBox.Show("Error: " + error.Message);
             }
-            
-
-            dataGridRecorridos.DataSource = data;
-        }
-
-        private void Recorridos_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
         }
 
         private void BtnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
-            new GenerarViaje().Show();
         }
     }
 

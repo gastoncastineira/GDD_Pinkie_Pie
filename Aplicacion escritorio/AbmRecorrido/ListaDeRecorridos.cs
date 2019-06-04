@@ -27,7 +27,7 @@ namespace FrbaCrucero.AbmRecorrido
 
         public void reLoad()
         {
-            conexion.LlenarDataGridViewRecorridos(ref dataGridViewRecorridos);
+            conexion.LlenarDataGridView(Tabla.RecorridosParaGridView, ref dataGridViewRecorridos, null);
             dataGridViewTramos.DataSource = null;
             dataGridViewTramos.Rows.Clear();
             dataGridViewTramos.Refresh();
@@ -36,16 +36,17 @@ namespace FrbaCrucero.AbmRecorrido
         private void DataGridViewRecorridos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
-            string PK = dataGridViewRecorridos.Rows[e.RowIndex].Cells[4].Value.ToString() ;
+            string PK = dataGridViewRecorridos.Rows[e.RowIndex].Cells[3].Value.ToString() ;
 
-            switch(e.RowIndex)
+            switch(e.ColumnIndex)
             {
                 case 0:
                     if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
                     {   //Dar de baja
                         Dictionary<string, object> valor = new Dictionary<string, object>();
-                        valor.Add("habilitado",1);
+                        valor.Add("habilitado",0);
                         conexion.Modificar(int.Parse(PK),Tabla.Recorrido, valor);
+                        this.reLoad();
                     }
                     break;
                 case 1:
@@ -58,7 +59,9 @@ namespace FrbaCrucero.AbmRecorrido
                 case 2:
                     if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
                     {   //Ver datos
-                        conexion.LlenarDataGridViewTramos( ref dataGridViewTramos, PK );
+                        List<Filtro> listFiltro = new List<Filtro>();
+                        listFiltro.Add(FiltroFactory.Exacto("RECORRIDO_ID", PK));
+                        conexion.LlenarDataGridView(Tabla.TramosParaGridView, ref dataGridViewTramos, listFiltro );
                     }
                     break;
             }    

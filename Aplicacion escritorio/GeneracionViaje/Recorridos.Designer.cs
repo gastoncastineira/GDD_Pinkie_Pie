@@ -50,7 +50,7 @@
             this.label1.Location = new System.Drawing.Point(59, 66);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(91, 13);
-            this.label1.TabIndex = 1;
+            this.label1.TabIndex = 10;
             this.label1.Text = "Nombre recorrido:";
             // 
             // dataGridRecorridos
@@ -74,7 +74,7 @@
             this.btlBuscar.Location = new System.Drawing.Point(459, 61);
             this.btlBuscar.Name = "btlBuscar";
             this.btlBuscar.Size = new System.Drawing.Size(75, 23);
-            this.btlBuscar.TabIndex = 3;
+            this.btlBuscar.TabIndex = 1;
             this.btlBuscar.Text = "Buscar";
             this.btlBuscar.UseVisualStyleBackColor = true;
             this.btlBuscar.Click += new System.EventHandler(this.BtlBuscar_Click);
@@ -101,6 +101,7 @@
             // 
             // Recorridos
             // 
+            this.AcceptButton = this.btnSeleccionar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 461);
@@ -113,7 +114,6 @@
             this.Name = "Recorridos";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Recorridos";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Recorridos_FormClosed);
             this.Load += new System.EventHandler(this.Recorridos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridRecorridos)).EndInit();
             this.ResumeLayout(false);
