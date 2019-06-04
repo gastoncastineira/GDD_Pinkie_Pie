@@ -142,7 +142,8 @@ CREATE TABLE PINKIE_PIE.[Piso](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Nro_piso] int NOT NULL,
 	[cant_cabina] int NOT NULL,
-	[id_crucero] INT NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Crucero(ID)
+	[id_crucero] INT NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Crucero(ID),
+	[id_tipo] INT NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Tipo(ID)
 );
 
 CREATE TABLE PINKIE_PIE.[fecha_fuera_servicio](
@@ -232,6 +233,11 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
   SELECT M.FECHA_SALIDA, M.FECHA_LLEGADA,(SELECT R.ID FROM PINKIE_PIE.Recorrido R WHERE R.codigo = M.RECORRIDO_CODIGO), COUNT(M.PASAJE_FECHA_COMPRA), M.FECHA_LLEGADA_ESTIMADA
   FROM gd_esquema.Maestra M GROUP BY M.FECHA_SALIDA, M.FECHA_LLEGADA, M.RECORRIDO_CODIGO, M.FECHA_LLEGADA_ESTIMADA, M.CRUCERO_IDENTIFICADOR
 
+    -- Inserto Tipo
+	INSERT INTO PINKIE_PIE.Tipo (tipo, porcentaje_costo)
+	SELECT DISTINCT M.CABINA_TIPO, M.CABINA_TIPO_PORC_RECARGO
+	FROM gd_esquema.Maestra M
+
   -- Inserto cruceros
 
   INSERT INTO PINKIE_PIE.Crucero(identificador, fabricante, modelo)
@@ -239,10 +245,11 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
 
   -- Inserto piso
 
-  INSERT INTO PINKIE_PIE.Piso(cant_cabina, Nro_piso, id_crucero)
-  SELECT DISTINCT MAX(m.CABINA_NRO), m.CABINA_PISO, c.ID FROM gd_esquema.Maestra m
-  JOIN PINKIE_PIE.Crucero c ON m.CRUCERO_IDENTIFICADOR = c.identificador
-  GROUP BY m.CABINA_PISO, c.ID
+  INSERT INTO PINKIE_PIE.Piso(cant_cabina, Nro_piso, id_crucero, id_tipo)
+  SELECT DISTINCT MAX(m.CABINA_NRO), m.CABINA_PISO, c.ID, t.ID FROM gd_esquema.Maestra m
+  JOIN PINKIE_PIE.Crucero c ON m.CRUCERO_IDENTIFICADOR = c.identificador AND m.CRU_FABRICANTE = c.fabricante AND m.CRUCERO_MODELO = c.modelo
+  JOIN PINKIE_PIE.Tipo t ON t.porcentaje_costo = m.CABINA_TIPO_PORC_RECARGO AND t.tipo = m.CABINA_TIPO
+  GROUP BY m.CABINA_PISO, c.ID, t.ID
 
   -- Inserto cliente
   INSERT INTO PINKIE_PIE.Cliente( DNI, fecha_nacimiento, telefono, nombre, apellido, direccion, mail )
@@ -251,11 +258,6 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
   -- Inserto medio de pago
   INSERT INTO PINKIE_PIE.[MedioDePago](tipo, numero_de_tarjeta)
   VALUES ('EFECTIVO', NULL)
-
-  	-- Inserto Tipo
-	INSERT INTO PINKIE_PIE.Tipo (tipo, porcentaje_costo)
-	SELECT DISTINCT M.CABINA_TIPO, M.CABINA_TIPO_PORC_RECARGO
-	FROM gd_esquema.Maestra M
 
 	-- Inserto Cabina
 	INSERT INTO PINKIE_PIE.Cabina(crucero_id, viaje_id, tipo_id, numero_piso, numero_habitacion, ocupado)

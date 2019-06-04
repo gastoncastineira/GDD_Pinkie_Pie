@@ -13,8 +13,8 @@ DROP TABLE [PINKIE_PIE].[Cabina]
 DROP TABLE [PINKIE_PIE].[Viaje]
 DROP TABLE [PINKIE_PIE].[Recorrido]
 DROP TABLE [PINKIE_PIE].[Puerto]
-DROP TABLE [PINKIE_PIE].[Tipo]
 DROP TABLE [PINKIE_PIE].[Piso]
+DROP TABLE [PINKIE_PIE].[Tipo]
 DROP TABLE PINKIE_PIE.[fecha_fuera_servicio]
 DROP TABLE [PINKIE_PIE].[Crucero]
 DROP TABLE [PINKIE_PIE].[MedioDePago]
@@ -23,3 +23,5 @@ DROP VIEW PINKIE_PIE.top_5_recorridos
 DROP VIEW PINKIE_PIE.top_5_clientes_puntos
 DROP VIEW PINKIE_PIE.top_5_viajes_cabinas_vacias
 DROP VIEW PINKIE_PIE.top_5_dias_crucero_fuera_servicio
+DROP VIEW PINKIE_PIE.funciones_usuarios
+DROP VIEW PINKIE_PIE.Roles_usuario
