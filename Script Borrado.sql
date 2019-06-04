@@ -19,7 +19,11 @@ DROP TABLE PINKIE_PIE.[fecha_fuera_servicio]
 DROP TABLE [PINKIE_PIE].[Crucero]
 DROP TABLE [PINKIE_PIE].[MedioDePago]
 DROP PROCEDURE [PINKIE_PIE].existe_usuario
+DROP TRIGGER [PINKIE_PIE].RefreshViewTramosParaGridView
 DROP VIEW PINKIE_PIE.top_5_recorridos
 DROP VIEW PINKIE_PIE.top_5_clientes_puntos
 DROP VIEW PINKIE_PIE.top_5_viajes_cabinas_vacias
 DROP VIEW PINKIE_PIE.top_5_dias_crucero_fuera_servicio
+DROP VIEW PINKIE_PIE.TramosParaGridView
+DROP VIEW PINKIE_PIE.RecorridosParaGridView
+DROP VIEW PINKIE_PIE.TramoConDescripcion

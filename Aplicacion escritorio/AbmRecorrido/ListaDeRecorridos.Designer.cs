@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.dataGridViewRecorridos = new System.Windows.Forms.DataGridView();
-            this.labelNombreGrid = new System.Windows.Forms.Label();
             this.ButtomDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ButtomEdit = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.buttonCrear = new System.Windows.Forms.Button();
             this.ButtonVer = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.labelNombreGrid = new System.Windows.Forms.Label();
+            this.buttonCrear = new System.Windows.Forms.Button();
             this.dataGridViewTramos = new System.Windows.Forms.DataGridView();
             this.labelTramo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRecorridos)).BeginInit();
@@ -49,19 +49,9 @@
             this.ButtonVer});
             this.dataGridViewRecorridos.Location = new System.Drawing.Point(12, 46);
             this.dataGridViewRecorridos.Name = "dataGridViewRecorridos";
-            this.dataGridViewRecorridos.Size = new System.Drawing.Size(776, 189);
+            this.dataGridViewRecorridos.Size = new System.Drawing.Size(809, 189);
             this.dataGridViewRecorridos.TabIndex = 0;
             this.dataGridViewRecorridos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewRecorridos_CellContentClick);
-            // 
-            // labelNombreGrid
-            // 
-            this.labelNombreGrid.AutoSize = true;
-            this.labelNombreGrid.Location = new System.Drawing.Point(13, 27);
-            this.labelNombreGrid.Name = "labelNombreGrid";
-            this.labelNombreGrid.Size = new System.Drawing.Size(64, 13);
-            this.labelNombreGrid.TabIndex = 1;
-            this.labelNombreGrid.Text = "Recorridos: ";
-            this.labelNombreGrid.Click += new System.EventHandler(this.LabelNombreGrid_Click);
             // 
             // ButtomDelete
             // 
@@ -73,6 +63,21 @@
             this.ButtomEdit.HeaderText = "Modificar";
             this.ButtomEdit.Name = "ButtomEdit";
             // 
+            // ButtonVer
+            // 
+            this.ButtonVer.HeaderText = "Ver detalle";
+            this.ButtonVer.Name = "ButtonVer";
+            // 
+            // labelNombreGrid
+            // 
+            this.labelNombreGrid.AutoSize = true;
+            this.labelNombreGrid.Location = new System.Drawing.Point(13, 27);
+            this.labelNombreGrid.Name = "labelNombreGrid";
+            this.labelNombreGrid.Size = new System.Drawing.Size(64, 13);
+            this.labelNombreGrid.TabIndex = 1;
+            this.labelNombreGrid.Text = "Recorridos: ";
+            this.labelNombreGrid.Click += new System.EventHandler(this.LabelNombreGrid_Click);
+            // 
             // buttonCrear
             // 
             this.buttonCrear.Location = new System.Drawing.Point(12, 241);
@@ -83,17 +88,12 @@
             this.buttonCrear.UseVisualStyleBackColor = true;
             this.buttonCrear.Click += new System.EventHandler(this.ButtonCrear_Click);
             // 
-            // ButtonVer
-            // 
-            this.ButtonVer.HeaderText = "Ver detalle";
-            this.ButtonVer.Name = "ButtonVer";
-            // 
             // dataGridViewTramos
             // 
             this.dataGridViewTramos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewTramos.Location = new System.Drawing.Point(12, 287);
             this.dataGridViewTramos.Name = "dataGridViewTramos";
-            this.dataGridViewTramos.Size = new System.Drawing.Size(240, 150);
+            this.dataGridViewTramos.Size = new System.Drawing.Size(809, 137);
             this.dataGridViewTramos.TabIndex = 3;
             // 
             // labelTramo
@@ -109,7 +109,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 472);
+            this.ClientSize = new System.Drawing.Size(833, 472);
             this.Controls.Add(this.labelTramo);
             this.Controls.Add(this.dataGridViewTramos);
             this.Controls.Add(this.buttonCrear);

@@ -28,6 +28,11 @@ namespace Conexiones
         public static string Top5CrucerosFueraServicio { get { return "PINKIE_PIE.top_5_dias_crucero_fuera_servicio"; } }
         public static string Cliente { get { return "PINKIE_PIE.[Cliente]"; } }
         public static string Fuera_Servicio { get { return "PINKIE_PIE.[fecha_fuera_servicio]"; } }
+        public static string RecorridosParaGridView { get { return "PINKIE_PIE.[RecorridosParaGridView]"; } }
+        public static string TramosParaGridView { get { return "PINKIE_PIE.[TramosParaGridView]"; } }
+        public static string TramoConDescripcion { get { return "PINKIE_PIE.[TramoConDescripcion]"; } }
+        
+
 
     }
 }

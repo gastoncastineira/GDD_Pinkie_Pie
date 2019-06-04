@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.dataGridViewTramos = new System.Windows.Forms.DataGridView();
-            this.labelTramos = new System.Windows.Forms.Label();
             this.ButtonDelete = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.labelTramos = new System.Windows.Forms.Label();
             this.buttonAgregar = new System.Windows.Forms.Button();
             this.checkedListBoxTramos = new System.Windows.Forms.CheckedListBox();
             this.ButtonExit = new System.Windows.Forms.Button();
@@ -44,9 +44,14 @@
             this.ButtonDelete});
             this.dataGridViewTramos.Location = new System.Drawing.Point(12, 29);
             this.dataGridViewTramos.Name = "dataGridViewTramos";
-            this.dataGridViewTramos.Size = new System.Drawing.Size(327, 150);
+            this.dataGridViewTramos.Size = new System.Drawing.Size(593, 150);
             this.dataGridViewTramos.TabIndex = 0;
             this.dataGridViewTramos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewTramos_CellContentClick);
+            // 
+            // ButtonDelete
+            // 
+            this.ButtonDelete.HeaderText = "Eliminar Tramo";
+            this.ButtonDelete.Name = "ButtonDelete";
             // 
             // labelTramos
             // 
@@ -56,11 +61,6 @@
             this.labelTramos.Size = new System.Drawing.Size(45, 13);
             this.labelTramos.TabIndex = 1;
             this.labelTramos.Text = "Tramos:";
-            // 
-            // ButtonDelete
-            // 
-            this.ButtonDelete.HeaderText = "Eliminar Tramo";
-            this.ButtonDelete.Name = "ButtonDelete";
             // 
             // buttonAgregar
             // 
@@ -77,12 +77,12 @@
             this.checkedListBoxTramos.FormattingEnabled = true;
             this.checkedListBoxTramos.Location = new System.Drawing.Point(12, 185);
             this.checkedListBoxTramos.Name = "checkedListBoxTramos";
-            this.checkedListBoxTramos.Size = new System.Drawing.Size(327, 94);
+            this.checkedListBoxTramos.Size = new System.Drawing.Size(593, 94);
             this.checkedListBoxTramos.TabIndex = 7;
             // 
             // ButtonExit
             // 
-            this.ButtonExit.Location = new System.Drawing.Point(138, 332);
+            this.ButtonExit.Location = new System.Drawing.Point(261, 332);
             this.ButtonExit.Name = "ButtonExit";
             this.ButtonExit.Size = new System.Drawing.Size(75, 23);
             this.ButtonExit.TabIndex = 8;
@@ -94,7 +94,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 367);
+            this.ClientSize = new System.Drawing.Size(617, 367);
             this.Controls.Add(this.ButtonExit);
             this.Controls.Add(this.checkedListBoxTramos);
             this.Controls.Add(this.buttonAgregar);

@@ -304,6 +304,13 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
 								WHERE m.RECORRIDO_CODIGO = r.codigo)))
 	WHERE M.RESERVA_CODIGO IS NOT NULL
 
+GO
+CREATE TRIGGER PINKIE_PIE.RefreshViewTramosParaGridView
+ON PINKIE_PIE.Tramo_X_Recorrido
+AFTER DELETE AS
+BEGIN
+	EXEC sp_refreshview 'TramosParaGridView'
+END
 
 GO
 CREATE PROCEDURE PINKIE_PIE.existe_usuario @Usuario nvarchar(50), @Contrasenia nvarchar(max), @resultado bit OUTPUT
@@ -370,3 +377,34 @@ SELECT u.Usuario, r.Nombre as nombre_rol, r.ID as rol_id FROM PINKIE_PIE.Usuario
 join PINKIE_PIE.Rol_X_Usuario ru on ru.ID_Usuario = u.ID 
 join PINKIE_PIE.Rol r on r.ID = ru.ID_ROL 
 WHERE r.Habilitado = 1
+
+GO
+CREATE VIEW PINKIE_PIE.RecorridosParaGridView
+AS
+SELECT R.Id AS RECORRIDO, Po.descripcion AS PUERTO_ORIGEN, pd.descripcion AS PUERTO_DESTINO, SUM(precio) AS PRECIO 
+FROM PINKIE_PIE.Recorrido R JOIN PINKIE_PIE.Tramo_X_Recorrido TR ON R.ID = TR.ID_Recorrido
+JOIN PINKIE_PIE.Tramo T ON T.ID = TR.ID_Tramo
+JOIN PINKIE_PIE.Puerto Po ON Po.ID = R.puerto_origen_id
+JOIN PINKIE_PIE.Puerto Pd ON Pd.ID = R.puerto_destino_id
+WHERE R.habilitado = 1 GROUP BY R.ID, Po.descripcion, pd.descripcion
+
+GO
+CREATE VIEW PINKIE_PIE.TramosParaGridView
+AS
+SELECT TR.ID_Recorrido AS RECORRIDO_ID,T.ID AS TRAMO_ID, Po.descripcion AS PUERTO_ORIGEN, pd.descripcion AS PUERTO_DESTINO
+FROM PINKIE_PIE.Tramo_X_Recorrido TR    
+JOIN PINKIE_PIE.Tramo T ON T.ID = TR.ID_Tramo
+JOIN PINKIE_PIE.Puerto Po ON Po.ID = T.puerto_origen_id
+JOIN PINKIE_PIE.Puerto Pd ON Pd.ID = T.puerto_destino_id
+
+GO
+CREATE VIEW PINKIE_PIE.TramoConDescripcion
+AS 
+SELECT T.ID AS ID, T.puerto_origen_id AS ORIGEN_ID, Po.descripcion AS ORIGEN_DESC, T.puerto_destino_id AS DESTINO_ID , Pd.descripcion AS DESTINO_DESC 
+FROM PINKIE_PIE.Tramo T 
+JOIN PINKIE_PIE.Puerto Po ON Po.ID = T.puerto_origen_id
+JOIN PINKIE_PIE.Puerto Pd ON Pd.ID = T.puerto_destino_id
+
+
+
+

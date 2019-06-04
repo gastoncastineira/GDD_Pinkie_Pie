@@ -47,13 +47,13 @@ namespace FrbaCrucero.AbmRecorrido
 
             for (int i = 0; i < tramos.Count(); i++)
             {
-                Filtro filtroOrigen = FiltroFactory.Exacto("puerto_origen_id", tramos[i].Split(' ').GetValue(1).ToString() );
-                Filtro filtroDestino = FiltroFactory.Exacto("puerto_destino_id", tramos[i].Split(' ').GetValue(3).ToString() );
+                Filtro filtroOrigen = FiltroFactory.Exacto("ORIGEN_DESC", tramos[i].Split(' ').GetValue(1).ToString() );
+                Filtro filtroDestino = FiltroFactory.Exacto("DESTINO_DESC", tramos[i].Split(' ').GetValue(3).ToString() );
                 List<Filtro> filtros = new List<Filtro>();
                 filtros.Add(filtroOrigen);
                 filtros.Add(filtroDestino);
 
-                res = conexion.ConsultaPlana(Tabla.Tramo, new List<string>(new string[] { "ID" }), filtros);
+                res = conexion.ConsultaPlana(Tabla.TramoConDescripcion, new List<string>(new string[] { "ID" }), filtros);
 
                 idTramo = int.Parse(res["ID"].Last().ToString());
                 tr.InsertarTablaIntermedia(Tabla.Tramo_X_Recorrido, "ID_Recorrido", "ID_Tramo", PkRecorrido, idTramo);        
@@ -74,11 +74,13 @@ namespace FrbaCrucero.AbmRecorrido
             string PkTramo = dataGridViewTramos.Rows[e.RowIndex].Cells[2].Value.ToString();
 
             
-            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex == 1)
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.ColumnIndex == 0)
                 {
                     conexion.eliminarTablaIntermedia(Tabla.Tramo_X_Recorrido, "ID_Recorrido", "ID_Tramo", PkRecorrido, int.Parse(PkTramo));
+
                 }
-            
+            this.reLoad();
+
         }
 
         private void ModificarRecorrido_Load(object sender, EventArgs e)
@@ -89,7 +91,9 @@ namespace FrbaCrucero.AbmRecorrido
 
         private void reLoad()
         {
-            conexion.LlenarDataGridViewTramos(ref dataGridViewTramos, PkRecorrido.ToString());
+            List<Filtro> listFiltro = new List<Filtro>();
+            listFiltro.Add(FiltroFactory.Exacto("RECORRIDO_ID", PkRecorrido.ToString()));
+            conexion.LlenarDataGridView(Tabla.TramosParaGridView, ref dataGridViewTramos, listFiltro);
         }
 
         private void ButtonExit_Click(object sender, EventArgs e)
