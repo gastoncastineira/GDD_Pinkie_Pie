@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Conexiones;
+using FrbaCrucero.Acceso;
 
 namespace FrbaCrucero.AbmRecorrido
 {
@@ -74,7 +75,15 @@ namespace FrbaCrucero.AbmRecorrido
 
         private void ButtonCrear_Click(object sender, EventArgs e)
         {
+            CrearRecorrido create = new CrearRecorrido(this);
+            create.Show();
+        }
 
+        private void ButtonOut_Click(object sender, EventArgs e)
+        {
+            Login log = new Login();
+            log.Show();
+            this.Close();
         }
     }
 }

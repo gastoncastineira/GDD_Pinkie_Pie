@@ -86,7 +86,7 @@ namespace FrbaCrucero.AbmRecorrido
         private void ModificarRecorrido_Load(object sender, EventArgs e)
         {
             this.reLoad();
-            conexion.LlenarCheckedListConTramosDescriptos(ref checkedListBoxTramos);
+            conexion.LlenarCheckedListConTramosDescriptos(ref checkedListBoxTramos, null);
         }
 
         private void reLoad()

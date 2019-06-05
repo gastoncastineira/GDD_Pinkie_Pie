@@ -57,6 +57,12 @@
     <Compile Include="AbmPuerto\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmRecorrido\CrearRecorrido.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRecorrido\CrearRecorrido.Designer.cs">
+      <DependentUpon>CrearRecorrido.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmRecorrido\ModificarRecorrido.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +188,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AbmRecorrido\CrearRecorrido.resx">
+      <DependentUpon>CrearRecorrido.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmRecorrido\ListaDeRecorridos.resx">
       <DependentUpon>ListaDeRecorridos.cs</DependentUpon>
     </EmbeddedResource>

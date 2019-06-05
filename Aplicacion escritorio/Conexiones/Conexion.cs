@@ -366,13 +366,16 @@ namespace Conexiones
             return dtRecord;
         }
 
-        public void LlenarCheckedListConTramosDescriptos(ref CheckedListBox list)
+        public void LlenarCheckedListConTramosDescriptos(ref CheckedListBox list, string origenObligatorio)
         {
             string comandoString =
                         "SELECT Po.descripcion AS PUERTO_ORIGEN, pd.descripcion AS PUERTO_DESTINO " +
                         "FROM PINKIE_PIE.Tramo_X_Recorrido TR    JOIN PINKIE_PIE.Tramo T ON T.ID = TR.ID_Tramo " +
                                                                 "JOIN PINKIE_PIE.Puerto Po ON Po.ID = T.puerto_origen_id " +
                                                                 "JOIN PINKIE_PIE.Puerto Pd ON Pd.ID = T.puerto_destino_id ";
+            if (origenObligatorio != null){
+                comandoString = comandoString + "WHERE Po.descripcion = '" + origenObligatorio.Trim() +"' ";
+            }
             using (SqlConnection sqlConnection = new SqlConnection(conectionString))
             {
                 sqlConnection.Open();
@@ -386,7 +389,7 @@ namespace Conexiones
 
                     while (reader.Read())
                     {
-                        list.Items.Add("Desde: " + reader[0].ToString() + " Hasta: " + reader[1].ToString(), false);
+                        list.Items.Add("Desde: " + reader[0].ToString() + ". Hasta: " + reader[1].ToString(), false);
                     }
                 }
             }

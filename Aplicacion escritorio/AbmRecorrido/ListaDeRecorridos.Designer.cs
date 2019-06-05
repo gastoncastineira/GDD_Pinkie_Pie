@@ -36,20 +36,25 @@
             this.buttonCrear = new System.Windows.Forms.Button();
             this.dataGridViewTramos = new System.Windows.Forms.DataGridView();
             this.labelTramo = new System.Windows.Forms.Label();
+            this.buttonOut = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRecorridos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTramos)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridViewRecorridos
             // 
+            this.dataGridViewRecorridos.AllowUserToAddRows = false;
+            this.dataGridViewRecorridos.AllowUserToDeleteRows = false;
+            this.dataGridViewRecorridos.AllowUserToResizeColumns = false;
+            this.dataGridViewRecorridos.AllowUserToResizeRows = false;
             this.dataGridViewRecorridos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewRecorridos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ButtomDelete,
             this.ButtomEdit,
             this.ButtonVer});
-            this.dataGridViewRecorridos.Location = new System.Drawing.Point(12, 46);
+            this.dataGridViewRecorridos.Location = new System.Drawing.Point(12, 54);
             this.dataGridViewRecorridos.Name = "dataGridViewRecorridos";
-            this.dataGridViewRecorridos.Size = new System.Drawing.Size(809, 189);
+            this.dataGridViewRecorridos.Size = new System.Drawing.Size(782, 189);
             this.dataGridViewRecorridos.TabIndex = 0;
             this.dataGridViewRecorridos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewRecorridos_CellContentClick);
             // 
@@ -71,7 +76,7 @@
             // labelNombreGrid
             // 
             this.labelNombreGrid.AutoSize = true;
-            this.labelNombreGrid.Location = new System.Drawing.Point(13, 27);
+            this.labelNombreGrid.Location = new System.Drawing.Point(13, 35);
             this.labelNombreGrid.Name = "labelNombreGrid";
             this.labelNombreGrid.Size = new System.Drawing.Size(64, 13);
             this.labelNombreGrid.TabIndex = 1;
@@ -80,7 +85,7 @@
             // 
             // buttonCrear
             // 
-            this.buttonCrear.Location = new System.Drawing.Point(12, 241);
+            this.buttonCrear.Location = new System.Drawing.Point(12, 249);
             this.buttonCrear.Name = "buttonCrear";
             this.buttonCrear.Size = new System.Drawing.Size(135, 23);
             this.buttonCrear.TabIndex = 2;
@@ -91,25 +96,36 @@
             // dataGridViewTramos
             // 
             this.dataGridViewTramos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewTramos.Location = new System.Drawing.Point(12, 287);
+            this.dataGridViewTramos.Location = new System.Drawing.Point(12, 295);
             this.dataGridViewTramos.Name = "dataGridViewTramos";
-            this.dataGridViewTramos.Size = new System.Drawing.Size(809, 137);
+            this.dataGridViewTramos.Size = new System.Drawing.Size(782, 137);
             this.dataGridViewTramos.TabIndex = 3;
             // 
             // labelTramo
             // 
             this.labelTramo.AutoSize = true;
-            this.labelTramo.Location = new System.Drawing.Point(12, 271);
+            this.labelTramo.Location = new System.Drawing.Point(12, 279);
             this.labelTramo.Name = "labelTramo";
             this.labelTramo.Size = new System.Drawing.Size(103, 13);
             this.labelTramo.TabIndex = 4;
             this.labelTramo.Text = "Tramos del recorido:";
             // 
+            // buttonOut
+            // 
+            this.buttonOut.Location = new System.Drawing.Point(658, 11);
+            this.buttonOut.Name = "buttonOut";
+            this.buttonOut.Size = new System.Drawing.Size(136, 28);
+            this.buttonOut.TabIndex = 5;
+            this.buttonOut.Text = "Cerrar Sesion";
+            this.buttonOut.UseVisualStyleBackColor = true;
+            this.buttonOut.Click += new System.EventHandler(this.ButtonOut_Click);
+            // 
             // ListaDeRecorridos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(833, 472);
+            this.ClientSize = new System.Drawing.Size(803, 445);
+            this.Controls.Add(this.buttonOut);
             this.Controls.Add(this.labelTramo);
             this.Controls.Add(this.dataGridViewTramos);
             this.Controls.Add(this.buttonCrear);
@@ -135,5 +151,6 @@
         private System.Windows.Forms.DataGridViewButtonColumn ButtonVer;
         private System.Windows.Forms.DataGridView dataGridViewTramos;
         private System.Windows.Forms.Label labelTramo;
+        private System.Windows.Forms.Button buttonOut;
     }
 }

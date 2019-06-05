@@ -39,6 +39,10 @@
             // 
             // dataGridViewTramos
             // 
+            this.dataGridViewTramos.AllowUserToAddRows = false;
+            this.dataGridViewTramos.AllowUserToDeleteRows = false;
+            this.dataGridViewTramos.AllowUserToResizeColumns = false;
+            this.dataGridViewTramos.AllowUserToResizeRows = false;
             this.dataGridViewTramos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewTramos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ButtonDelete});
