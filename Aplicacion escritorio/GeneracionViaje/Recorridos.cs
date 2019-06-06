@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace FrbaCrucero.GeneracionViaje
 {
-    public partial class Recorridos : Form // TODO ver si hago Consulta y que las demas hereden o lo dejo asi
+    public partial class Recorridos : Form 
     {
         // para ponerle etiquetas a las columnas del dgv ver video 45
         private Conexion conexion = new Conexion();
@@ -36,6 +36,7 @@ namespace FrbaCrucero.GeneracionViaje
         private void Recorridos_Load(object sender, EventArgs e)
         {
             conexion.LlenarDataGridView(Tabla.Recorrido, ref dataGridRecorridos, null);
+            //  conexion.LlenarDataGridView(Tabla.TramosParaGridView, ref dataGridViewTramos, null );
         }
 
         private void BtlBuscar_Click(object sender, EventArgs e)

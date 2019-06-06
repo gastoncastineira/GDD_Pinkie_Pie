@@ -31,7 +31,7 @@ namespace Conexiones
         public static string RecorridosParaGridView { get { return "PINKIE_PIE.[RecorridosParaGridView]"; } }
         public static string TramosParaGridView { get { return "PINKIE_PIE.[TramosParaGridView]"; } }
         public static string TramoConDescripcion { get { return "PINKIE_PIE.[TramoConDescripcion]"; } }
-        
+        public static string ViajesConCrucero { get { return "PINKIE_PIE.[ViajesConCrucero]"; } }
 
 
     }

@@ -29,3 +29,4 @@ DROP VIEW PINKIE_PIE.Roles_usuario
 DROP VIEW PINKIE_PIE.TramosParaGridView
 DROP VIEW PINKIE_PIE.RecorridosParaGridView
 DROP VIEW PINKIE_PIE.TramoConDescripcion
+DROP VIEW PINKIE_PIE.ViajesConCrucero

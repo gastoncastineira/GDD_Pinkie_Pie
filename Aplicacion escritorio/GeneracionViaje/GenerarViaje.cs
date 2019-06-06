@@ -28,7 +28,7 @@ namespace FrbaCrucero.GeneracionViaje
             Application.Exit();
         }
 
-        private void BtnConsultarCruceros_Click(object sender, EventArgs e) 
+        private void BtnConsultarCruceros_Click(object sender, EventArgs e)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace FrbaCrucero.GeneracionViaje
 
                 if (VenCru.DialogResult == DialogResult.OK)
                 {
-                    txtCrucero.Text = VenCru.dataGridCruceros.Rows[VenCru.dataGridCruceros.CurrentRow.Index].Cells[0].Value.ToString(); 
+                    txtCrucero.Text = VenCru.dataGridCruceros.Rows[VenCru.dataGridCruceros.CurrentRow.Index].Cells[0].Value.ToString();
                 }
 
             }
@@ -71,7 +71,7 @@ namespace FrbaCrucero.GeneracionViaje
             if (mensaje == "")
             {
                 ViajeAGenerar.Recorrido_id = Convert.ToInt16(txtRecorrido.Text);
-                
+
                 ViajeAGenerar.PasajesVendidos = 0;
 
                 // Agrego cabinas vacias al Viaje que se va a generar
@@ -85,22 +85,22 @@ namespace FrbaCrucero.GeneracionViaje
                 camposCabinas.Add("numero_piso");
                 camposCabinas.Add("numero_habitacion");
 
-                Dictionary<string, List<object>> cabinas = conexion.ConsultaPlana(Tabla.Cabina, camposCabinas, new List<Filtro>(new Filtro[] { FiltroFactory.Exacto("crucero_id", txtCrucero.Text.ToString()) })); 
+                Dictionary<string, List<object>> cabinas = conexion.ConsultaPlana(Tabla.Cabina, camposCabinas, new List<Filtro>(new Filtro[] { FiltroFactory.Exacto("crucero_id", txtCrucero.Text.ToString()) }));
 
                 List<Cabina> cabinasVacias = new List<Cabina>();
 
-                 for (int i = 0; i < Convert.ToInt16(cantCabinas["cantidadCabinas"].First()); i++)
-                 {
-                     Cabina cabina = new Cabina(Convert.ToInt16(txtCrucero.Text), Convert.ToInt16(cabinas["tipo_id"][i]), Convert.ToInt16(cabinas["numero_piso"][i]), Convert.ToInt16(cabinas["numero_habitacion"][i]), false);
+                for (int i = 0; i < Convert.ToInt16(cantCabinas["cantidadCabinas"].First()); i++)
+                {
+                    Cabina cabina = new Cabina(Convert.ToInt16(txtCrucero.Text), Convert.ToInt16(cabinas["tipo_id"][i]), Convert.ToInt16(cabinas["numero_piso"][i]), Convert.ToInt16(cabinas["numero_habitacion"][i]), false);
 
-                     cabinasVacias.Add(cabina);
-                 }
+                    cabinasVacias.Add(cabina);
+                }
 
-                 ViajeAGenerar.Cabinas = cabinasVacias;
+                ViajeAGenerar.Cabinas = cabinasVacias;
 
-                 InsertarViaje();
+                InsertarViaje();
 
-                 MessageBox.Show("Se ha guardado correctamente!", "Generar viaje");
+                MessageBox.Show("Se ha guardado correctamente!", "Generar viaje");
             }
             else
             {
@@ -122,7 +122,7 @@ namespace FrbaCrucero.GeneracionViaje
             int idViajeInsertado = tr.Insertar(Tabla.Rol, datosViaje);
 
             ViajeAGenerar.Id = idViajeInsertado;
-       
+
             foreach (Cabina cabina in ViajeAGenerar.Cabinas)
             {
                 Dictionary<string, object> datosCabina = new Dictionary<string, object>();
@@ -136,7 +136,7 @@ namespace FrbaCrucero.GeneracionViaje
 
                 int idCabinaInsertada = tr.Insertar(Tabla.Cabina, datosCabina);
             }
-            
+
             tr.Commit();
         }
 
@@ -187,16 +187,14 @@ namespace FrbaCrucero.GeneracionViaje
             return "La fecha de finalizacion debe ser posterior a la fecha de inicio.\n";
         }
 
-        public String ValidarExisteCrucero(string resultado) //TODO probarlo, tal vez se puede hacer una funcion ValidarExiste(le llega Crucero o Recorrido, "mesaje de error") 
+        public String ValidarExisteCrucero(string resultado) 
         {
             if (resultado == "")
             {
                 List<Filtro> filtros = new List<Filtro>();
                 filtros.Add(FiltroFactory.Exacto("ID", txtCrucero.Text.ToString()));
-
-                Dictionary<string, List<object>> crucero = conexion.ConsultaPlana(Tabla.Crucero, new List<string>(new string[] { "ID" }), filtros);
-
-                if (crucero["ID"].First() != null)
+                
+                if (conexion.ExisteRegistro(Tabla.Crucero, new List<string>(new string[] { "ID" }), filtros)) 
                     return "";
 
                 return "El id del crucero ingresado no existe.\n";
@@ -205,66 +203,94 @@ namespace FrbaCrucero.GeneracionViaje
             return "";
         }
 
-        // ME QUEDE ACA, TODO PROBAR QUE ANDE
         private String ValidarEsteDisponibleCrucero(string resultado)
         {
             if (resultado == "")
             {
+                // EL CRUCERO ESTA DE BAJA DEFINITIVA
                 List<Filtro> filtros = new List<Filtro>();
                 filtros.Add(FiltroFactory.Exacto("ID", txtCrucero.Text.ToString()));
+                List<string> columnasFechaBajaDefinitiva = new List<string>();
+                columnasFechaBajaDefinitiva.Add("fecha_baja_definitiva");
 
-                Dictionary<string, List<object>> fechaBajaDefinitiva = conexion.ConsultaPlana(Tabla.Crucero, new List<string>(new string[] { "fecha_baja_definitiva" }), filtros);
+                Dictionary<string, List<object>> fechaBajaDefinitiva = conexion.ConsultaPlana(Tabla.Crucero, columnasFechaBajaDefinitiva, filtros);
 
+                if (!Convert.IsDBNull(fechaBajaDefinitiva["fecha_baja_definitiva"].First()))
+                {
+                    if (Convert.ToDateTime(fechaBajaDefinitiva["fecha_baja_definitiva"].First()) < ViajeAGenerar.FechaFinalizacion)
+                        return "El crucero está de baja de forma definitiva en el rango de fechas que eligió.\n";
+                }
+
+
+                // EL CRUCERO NO EMPEZO A INICIAR SU SERVICIO
+                List<string> columnasFechaDeInicioServicio = new List<string>();
+                columnasFechaDeInicioServicio.Add("fecha_de_alta");
+
+                Dictionary<string, List<object>> fechaDeInicioServicio = conexion.ConsultaPlana(Tabla.Crucero, columnasFechaDeInicioServicio, filtros);
+
+                if (!Convert.IsDBNull(fechaDeInicioServicio["fecha_de_alta"].First()))
+                {
+                    if (Convert.ToDateTime(fechaDeInicioServicio["fecha_de_alta"].First()) > ViajeAGenerar.FechaInicio)
+                        return "El crucero no empezó a iniciar su servicio en rango de fechas que eligió.\n";
+                }
+
+
+                // EL CRUCERO ESTA DE BAJA EN RANGO DE FECHAS
                 List<Filtro> filtrosFechasBajas = new List<Filtro>();
-                filtros.Add(FiltroFactory.Exacto("id_Crucero", txtCrucero.Text.ToString()));
+                filtrosFechasBajas.Add(FiltroFactory.Exacto("id_Crucero", txtCrucero.Text.ToString()));
 
                 List<string> campos = new List<string>();
                 campos.Add("fecha_reinicio_servicio");
                 campos.Add("fecha_fuera_de_servicio");
+
+                Dictionary<string, List<object>> fechasFueraServicio = conexion.ConsultaPlana(Tabla.Fuera_Servicio, campos, filtrosFechasBajas);
+
+                if (fechasFueraServicio[campos[0]].Count > 0 || fechasFueraServicio[campos[1]].Count > 0)
+                {
+                    if (!(Convert.IsDBNull(fechasFueraServicio["fecha_reinicio_servicio"].First()) || Convert.IsDBNull(fechasFueraServicio["fecha_fuera_de_servicio"].First())))
+                    {
+                        for (int i = 0; i < fechasFueraServicio["fecha_reinicio_servicio"].Count(); i++)
+                        {
+                            if (!(
+                                (Convert.ToDateTime(fechasFueraServicio["fecha_reinicio_servicio"][i]) <= ViajeAGenerar.FechaInicio
+                                && Convert.ToDateTime(fechasFueraServicio["fecha_fuera_de_servicio"][i]) < ViajeAGenerar.FechaInicio)
+                                ||
+                                (Convert.ToDateTime(fechasFueraServicio["fecha_fuera_de_servicio"][i]) > ViajeAGenerar.FechaFinalizacion
+                                && Convert.ToDateTime(fechasFueraServicio["fecha_reinicio_servicio"][i]) > ViajeAGenerar.FechaFinalizacion)))
+                                return "El crucero está de baja en el rango de fechas que eligió.\n";
+                        }
+                    }
+                }
+
+
+                // ESTA EL CRUCERO OCUPADO EN OTRO VIAJE EN LAS FECHAS ELEGIDAS
+                List<Filtro> filtrosCruceroEnViaje = new List<Filtro>();
+                filtrosCruceroEnViaje.Add(FiltroFactory.Exacto("crucero_id", txtCrucero.Text.ToString()));
+
+                List<string> camposViajes = new List<string>();
+                camposViajes.Add("id_viaje");
+                camposViajes.Add("fecha_inicio");
+                camposViajes.Add("fecha_fin_estimada");
+
+                Dictionary<string, List<object>> viajesConCrucero = conexion.ConsultaPlana(Tabla.ViajesConCrucero, camposViajes, filtrosCruceroEnViaje);
+
+                for (int i = 0; i < viajesConCrucero["id_viaje"].Count(); i++)
+                {
+                    if (!((Convert.ToDateTime(viajesConCrucero["fecha_inicio"][i]) <= ViajeAGenerar.FechaInicio
+                        && Convert.ToDateTime(viajesConCrucero["fecha_fin_estimada"][i]) <= ViajeAGenerar.FechaInicio)
+                        || (Convert.ToDateTime(viajesConCrucero["fecha_inicio"][i]) >= ViajeAGenerar.FechaFinalizacion
+                        && Convert.ToDateTime(viajesConCrucero["fecha_fin_estimada"][i]) >= ViajeAGenerar.FechaFinalizacion)))
+                    {
+                        return "El crucero está ocupado en otro viaje en el rango de fechas que eligió.\n";
+                    }
+                }
                 
 
-                Dictionary<string, List<object>> fechasFueraServicio = conexion.ConsultaPlana(Tabla.Fuera_Servicio, campos, filtros);
-
-                for (int i = 0; i < fechasFueraServicio["fecha_reinicio_servicio"].Count(); i++)
-                {
-                    if (!(Convert.ToDateTime(fechasFueraServicio["fecha_reinicio_servicio"][i]) <= ViajeAGenerar.FechaInicio
-                        || Convert.ToDateTime(fechasFueraServicio["fecha_fuera_de_servicio"][i]) > ViajeAGenerar.FechaFinalizacion))
-                        return "El crucero está de baja en el rango de fechas que eligió.\n";
-                }
-
-                if (Convert.ToDateTime(fechaBajaDefinitiva["fecha_baja_definitiva"].First()) > ViajeAGenerar.FechaFinalizacion)
-                {
-                    Dictionary<string, List<object>> fechaReinicioServicio = conexion.ConsultaPlana(Tabla.Crucero, new List<string>(new string[] { "fecha_de_alta" }), filtros);
-
-                    if (Convert.ToDateTime(fechaReinicioServicio["fecha_de_alta"].First()) < ViajeAGenerar.FechaInicio)
-                    {
-                        return "No se si esta disponible";
-                        /* // TODO VIEW
-                     List<Viaje> viajesConEseCruceroOcupado =
-                         SELECT ID 
-                         FROM Viaje v 
-                         JOIN Cabina ca 
-                            ON ca.crucero_id = Convert.ToInt16(txtCrucero)
-                         WHERE ( !(ViajeAGenerar.FechaInicio > v.FechaFinalizacion || ViajeAGenerar.FechaFinalizacion < v.FechaInicio ))
-                     )
-                     
-                    if (viajesConEseCruceroOcupado.IsNull())
-                            return "";
-                        else
-                            return "El crucero está ocupado en otro viaje en el rango de fechas que eligió.\n"
-                     */
-                    }
-
-                    return "El crucero está fuera de servicio en rango de fechas que eligió.\n";
-                }
-
-                return "El crucero está de baja de forma definitiva en el rango de fechas que eligió.\n";
+                // EL CRUCERO ESTA DISPONIBLE
+                return "";
             }
-
             return "";
         }
-
-
 
         public String ValidarExisteRecorrido(string resultado)
         {
@@ -273,9 +299,7 @@ namespace FrbaCrucero.GeneracionViaje
                 List<Filtro> filtros = new List<Filtro>();
                 filtros.Add(FiltroFactory.Exacto("ID", txtRecorrido.Text.ToString()));
 
-                Dictionary<string, List<object>> recorrido = conexion.ConsultaPlana(Tabla.Recorrido, new List<string>(new string[] { "ID" }), filtros);
-
-                if (recorrido["ID"].First() != null)
+                if (conexion.ExisteRegistro(Tabla.Recorrido, new List<string>(new string[] { "ID" }), filtros))
                     return "";
 
                 return "El id del recorrido ingresado no existe.\n";
@@ -284,7 +308,7 @@ namespace FrbaCrucero.GeneracionViaje
             return "";
         }
 
-        
+
     }
 }
 

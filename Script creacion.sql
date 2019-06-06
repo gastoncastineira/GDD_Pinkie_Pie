@@ -407,6 +407,12 @@ FROM PINKIE_PIE.Tramo T
 JOIN PINKIE_PIE.Puerto Po ON Po.ID = T.puerto_origen_id
 JOIN PINKIE_PIE.Puerto Pd ON Pd.ID = T.puerto_destino_id
 
-
-
-
+GO
+CREATE VIEW PINKIE_PIE.ViajesConCrucero
+AS
+SELECT v.ID AS id_viaje, fecha_inicio , fecha_fin_estimada
+FROM PINKIE_PIE.Viaje v
+JOIN PINKIE_PIE.Cabina c 
+	ON c.viaje_id = v.ID
+GROUP BY v.ID, fecha_inicio, fecha_fin_estimada, crucero_id
+GO

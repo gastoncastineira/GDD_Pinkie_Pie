@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace FrbaCrucero.GeneracionViaje
 {
-    public partial class Cruceros : Form //TODO ver si pongo un Consultasen gral y que Cruceros y Recorridos hereden de ellos
+    public partial class Cruceros : Form 
     {
         private Conexion conexion = new Conexion();
 
@@ -61,28 +61,6 @@ namespace FrbaCrucero.GeneracionViaje
             }
         }
 
-        /*
-        private void LlenarDataGV(List<Filtro> filtros)
-        {
-            // TODO cocultar cosas
-            DataTable data = conexion.ConseguirTabla(Tabla.Crucero, filtros);
-
-            data.Columns.Remove("baja_vida_util");
-            data.Columns.RemoveAt(9);
-            data.Columns.Remove("baja_fuera_de_servicio");
-            data.Columns.RemoveAt(8);
-            data.Columns.Remove("fecha_baja_definitiva");
-            data.Columns.RemoveAt(7);
-            data.Columns.Remove("fecha_reinicio_servicio");
-            data.Columns.RemoveAt(6);
-            data.Columns.Remove("fecha_fuera_de_servicio");
-            data.Columns.RemoveAt(5);
-            data.Columns.Remove("fecha_de_alta");
-            data.Columns.RemoveAt(4);
-
-            dataGridCruceros.DataSource = data;
-        }
-        */
         private void BtnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
