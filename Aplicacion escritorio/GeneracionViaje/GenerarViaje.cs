@@ -132,7 +132,7 @@ namespace FrbaCrucero.GeneracionViaje
                 datosCabina["tipo_id"] = cabina.Tipo_id;
                 datosCabina["numero_piso"] = cabina.NumeroPiso;
                 datosCabina["numero_habitacion"] = cabina.NumeroHabitacion;
-                datosCabina["ocupado"] = cabina.Ocupado;
+                datosCabina["ocupado"] = 1;
 
                 int idCabinaInsertada = tr.Insertar(Tabla.Cabina, datosCabina);
             }

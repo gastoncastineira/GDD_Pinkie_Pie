@@ -77,7 +77,7 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(533, 401);
+            this.btnGuardar.Location = new System.Drawing.Point(492, 293);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 23);
             this.btnGuardar.TabIndex = 8;
@@ -196,7 +196,7 @@
             this.AcceptButton = this.btnGuardar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(659, 461);
+            this.ClientSize = new System.Drawing.Size(622, 348);
             this.Controls.Add(this.txtCrucero);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);

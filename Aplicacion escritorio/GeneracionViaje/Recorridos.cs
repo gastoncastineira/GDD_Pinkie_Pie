@@ -35,8 +35,20 @@ namespace FrbaCrucero.GeneracionViaje
 
         private void Recorridos_Load(object sender, EventArgs e)
         {
-            conexion.LlenarDataGridView(Tabla.Recorrido, ref dataGridRecorridos, null);
-            //  conexion.LlenarDataGridView(Tabla.TramosParaGridView, ref dataGridViewTramos, null );
+            ReLoad(null);
+        }
+
+        private void ReLoad(List<Filtro> filtros)
+        {
+            conexion.LlenarDataGridView(Tabla.RecorridosParaGridView, ref dataGridRecorridos, filtros);
+
+            dataGridRecorridos.Columns[3].Visible = false;
+            dataGridRecorridos.ClearSelection();
+
+            dataGridViewTramos.DataSource = null;
+            dataGridViewTramos.Rows.Clear();
+            dataGridViewTramos.Refresh();
+            dataGridViewTramos.ClearSelection();
         }
 
         private void BtlBuscar_Click(object sender, EventArgs e)
@@ -46,9 +58,10 @@ namespace FrbaCrucero.GeneracionViaje
                 List<Filtro> filtros = new List<Filtro>();
 
                 if (string.IsNullOrEmpty(txtBuscar.Text.Trim()) == false)
-                    filtros.Add(FiltroFactory.Libre("ID", txtBuscar.Text.Trim()));
+                    filtros.Add(FiltroFactory.Libre("RECORRIDO", txtBuscar.Text.Trim()));
 
-                conexion.LlenarDataGridView(Tabla.Recorrido, ref dataGridRecorridos, filtros);
+                ReLoad(filtros);
+
             }
             catch (Exception error)
             {
@@ -59,6 +72,17 @@ namespace FrbaCrucero.GeneracionViaje
         private void BtnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void DataGridRecorridos_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1)
+            {
+                List<Filtro> listFiltro = new List<Filtro>();
+                listFiltro.Add(FiltroFactory.Exacto("RECORRIDO_ID", dataGridRecorridos.Rows[e.RowIndex].Cells[0].Value.ToString()));
+                conexion.LlenarDataGridView(Tabla.TramosParaGridView, ref dataGridViewTramos, listFiltro);
+                dataGridViewTramos.ClearSelection();
+            }
         }
     }
 
