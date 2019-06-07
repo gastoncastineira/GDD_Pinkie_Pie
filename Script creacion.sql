@@ -416,3 +416,28 @@ JOIN PINKIE_PIE.Cabina c
 	ON c.viaje_id = v.ID
 GROUP BY v.ID, fecha_inicio, fecha_fin_estimada, crucero_id
 GO
+
+CREATE VIEW PINKIE_PIE.ViajesEnFechaYOrigenDestino
+AS
+SELECT v.ID AS viaje, 
+	v.fecha_inicio AS fecha_inicio, r.puerto_origen_id AS puertoOrigen, r.puerto_destino_id AS recorridoPuertoDestino, 
+	t.puerto_destino_id AS tramoPuertoDestino
+FROM PINKIE_PIE.Viaje v
+JOIN PINKIE_PIE.Recorrido r
+	ON v.recorrido_id = r.ID
+JOIN PINKIE_PIE.Tramo_X_Recorrido tr
+	ON tr.ID_Recorrido = r.ID
+JOIN PINKIE_PIE.Tramo t
+	ON t.ID = tr.ID_Tramo
+JOIN PINKIE_PIE.Cabina ca
+	ON viaje_id = v.ID
+JOIN PINKIE_PIE.Crucero cru
+	ON ca.crucero_id = cru.ID
+JOIN PINKIE_PIE.Piso p
+	ON p.id_crucero = cru.ID
+WHERE r.habilitado = 1 
+	AND cru.baja_vida_util = 0 
+	AND cru.baja_fuera_de_servicio = 0
+GROUP BY v.ID, v.pasajes_vendidos, v.fecha_inicio, r.habilitado, r.puerto_origen_id, r.puerto_destino_id, t.puerto_destino_id
+HAVING SUM(p.cant_cabina) > v.pasajes_vendidos
+GO

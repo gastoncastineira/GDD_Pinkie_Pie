@@ -39,6 +39,8 @@
             this.btnAnterior = new System.Windows.Forms.Button();
             this.btnSiguiente = new System.Windows.Forms.Button();
             this.btnUltimaPagina = new System.Windows.Forms.Button();
+            this.txtCantidadPasajes = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViajes)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,7 +56,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(32, 93);
+            this.label1.Location = new System.Drawing.Point(492, 118);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(69, 13);
             this.label1.TabIndex = 13;
@@ -63,7 +65,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(35, 27);
+            this.label3.Location = new System.Drawing.Point(32, 77);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 13);
             this.label3.TabIndex = 15;
@@ -104,7 +106,7 @@
             "Nada",
             "Precio",
             "Horario"});
-            this.comboBox1.Location = new System.Drawing.Point(107, 93);
+            this.comboBox1.Location = new System.Drawing.Point(567, 118);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 0;
@@ -149,12 +151,30 @@
             this.btnUltimaPagina.UseVisualStyleBackColor = true;
             this.btnUltimaPagina.Click += new System.EventHandler(this.BtnUltimaPagina_Click);
             // 
+            // txtCantidadPasajes
+            // 
+            this.txtCantidadPasajes.Location = new System.Drawing.Point(191, 28);
+            this.txtCantidadPasajes.Name = "txtCantidadPasajes";
+            this.txtCantidadPasajes.Size = new System.Drawing.Size(100, 20);
+            this.txtCantidadPasajes.TabIndex = 19;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(32, 31);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(153, 13);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "Cantidad de pasajes a comprar";
+            // 
             // SeleccionarViaje
             // 
             this.AcceptButton = this.btnConfirmar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.txtCantidadPasajes);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnUltimaPagina);
             this.Controls.Add(this.btnSiguiente);
             this.Controls.Add(this.btnAnterior);
@@ -188,5 +208,7 @@
         private System.Windows.Forms.Button btnAnterior;
         private System.Windows.Forms.Button btnSiguiente;
         private System.Windows.Forms.Button btnUltimaPagina;
+        private System.Windows.Forms.TextBox txtCantidadPasajes;
+        private System.Windows.Forms.Label label6;
     }
 }

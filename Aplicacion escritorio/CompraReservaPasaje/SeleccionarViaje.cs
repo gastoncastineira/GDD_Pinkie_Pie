@@ -13,12 +13,9 @@ namespace FrbaCrucero.CompraReservaPasaje
 {
     public partial class SeleccionarViaje : Form
     {
-        private String CantidadDePasajes;
-
-        public SeleccionarViaje(String cantPasajes)
+        public SeleccionarViaje()
         {
             InitializeComponent();
-            this.CantidadDePasajes = cantPasajes;
         }
 
         private void SeleccionarViaje_Load(object sender, EventArgs e)
@@ -91,10 +88,33 @@ namespace FrbaCrucero.CompraReservaPasaje
         // VALIDACIONES
         private String ValidarCampos()
         {
+            string resultado = "";
+
             // Validar que selecciono un campo TODO ver video
+            resultado += this.ValidarCamposVacios(); 
+            resultado += this.ValidarSoloNumeros(txtCantidadPasajes.Text);
             return "";
         }
 
-       
+        private String ValidarSoloNumeros(String texto)
+        {
+            foreach (char letra in texto.Trim())
+            {
+                if (!char.IsNumber(letra))
+                    return "En cantidad de pasajes solo se pueden ingresar numeros. \n";
+            }
+
+            return "";
+        }
+
+        private String ValidarCamposVacios()
+        {
+            if (string.IsNullOrEmpty(txtCantidadPasajes.Text))
+            {
+                return "Se detecto un campo vacio. Revise. \n";
+            }
+
+            return "";
+        }
     }
 }
