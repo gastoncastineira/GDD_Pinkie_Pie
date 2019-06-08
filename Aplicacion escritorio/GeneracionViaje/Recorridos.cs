@@ -13,7 +13,6 @@ namespace FrbaCrucero.GeneracionViaje
 {
     public partial class Recorridos : Form 
     {
-        // para ponerle etiquetas a las columnas del dgv ver video 45
         private Conexion conexion = new Conexion();
         public Recorridos()
         {
@@ -44,11 +43,6 @@ namespace FrbaCrucero.GeneracionViaje
 
             dataGridRecorridos.Columns[3].Visible = false;
             dataGridRecorridos.ClearSelection();
-
-            dataGridViewTramos.DataSource = null;
-            dataGridViewTramos.Rows.Clear();
-            dataGridViewTramos.Refresh();
-            dataGridViewTramos.ClearSelection();
         }
 
         private void BtlBuscar_Click(object sender, EventArgs e)

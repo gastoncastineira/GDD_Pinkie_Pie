@@ -30,4 +30,6 @@ DROP VIEW PINKIE_PIE.TramosParaGridView
 DROP VIEW PINKIE_PIE.RecorridosParaGridView
 DROP VIEW PINKIE_PIE.TramoConDescripcion
 DROP VIEW PINKIE_PIE.ViajesConCrucero
-DROP VIEW PINKIE_PIE.ViajesDisponiblesEnFechaYOrigenDestino
+DROP VIEW PINKIE_PIE.ViajesEnFechaYOrigenDestino
+DROP VIEW PINKIE_PIE.ViajesDisponiblesGridView
+DROP VIEW PINKIE_PIE.CabinasDisponiblesGridView

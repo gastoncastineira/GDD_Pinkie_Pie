@@ -441,3 +441,57 @@ WHERE r.habilitado = 1
 GROUP BY v.ID, v.pasajes_vendidos, v.fecha_inicio, r.habilitado, r.puerto_origen_id, r.puerto_destino_id, t.puerto_destino_id
 HAVING SUM(p.cant_cabina) > v.pasajes_vendidos
 GO
+
+CREATE VIEW PINKIE_PIE.ViajesDisponiblesGridView
+AS
+SELECT v.fecha_inicio AS FECHA_INICIO, v.fecha_fin_estimada AS FECHA_DE_FIN,
+	pOrigen.descripcion AS RECORRIDO_ORIGEN,
+	pDestino.descripcion AS RECORRIDO_DESTINO,
+	(SELECT isnull(SUM(t1.precio),0)
+		FROM PINKIE_PIE.Viaje v1
+		JOIN PINKIE_PIE.Recorrido r
+			ON r.ID = v1.recorrido_id
+		JOIN PINKIE_PIE.Tramo_X_Recorrido tr1
+			ON tr1.ID_Recorrido = r.ID
+		LEFT JOIN PINKIE_PIE.Tramo t1
+			ON t1.ID = tr1.ID_Tramo
+	WHERE v1.ID = v.ID) AS PRECIO_BASE, 
+	t.puerto_destino_id AS T_PUERTO_DESTINO,
+	pOrigen.ID AS ID_PUERTO_ORIGEN_RECORRIDO,
+	r.ID AS RECORRIDO_ID,
+	v.ID AS VIAJE_ID,
+	cru.fabricante AS CRUCERO_FABRICANTE
+FROM PINKIE_PIE.Viaje v
+JOIN PINKIE_PIE.Recorrido r
+	ON r.ID = v.recorrido_id
+JOIN PINKIE_PIE.Tramo_X_Recorrido tr
+	ON tr.ID_Recorrido = r.ID
+JOIN PINKIE_PIE.Tramo t
+	ON t.ID = tr.ID_Tramo
+JOIN PINKIE_PIE.Puerto pOrigen
+	ON pOrigen.ID = r.puerto_origen_id
+JOIN PINKIE_PIE.Puerto pDestino
+	ON pDestino.ID = r.puerto_destino_id
+JOIN PINKIE_PIE.Cabina ca
+	ON viaje_id = v.ID
+JOIN PINKIE_PIE.Crucero cru
+	ON ca.crucero_id = cru.ID
+JOIN PINKIE_PIE.Piso p
+	ON p.id_crucero = cru.ID
+WHERE r.habilitado = 1 
+	AND cru.baja_vida_util = 0 
+	AND cru.baja_fuera_de_servicio = 0
+GROUP BY v.ID, v.fecha_inicio, v.pasajes_vendidos, v.fecha_fin_estimada, t.puerto_destino_id, pOrigen.descripcion,
+ r.puerto_destino_id, pDestino.descripcion, pOrigen.ID, r.ID, cru.fabricante
+HAVING SUM(p.cant_cabina) > v.pasajes_vendidos
+GO
+
+CREATE VIEW PINKIE_PIE.CabinasDisponiblesGridView
+AS
+SELECT tipo AS TIPO, porcentaje_costo AS PORCENTAJE_COSTO, viaje_id
+FROM PINKIE_PIE.Tipo t
+JOIN PINKIE_PIE.Cabina c
+	ON c.tipo_id = t.ID
+WHERE c.ocupado = 0
+GROUP BY tipo, porcentaje_costo, viaje_id
+GO

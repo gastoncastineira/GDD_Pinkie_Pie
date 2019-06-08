@@ -33,6 +33,8 @@ namespace Conexiones
         public static string TramoConDescripcion { get { return "PINKIE_PIE.[TramoConDescripcion]"; } }
         public static string ViajesConCrucero { get { return "PINKIE_PIE.[ViajesConCrucero]"; } }
         public static string ViajesEnFechaYOrigenDestino { get { return "PINKIE_PIE.[ViajesEnFechaYOrigenDestino]"; } }
+        public static string ViajesDisponiblesGridView { get { return "PINKIE_PIE.[ViajesDisponiblesGridView]"; } }
+        public static string CabinasDisponiblesGridView { get { return "PINKIE_PIE.[CabinasDisponiblesGridView]"; } }
 
     }
 }

@@ -28,7 +28,7 @@ namespace FrbaCrucero.CompraReservaPasaje
         private void BtnAtras_Click(object sender, EventArgs e)
         {
             this.Visible = false;
-            new DatosPersonales(this.CantidadDePasajes).Show();
+            //new DatosPersonales(this.CantidadDePasajes).Show();
         }
 
         private void BtnConfirmar_Click(object sender, EventArgs e)

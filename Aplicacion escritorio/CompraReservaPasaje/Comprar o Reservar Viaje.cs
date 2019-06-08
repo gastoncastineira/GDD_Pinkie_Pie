@@ -51,7 +51,7 @@ namespace FrbaCrucero.CompraPasaje
                 if (HayViajes())
                 {
                     this.Visible = false;
-                    new SeleccionarViaje().Show();
+                    new SeleccionarViaje(dtFechaDeViaje.Value.ToString("yyyy-MM-dd"), getIdPuerto(txtOrigen.Text.ToString()), getIdPuerto(txtDestino.Text.ToString())).Show();
                 }
                 else
                 {
@@ -77,10 +77,11 @@ namespace FrbaCrucero.CompraPasaje
                 return filtros;
             }
 
-            bool hayViajesConRecorridoDeIgualDestino = conexion.ExisteRegistro(Tabla.ViajesEnFechaYOrigenDestino, new List<string>(new string[] { "viaje" }), filtrosIgualDestino("recorridoPuertoDestino"));   
+            //bool hayViajesConRecorridoDeIgualDestino = conexion.ExisteRegistro(Tabla.ViajesEnFechaYOrigenDestino, new List<string>(new string[] { "viaje" }), filtrosIgualDestino("recorridoPuertoDestino"));   
             bool hayViajesConTramoDeDestinoIgual = conexion.ExisteRegistro(Tabla.ViajesEnFechaYOrigenDestino, new List<string>(new string[] { "viaje" }), filtrosIgualDestino("tramoPuertoDestino"));
 
-            return (hayViajesConRecorridoDeIgualDestino || hayViajesConTramoDeDestinoIgual);
+            return hayViajesConTramoDeDestinoIgual;
+            //return (hayViajesConRecorridoDeIgualDestino || hayViajesConTramoDeDestinoIgual);
         }
 
         private string getIdPuerto(string descripcion)
@@ -108,7 +109,6 @@ namespace FrbaCrucero.CompraPasaje
             resultado += this.ValidarSoloLetras(txtDestino.Text.ToString(), "destino");
             resultado += this.ValidarExistenciaPuerto(resultado, txtDestino.Text.ToString(), "destino");
 
-            //return "'" + dtFechaDeViaje.Value.ToString("yyyy-MM-dd") + "'"; // TODO sacar
             return resultado;
         }
 

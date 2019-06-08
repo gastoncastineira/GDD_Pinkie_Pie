@@ -13,21 +13,23 @@ namespace FrbaCrucero.CompraReservaPasaje
 {
     public partial class DatosPersonales : Form // TODO RESERVA Y METODO DE PAGO
     {
-        private String CantidadDePasajes;
+        private string CantidadDePasajes, FechaInicioViaje, IdPuertoOrigen, IdPuertoDestino;
         private Conexion conexion = new Conexion();
 
-        public DatosPersonales(String cantPasajes)
+        public DatosPersonales(string cantPasajes, string fechaInicioViaje, string idPuertoOrigen, string idPuertoDestino)
         {
             InitializeComponent();
             this.CantidadDePasajes = cantPasajes;
+            FechaInicioViaje = fechaInicioViaje;
+            IdPuertoOrigen = idPuertoOrigen;
+            IdPuertoDestino = idPuertoDestino;
         }
-
 
 
         private void BtnAtras_Click(object sender, EventArgs e)
         {
             this.Visible = false;
-            new SeleccionarViaje(this.CantidadDePasajes).Show();
+            new SeleccionarViaje(FechaInicioViaje, IdPuertoOrigen, IdPuertoDestino).Show();
         }
 
         private void BtnSiguiente_Click(object sender, EventArgs e)
