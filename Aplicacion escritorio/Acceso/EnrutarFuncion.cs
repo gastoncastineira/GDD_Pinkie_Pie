@@ -15,7 +15,6 @@ namespace FrbaCrucero.Acceso
     {
         private string rolSeleccionado;
         private string usuario;
-        private int idCliente = -1;
         List<Funcion> funcion;
         private bool flag = false;
 
@@ -45,7 +44,7 @@ namespace FrbaCrucero.Acceso
                     //new Canje_Puntos.Canje_Puntos(idCliente).Show();
                     break;
                 case Funcion.PAGO_RESERVA:
-                    //new Comprar.Comprar(usuario).Show();
+                    new PagoReserva.PagoReserva().Show();
                     break;
                 case Funcion.LISTADO_ESTADISTICO:
                     new ListadoEstadistico.ListadoEstadistico().Show();
@@ -69,7 +68,8 @@ namespace FrbaCrucero.Acceso
             FormTemplate.Funciones = funcion;
             FormTemplate.usuario = usuario;
 
-            FormTemplate.isAdmin = true;
+            if(usuario.Contains("admin"))
+                FormTemplate.isAdmin = true;
 
 
             if (resul["nombre_funcion"].Count > 1)

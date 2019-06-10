@@ -209,7 +209,7 @@ SET IDENTITY_INSERT PINKIE_PIE.[Usuario] OFF
 
 -- Inserto rol_x_usuario
 INSERT INTO PINKIE_PIE.[Rol_X_Usuario](ID_ROL, ID_Usuario)
-VALUES (1,2)
+VALUES (2,1)
 
 -- Cargo relaciones en al tabla intermedia
 
