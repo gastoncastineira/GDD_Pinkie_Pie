@@ -24,6 +24,7 @@ namespace Conexiones
         public static string Reserva { get { return "PINKIE_PIE.[Reserva]"; } }
         public static string Pasaje { get { return "PINKIE_PIE.[Pasaje]"; } }
         public static string Piso { get { return "PINKIE_PIE.[Piso]"; } }
+        public static string Tipo { get { return "PINKIE_PIE.[Tipo]"; } }
         public static string Top5RecorridosPasajes { get { return "PINKIE_PIE.top_5_recorridos"; } }
         public static string Top5PuntosClientes { get { return "PINKIE_PIE.top_5_clientes_puntos"; } }
         public static string Top5ViajesCabinasVacias { get { return "PINKIE_PIE.top_5_viajes_cabinas_vacias"; } }

@@ -49,14 +49,18 @@ namespace FrbaCrucero.AbmCrucero
                 case 1:
                     if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
                     {   //Modificar
-
+                        new ModificarCrucero(PK,
+                            dataGridViewCruceros.Rows[e.RowIndex].Cells[4].Value.ToString(),
+                            dataGridViewCruceros.Rows[e.RowIndex].Cells[5].Value.ToString(),
+                            dataGridViewCruceros.Rows[e.RowIndex].Cells[6].Value.ToString()
+                            ,this).Show();
                     }
                     break;
                 case 2:
                     if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
                     {   //Ver datos
                         List<Filtro> listFiltro = new List<Filtro>();
-                        listFiltro.Add(FiltroFactory.Exacto("RECORRIDO_ID", PK));
+                        listFiltro.Add(FiltroFactory.Exacto("Crucero", PK));
                         conexion.LlenarDataGridView(Tabla.CabinasDeCrucero, ref dataGridViewCabinas, listFiltro);
                     }
                     break;

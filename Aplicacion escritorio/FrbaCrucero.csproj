@@ -51,6 +51,12 @@
     <Compile Include="AbmCrucero\ListaDeCruceros.Designer.cs">
       <DependentUpon>ListaDeCruceros.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmCrucero\ModificarCrucero.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCrucero\ModificarCrucero.Designer.cs">
+      <DependentUpon>ModificarCrucero.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmPuerto\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -190,6 +196,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AbmCrucero\ListaDeCruceros.resx">
       <DependentUpon>ListaDeCruceros.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCrucero\ModificarCrucero.resx">
+      <DependentUpon>ModificarCrucero.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRecorrido\CrearRecorrido.resx">
       <DependentUpon>CrearRecorrido.cs</DependentUpon>

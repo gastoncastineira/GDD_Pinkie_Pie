@@ -95,6 +95,10 @@ namespace Conexiones
             }
             return true;
         }
+        public void LlenarComboBox(string tabla, ref ComboBox comboBox, List<Filtro> filtros)
+        {
+            comboBox.DataSource = ConseguirTabla(tabla, filtros);
+        }
 
         //Recibe el nombre de la tabla de Conexion.Tabla, el dataGrid POR REFERENCIA, y los filtros de busqueda sacados 
         //de Conexion.Filtro 
