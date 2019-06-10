@@ -37,6 +37,7 @@ namespace Conexiones
         public static string ViajesEnFechaYOrigenDestino { get { return "PINKIE_PIE.[ViajesEnFechaYOrigenDestino]"; } }
         public static string ViajesDisponiblesGridView { get { return "PINKIE_PIE.[ViajesDisponiblesGridView]"; } }
         public static string CabinasDisponiblesGridView { get { return "PINKIE_PIE.[CabinasDisponiblesGridView]"; } }
+        public static string CabinasDeCrucero { get { return "PINKIE_PIE.[CabinasDeCrucero]"; } }
 
     }
 }

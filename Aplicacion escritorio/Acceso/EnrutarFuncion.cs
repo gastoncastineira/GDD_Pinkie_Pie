@@ -33,7 +33,7 @@ namespace FrbaCrucero.Acceso
             switch (funcion[index])
             {
                 case Funcion.ABM_CRUCERO:
-                    //new Abm_Cliente.ListadoClientes().Show();
+                    new AbmCrucero.ListaDeCruceros().Show();
                     break;
                 case Funcion.COMPRA_PASAJE:
                     //new Abm_Empresa_Espectaculo.ListadoEmpresas().Show();

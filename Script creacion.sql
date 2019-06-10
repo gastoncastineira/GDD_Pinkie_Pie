@@ -519,3 +519,9 @@ JOIN PINKIE_PIE.Cabina c
 WHERE c.ocupado = 0
 GROUP BY tipo, porcentaje_costo, viaje_id
 GO
+
+CREATE VIEW PINKIE_PIE.CabinasDeCrucero
+AS
+SELECT [Nro_piso] AS Piso, [cant_cabina] AS Cantidad, T.tipo AS Tipo, P.id_crucero AS Crucero
+FROM [GD1C2019].[PINKIE_PIE].[Piso] P JOIN [GD1C2019].[PINKIE_PIE].[Tipo] T ON P.id_tipo = T.ID
+GO
