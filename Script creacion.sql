@@ -187,7 +187,7 @@ SET @contador = 2
 WHILE @contador < @cant
 	BEGIN
 		INSERT INTO PINKIE_PIE.[Usuario](usuario, contrasenia, ID)
-		VALUES	(CONCAT('admin', CAST(@contador-1 as varchar(3))), HASHBYTES('SHA2_256', N'w23e'), @contador)
+		VALUES	(CONCAT('admin', CAST(@contador-1 as varchar(10))), HASHBYTES('SHA2_256', N'w23e'), @contador)
 		INSERT INTO PINKIE_PIE.[Rol_X_Usuario](ID_ROL, ID_Usuario)
 		VALUES (1,@contador)
 		SET @contador = @contador + 1
@@ -209,7 +209,7 @@ SET IDENTITY_INSERT PINKIE_PIE.[Usuario] OFF
 
 -- Inserto rol_x_usuario
 INSERT INTO PINKIE_PIE.[Rol_X_Usuario](ID_ROL, ID_Usuario)
-VALUES (1,2)
+VALUES (2,1)
 
 -- Cargo relaciones en al tabla intermedia
 
