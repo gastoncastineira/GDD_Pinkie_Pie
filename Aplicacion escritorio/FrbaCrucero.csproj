@@ -162,11 +162,11 @@
     </Compile>
     <Compile Include="model\Cabina.cs" />
     <Compile Include="model\Viaje.cs" />
-    <Compile Include="PagoReserva\Form1.cs">
+    <Compile Include="PagoReserva\PagoReserva.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PagoReserva\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="PagoReserva\PagoReserva.Designer.cs">
+      <DependentUpon>PagoReserva.cs</DependentUpon>
     </Compile>
     <Compile Include="Acceso\Login.cs">
       <SubType>Form</SubType>
@@ -235,6 +235,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ListadoEstadistico\ListadoEstadistico.resx">
       <DependentUpon>ListadoEstadistico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PagoReserva\PagoReserva.resx">
+      <DependentUpon>PagoReserva.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

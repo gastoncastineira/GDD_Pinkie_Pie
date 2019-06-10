@@ -9,7 +9,7 @@ namespace FrbaCrucero
     public enum Funcion
     {
         ABM_ROL=1,
-        ABM_PUERTO,
+        COMPRA_PASAJE,
         ABM_RECORRIDO,
         ABM_CRUCERO,
         GENERAR_VIAJE,

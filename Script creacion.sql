@@ -157,7 +157,7 @@ CREATE TABLE PINKIE_PIE.[fecha_fuera_servicio](
 INSERT INTO PINKIE_PIE.[Funcion](ID, nombre)
 VALUES (1,'ABM_ROL'); 
 INSERT INTO PINKIE_PIE.[Funcion](ID, nombre)
-VALUES (2,'ABM_PUERTO'); 
+VALUES (2,'COMPRA'); 
 INSERT INTO PINKIE_PIE.[Funcion](ID, nombre)
 VALUES (3,'ABM_RECORRIDO'); 
 INSERT INTO PINKIE_PIE.[Funcion](ID, nombre)
@@ -173,24 +173,48 @@ VALUES (7,'LISTADO_ESTADISTICO');
 SET IDENTITY_INSERT PINKIE_PIE.[Rol] ON
 
 INSERT INTO PINKIE_PIE.[Rol](nombre, ID)
-VALUES ('ADMINISTRADOR', 1);
+VALUES ('ADMINISTRADOR', 1), ('CLIENTE', 2);
 
 SET IDENTITY_INSERT PINKIE_PIE.[Rol] OFF
 
 -- Inserto el usuario
+GO
+CREATE PROCEDURE crear_admins @cant int
+AS
+BEGIN
+DECLARE @contador int
+SET @contador = 2
+WHILE @contador < @cant
+	BEGIN
+		INSERT INTO PINKIE_PIE.[Usuario](usuario, contrasenia, ID)
+		VALUES	(CONCAT('admin', CAST(@contador-1 as varchar(3))), HASHBYTES('SHA2_256', N'w23e'), @contador)
+		INSERT INTO PINKIE_PIE.[Rol_X_Usuario](ID_ROL, ID_Usuario)
+		VALUES (1,@contador)
+		SET @contador = @contador + 1
+	END
+END
+GO
+
 SET IDENTITY_INSERT PINKIE_PIE.[Usuario] ON
+
 INSERT INTO PINKIE_PIE.[Usuario](usuario, contrasenia, ID)
-VALUES ('admin', HASHBYTES('SHA2_256', N'w23e'), 1)
+VALUES ("cliente", HASHBYTES('SHA2_256', N'0'), 1);
+
+EXEC crear_admins @cant = 10;
+
+DROP PROCEDURE crear_admins;
+GO
+
 SET IDENTITY_INSERT PINKIE_PIE.[Usuario] OFF
 
 -- Inserto rol_x_usuario
 INSERT INTO PINKIE_PIE.[Rol_X_Usuario](ID_ROL, ID_Usuario)
-VALUES (1,1)
+VALUES (1,2)
 
 -- Cargo relaciones en al tabla intermedia
 
 INSERT INTO PINKIE_PIE.[Rol_X_Funcion](ID_Rol, ID_Funcion)
-VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7) 
+VALUES (2,2), (2,6), (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7) 
 
 -- Inserto puertos
 INSERT INTO PINKIE_PIE.[Puerto](descripcion)

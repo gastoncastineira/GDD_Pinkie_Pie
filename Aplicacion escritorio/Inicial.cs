@@ -25,7 +25,8 @@ namespace FrbaCrucero
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-
+            Hide();
+            new Acceso.EnrutarFuncion("CLIENTE", "cliente").Show();
         }
     }
 }

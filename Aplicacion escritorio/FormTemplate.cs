@@ -26,9 +26,9 @@ namespace FrbaCrucero
                         item.Click += ABM_Crucero_Click;
                         verToolStripMenuItem.DropDownItems.Add(item);
                         break;
-                    case Funcion.ABM_PUERTO:
+                    case Funcion.COMPRA_PASAJE:
                         item = new ToolStripMenuItem("ABM Empresa");
-                        item.Click += ABM_Puerto_Click;
+                        item.Click += Compra_Pasaje_Click;
                         verToolStripMenuItem.DropDownItems.Add(item);
                         break;
                     case Funcion.ABM_RECORRIDO:
@@ -74,7 +74,7 @@ namespace FrbaCrucero
             //new Abm_Cliente.ListadoClientes().Show();
         }
 
-        private void ABM_Puerto_Click(object sender, EventArgs e)
+        private void Compra_Pasaje_Click(object sender, EventArgs e)
         {
             flag = true;
             Close();
@@ -106,7 +106,7 @@ namespace FrbaCrucero
         {
             flag = true;
             Close();          
-            //new Comprar.Comprar(usuario).Show();
+            new PagoReserva.PagoReserva().Show();
         }
 
         private void ListadoEstadistico_Click(object sender, EventArgs e)
@@ -121,16 +121,6 @@ namespace FrbaCrucero
             if(!flag)
                 Program.FormInicial.Show();
             flag = false;
-        }
-
-        private void FormTemplate_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void verToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

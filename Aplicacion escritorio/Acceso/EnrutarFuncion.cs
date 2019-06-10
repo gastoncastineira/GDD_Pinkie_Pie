@@ -13,7 +13,6 @@ namespace FrbaCrucero.Acceso
 {
     public partial class EnrutarFuncion : Form
     {
-        Conexion conexion = new Conexion();
         private string rolSeleccionado;
         private string usuario;
         private int idCliente = -1;
@@ -36,7 +35,7 @@ namespace FrbaCrucero.Acceso
                 case Funcion.ABM_CRUCERO:
                     //new Abm_Cliente.ListadoClientes().Show();
                     break;
-                case Funcion.ABM_PUERTO:
+                case Funcion.COMPRA_PASAJE:
                     //new Abm_Empresa_Espectaculo.ListadoEmpresas().Show();
                     break;
                 case Funcion.ABM_RECORRIDO:
@@ -61,6 +60,7 @@ namespace FrbaCrucero.Acceso
 
         private void EnrutarFuncion_Load(object sender, EventArgs e)
         {
+            Conexion conexion = new Conexion();
             List<Filtro> filtros = new List<Filtro>();
             filtros.Add(FiltroFactory.Exacto("usuario", usuario));
             filtros.Add(FiltroFactory.Exacto("nombre_rol", rolSeleccionado));
