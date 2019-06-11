@@ -484,7 +484,9 @@ SELECT v.fecha_inicio AS FECHA_INICIO, v.fecha_fin_estimada AS FECHA_DE_FIN,
 	pOrigen.ID AS ID_PUERTO_ORIGEN_RECORRIDO,
 	r.ID AS RECORRIDO_ID,
 	v.ID AS VIAJE_ID,
-	cru.fabricante AS CRUCERO_FABRICANTE
+	cru.fabricante AS CRUCERO_FABRICANTE,
+	cru.modelo AS CRUCERO_MODELO,
+	cru.ID AS CRUCERO_ID
 FROM PINKIE_PIE.Viaje v
 JOIN PINKIE_PIE.Recorrido r
 	ON r.ID = v.recorrido_id
@@ -512,16 +514,34 @@ GO
 
 CREATE VIEW PINKIE_PIE.CabinasDisponiblesGridView
 AS
-SELECT tipo AS TIPO, porcentaje_costo AS PORCENTAJE_COSTO, viaje_id
+SELECT tipo AS TIPO, porcentaje_costo AS PORCENTAJE_COSTO, viaje_id, t.ID AS ID_TIPO
 FROM PINKIE_PIE.Tipo t
 JOIN PINKIE_PIE.Cabina c
 	ON c.tipo_id = t.ID
 WHERE c.ocupado = 0
-GROUP BY tipo, porcentaje_costo, viaje_id
+GROUP BY tipo, porcentaje_costo, viaje_id, t.ID
 GO
 
 CREATE VIEW PINKIE_PIE.CabinasDeCrucero
 AS
 SELECT [Nro_piso] AS Piso, [cant_cabina] AS Cantidad, T.tipo AS Tipo, P.id_crucero AS Crucero
 FROM [GD1C2019].[PINKIE_PIE].[Piso] P JOIN [GD1C2019].[PINKIE_PIE].[Tipo] T ON P.id_tipo = T.ID
+GO
+
+CREATE VIEW PINKIE_PIE.ClienteComproViaje
+AS
+SELECT cliente_id, viaje_ID, fecha_inicio
+FROM PINKIE_PIE.Pasaje 
+JOIN PINKIE_PIE.Cabina c
+	ON cabina_id = c.ID
+JOIN PINKIE_PIE.Viaje v
+	ON v.ID = viaje_id
+GO
+
+CREATE VIEW PINKIE_PIE.ClienteReservoViaje
+AS
+SELECT cliente_id, viaje_ID
+FROM PINKIE_PIE.Reserva 
+JOIN PINKIE_PIE.Cabina c
+	ON cabina_id = c.ID
 GO

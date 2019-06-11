@@ -34,3 +34,5 @@ DROP VIEW PINKIE_PIE.ViajesEnFechaYOrigenDestino
 DROP VIEW PINKIE_PIE.ViajesDisponiblesGridView
 DROP VIEW PINKIE_PIE.CabinasDisponiblesGridView
 DROP VIEW PINKIE_PIE.CabinasDeCrucero
+DROP VIEW PINKIE_PIE.ClienteComproViaje
+DROP VIEW PINKIE_PIE.ClienteReservoViaje

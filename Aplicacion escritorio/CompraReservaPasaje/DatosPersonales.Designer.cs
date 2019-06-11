@@ -41,14 +41,12 @@
             this.label7 = new System.Windows.Forms.Label();
             this.txtMail = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.btnSiguiente = new System.Windows.Forms.Button();
             this.btnAtras = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.txtTelefono = new System.Windows.Forms.TextBox();
             this.dtFechaDeNacimiento = new System.Windows.Forms.DateTimePicker();
+            this.btnLimpiarCampos = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtNombre
@@ -159,32 +157,6 @@
             this.label8.TabIndex = 14;
             this.label8.Text = "Fecha de nacimiento *";
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(474, 226);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(92, 13);
-            this.label9.TabIndex = 17;
-            this.label9.Text = "Método de pago *";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(572, 224);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 7;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(477, 266);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(84, 13);
-            this.label10.TabIndex = 19;
-            this.label10.Text = "Ver lo de cuotas";
-            // 
             // btnSiguiente
             // 
             this.btnSiguiente.Location = new System.Drawing.Point(582, 369);
@@ -223,27 +195,35 @@
             // 
             // dtFechaDeNacimiento
             // 
-            this.dtFechaDeNacimiento.CustomFormat = "dd/mm/yyyy";
+            this.dtFechaDeNacimiento.CustomFormat = "dd/MM/yyyy";
             this.dtFechaDeNacimiento.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtFechaDeNacimiento.Location = new System.Drawing.Point(148, 230);
             this.dtFechaDeNacimiento.Name = "dtFechaDeNacimiento";
             this.dtFechaDeNacimiento.Size = new System.Drawing.Size(200, 20);
             this.dtFechaDeNacimiento.TabIndex = 25;
             // 
+            // btnLimpiarCampos
+            // 
+            this.btnLimpiarCampos.Location = new System.Drawing.Point(550, 272);
+            this.btnLimpiarCampos.Name = "btnLimpiarCampos";
+            this.btnLimpiarCampos.Size = new System.Drawing.Size(107, 23);
+            this.btnLimpiarCampos.TabIndex = 26;
+            this.btnLimpiarCampos.Text = "Limpiar campos";
+            this.btnLimpiarCampos.UseVisualStyleBackColor = true;
+            this.btnLimpiarCampos.Click += new System.EventHandler(this.BtnLimpiarCampos_Click);
+            // 
             // DatosPersonales
             // 
             this.AcceptButton = this.btnSiguiente;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(700, 450);
+            this.Controls.Add(this.btnLimpiarCampos);
             this.Controls.Add(this.dtFechaDeNacimiento);
             this.Controls.Add(this.txtTelefono);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.btnSiguiente);
             this.Controls.Add(this.btnAtras);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtMail);
@@ -260,7 +240,6 @@
             this.Name = "DatosPersonales";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Datos personales";
-            this.Load += new System.EventHandler(this.DatosPersonales_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -281,13 +260,11 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtMail;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btnSiguiente;
         private System.Windows.Forms.Button btnAtras;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.DateTimePicker dtFechaDeNacimiento;
+        private System.Windows.Forms.Button btnLimpiarCampos;
     }
 }

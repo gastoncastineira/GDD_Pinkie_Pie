@@ -1,5 +1,6 @@
 ﻿namespace FrbaCrucero.CompraPasaje
 {
+    e
     partial class ComprarReservarViaje
     {
         /// <summary>
@@ -114,6 +115,7 @@
             this.Controls.Add(this.lblFechaViaje);
             this.Controls.Add(this.dtFechaDeViaje);
             this.Name = "ComprarReservarViaje";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Comprar o reservar viaje";
             this.Load += new System.EventHandler(this.ComprarReservarViaje_Load);
             this.ResumeLayout(false);

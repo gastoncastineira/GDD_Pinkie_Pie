@@ -113,13 +113,13 @@ namespace FrbaCrucero.GeneracionViaje
             Dictionary<string, object> datosViaje = new Dictionary<string, object>();
             datosViaje["fecha_inicio"] = ViajeAGenerar.FechaInicio;
             datosViaje["fecha_fin"] = null;
-            datosViaje["fecha_fin_estimada"] = ViajeAGenerar.FechaFinalizacion;
+            datosViaje["fecha_fin_estimada"] = ViajeAGenerar.Fecha_Fin_Estimada;
             datosViaje["pasajes_vendidos"] = ViajeAGenerar.PasajesVendidos;
             datosViaje["recorrido_id"] = ViajeAGenerar.Recorrido_id;
 
             Transaccion tr = conexion.IniciarTransaccion();
 
-            int idViajeInsertado = tr.Insertar(Tabla.Rol, datosViaje);
+            int idViajeInsertado = tr.Insertar(Tabla.Viaje, datosViaje);
 
             ViajeAGenerar.Id = idViajeInsertado;
 
@@ -132,7 +132,7 @@ namespace FrbaCrucero.GeneracionViaje
                 datosCabina["tipo_id"] = cabina.Tipo_id;
                 datosCabina["numero_piso"] = cabina.NumeroPiso;
                 datosCabina["numero_habitacion"] = cabina.NumeroHabitacion;
-                datosCabina["ocupado"] = 1;
+                datosCabina["ocupado"] = 0;
 
                 int idCabinaInsertada = tr.Insertar(Tabla.Cabina, datosCabina);
             }
@@ -179,7 +179,7 @@ namespace FrbaCrucero.GeneracionViaje
             if (fechaFinalizacion > fechaInicio)
             {
                 ViajeAGenerar.FechaInicio = fechaInicio;
-                ViajeAGenerar.FechaFinalizacion = fechaFinalizacion;
+                ViajeAGenerar.Fecha_Fin_Estimada = fechaFinalizacion;
 
                 return "";
             }
@@ -187,14 +187,14 @@ namespace FrbaCrucero.GeneracionViaje
             return "La fecha de finalizacion debe ser posterior a la fecha de inicio.\n";
         }
 
-        public String ValidarExisteCrucero(string resultado) 
+        public String ValidarExisteCrucero(string resultado)
         {
             if (resultado == "")
             {
                 List<Filtro> filtros = new List<Filtro>();
                 filtros.Add(FiltroFactory.Exacto("ID", txtCrucero.Text.ToString()));
-                
-                if (conexion.ExisteRegistro(Tabla.Crucero, new List<string>(new string[] { "ID" }), filtros)) 
+
+                if (conexion.ExisteRegistro(Tabla.Crucero, new List<string>(new string[] { "ID" }), filtros))
                     return "";
 
                 return "El id del crucero ingresado no existe.\n";
@@ -217,7 +217,7 @@ namespace FrbaCrucero.GeneracionViaje
 
                 if (!Convert.IsDBNull(fechaBajaDefinitiva["fecha_baja_definitiva"].First()))
                 {
-                    if (Convert.ToDateTime(fechaBajaDefinitiva["fecha_baja_definitiva"].First()) < ViajeAGenerar.FechaFinalizacion)
+                    if (Convert.ToDateTime(fechaBajaDefinitiva["fecha_baja_definitiva"].First()) < ViajeAGenerar.Fecha_Fin_Estimada)
                         return "El crucero está de baja de forma definitiva en el rango de fechas que eligió.\n";
                 }
 
@@ -255,8 +255,8 @@ namespace FrbaCrucero.GeneracionViaje
                                 (Convert.ToDateTime(fechasFueraServicio["fecha_reinicio_servicio"][i]) <= ViajeAGenerar.FechaInicio
                                 && Convert.ToDateTime(fechasFueraServicio["fecha_fuera_de_servicio"][i]) < ViajeAGenerar.FechaInicio)
                                 ||
-                                (Convert.ToDateTime(fechasFueraServicio["fecha_fuera_de_servicio"][i]) > ViajeAGenerar.FechaFinalizacion
-                                && Convert.ToDateTime(fechasFueraServicio["fecha_reinicio_servicio"][i]) > ViajeAGenerar.FechaFinalizacion)))
+                                (Convert.ToDateTime(fechasFueraServicio["fecha_fuera_de_servicio"][i]) > ViajeAGenerar.Fecha_Fin_Estimada
+                                && Convert.ToDateTime(fechasFueraServicio["fecha_reinicio_servicio"][i]) > ViajeAGenerar.Fecha_Fin_Estimada)))
                                 return "El crucero está de baja en el rango de fechas que eligió.\n";
                         }
                     }
@@ -278,13 +278,13 @@ namespace FrbaCrucero.GeneracionViaje
                 {
                     if (!((Convert.ToDateTime(viajesConCrucero["fecha_inicio"][i]) <= ViajeAGenerar.FechaInicio
                         && Convert.ToDateTime(viajesConCrucero["fecha_fin_estimada"][i]) <= ViajeAGenerar.FechaInicio)
-                        || (Convert.ToDateTime(viajesConCrucero["fecha_inicio"][i]) >= ViajeAGenerar.FechaFinalizacion
-                        && Convert.ToDateTime(viajesConCrucero["fecha_fin_estimada"][i]) >= ViajeAGenerar.FechaFinalizacion)))
+                        || (Convert.ToDateTime(viajesConCrucero["fecha_inicio"][i]) >= ViajeAGenerar.Fecha_Fin_Estimada
+                        && Convert.ToDateTime(viajesConCrucero["fecha_fin_estimada"][i]) >= ViajeAGenerar.Fecha_Fin_Estimada)))
                     {
                         return "El crucero está ocupado en otro viaje en el rango de fechas que eligió.\n";
                     }
                 }
-                
+
 
                 // EL CRUCERO ESTA DISPONIBLE
                 return "";

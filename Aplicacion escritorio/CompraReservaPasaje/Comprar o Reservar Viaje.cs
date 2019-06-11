@@ -15,7 +15,6 @@ namespace FrbaCrucero.CompraPasaje
 {
     public partial class ComprarReservarViaje : Form
     {
-        private List<Viaje> Viajes = new List<Viaje>();
         private Conexion conexion = new Conexion();
 
         public ComprarReservarViaje()
@@ -41,7 +40,7 @@ namespace FrbaCrucero.CompraPasaje
             }
 
             return datos;
-        }        
+        }
 
         private void BtnBuscarViajes_Click(object sender, EventArgs e)
         {
@@ -51,7 +50,7 @@ namespace FrbaCrucero.CompraPasaje
                 if (HayViajes())
                 {
                     this.Visible = false;
-                    new SeleccionarViaje(dtFechaDeViaje.Value.ToString("yyyy-MM-dd"), getIdPuerto(txtOrigen.Text.ToString()), getIdPuerto(txtDestino.Text.ToString())).Show();
+                    new SeleccionarViaje(Convert.ToDateTime(dtFechaDeViaje.Value), getIdPuerto(txtOrigen.Text.ToString()), getIdPuerto(txtDestino.Text.ToString())).Show();
                 }
                 else
                 {
@@ -94,7 +93,7 @@ namespace FrbaCrucero.CompraPasaje
             return puerto["ID"].First().ToString();
         }
 
-        // VALIDACIONES
+        // ---------------------------------------VALIDACIONES------------------------------------------
         private String ValidarCampos()
         {
             String resultado = "";
@@ -126,7 +125,7 @@ namespace FrbaCrucero.CompraPasaje
         {
             foreach (char letra in texto.Trim())
             {
-                if (!(char.IsLetter(letra) || char.IsWhiteSpace(letra)))
+                if (!(char.IsLetter(letra) || char.IsWhiteSpace(letra) || letra.Equals('-') || letra.Equals(',')))
                     return "En el campo " + tipoDeCampo + " solo se pueden ingresar letras. \n";
             }
 
@@ -142,7 +141,7 @@ namespace FrbaCrucero.CompraPasaje
 
                 Dictionary<string, List<object>> puerto = conexion.ConsultaPlana(Tabla.Puerto, new List<string>(new string[] { "descripcion" }), filtros);
 
-                if(puerto["descripcion"].Count() >= 1) // TODO cambiar >= a ==
+                if (puerto["descripcion"].Count() >= 1) // TODO cambiar >= a ==
                     return "";
 
                 return "El puerto " + tipoPuerto + " no existe.\n";

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace FrbaCrucero.model
 {
-    class Cabina
+    public class Cabina
     {
-        public int Id { get; }
+        public int Id { get; set; }
         public int Crucero_id { get; set; }
         public int Viaje_id { get; set; }
         public int Tipo_id { get; set; }
@@ -24,5 +24,7 @@ namespace FrbaCrucero.model
             NumeroHabitacion = nroHabitacion;
             Ocupado = ocupado;
         }
+
+        public Cabina() { }
     }
 }

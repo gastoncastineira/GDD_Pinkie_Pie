@@ -6,18 +6,16 @@ using System.Threading.Tasks;
 
 namespace FrbaCrucero.model
 {
-    class Viaje
+    public class Viaje
     {
         public int Id { get; set; }
         public int Recorrido_id { get; set; }
-        public DateTime FechaInicio { get; set; } //TODO ver tipo de fecha, buscar uno que pueda poner año, mes, día y hora
-        public DateTime FechaFinalizacion { get; set; }
-        public int PasajesVendidos { get; set; } //TODO ver enunciado nuevo, consultas y el script
+        public DateTime FechaInicio { get; set; }
+        public DateTime Fecha_Fin_Estimada { get; set; }
+        public int PasajesVendidos { get; set; }
 
         public List<Cabina> Cabinas;
 
-        public Viaje(){}
-
-        // TODO persistir
+        public Viaje() { }
     }
 }

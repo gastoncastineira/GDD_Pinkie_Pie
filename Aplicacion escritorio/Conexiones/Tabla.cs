@@ -24,6 +24,8 @@ namespace Conexiones
         public static string Reserva { get { return "PINKIE_PIE.[Reserva]"; } }
         public static string Pasaje { get { return "PINKIE_PIE.[Pasaje]"; } }
         public static string Piso { get { return "PINKIE_PIE.[Piso]"; } }
+        public static string Viaje { get { return "PINKIE_PIE.[Viaje]"; } }
+
         public static string Tipo { get { return "PINKIE_PIE.[Tipo]"; } }
         public static string Top5RecorridosPasajes { get { return "PINKIE_PIE.top_5_recorridos"; } }
         public static string Top5PuntosClientes { get { return "PINKIE_PIE.top_5_clientes_puntos"; } }
@@ -39,6 +41,8 @@ namespace Conexiones
         public static string ViajesDisponiblesGridView { get { return "PINKIE_PIE.[ViajesDisponiblesGridView]"; } }
         public static string CabinasDisponiblesGridView { get { return "PINKIE_PIE.[CabinasDisponiblesGridView]"; } }
         public static string CabinasDeCrucero { get { return "PINKIE_PIE.[CabinasDeCrucero]"; } }
-
+        public static string ClienteComproViaje { get { return "PINKIE_PIE.[ClienteComproViaje]"; } }
+        public static string ClienteReservoViaje { get { return "PINKIE_PIE.[ClienteReservoViaje]"; } }
     }
+
 }
