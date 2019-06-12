@@ -16,10 +16,11 @@ namespace FrbaCrucero.CompraReservaPasaje
     {
         private string IdPuertoOrigen, IdPuertoDestino;
         private Viaje ViajeElegido;
-        private int CantidadDePasajes, PrecioTotal;
+        private int CantidadDePasajes;
+        private double PrecioTotal;
         private Conexion conexion = new Conexion();
 
-        public DatosPersonales(int cantPasajes, Viaje viaje, string idPuertoOrigen, string idPuertoDestino, int precioTotal)
+        public DatosPersonales(int cantPasajes, Viaje viaje, string idPuertoOrigen, string idPuertoDestino, double precioTotal)
         {
             CantidadDePasajes = cantPasajes;
             ViajeElegido = viaje;
@@ -43,7 +44,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             {
                 this.Visible = false;
 
-                new MedioDePago(CantidadDePasajes, ViajeElegido, IdPuertoOrigen, IdPuertoDestino, getCliente(), PrecioTotal, RecorridoId).Show();
+                new MedioDePago(CantidadDePasajes, ViajeElegido, IdPuertoOrigen, IdPuertoDestino, getCliente(), PrecioTotal).Show();
             }
             else
             {
@@ -74,11 +75,11 @@ namespace FrbaCrucero.CompraReservaPasaje
 
                 cliente.Nombre = cli["nombre"].First().ToString();
                 cliente.Apellido = cli["apellido"].First().ToString();
-                cliente.Dni = Convert.ToInt32(cli["nombre"].First());
+                cliente.Dni = Convert.ToInt32(cli["DNI"].First());
                 cliente.Direccion = cli["direccion"].First().ToString();
                 cliente.Telefono = Convert.ToInt32(cli["telefono"].First());
                 cliente.Mail = cli["mail"].First().ToString();
-                cliente.FechaDeNacimiento = Convert.ToDateTime(cli["telefono"].First());
+                cliente.FechaDeNacimiento = Convert.ToDateTime(cli["fecha_nacimiento"].First());
             }
 
             return cliente;
@@ -86,29 +87,31 @@ namespace FrbaCrucero.CompraReservaPasaje
 
         private void TxtDNI_Leave(object sender, EventArgs e)
         {
-            // TODO que se rellenen los otros campos automaticamente
-            if (CantClientesConMismoDNI() == 1)
+            if (!string.IsNullOrEmpty(txtDNI.Text))
             {
-                List<Filtro> filtros = new List<Filtro>();
-                filtros.Add(FiltroFactory.Exacto("DNI", txtDNI.Text.Trim()));
+                if (CantClientesConMismoDNI() == 1)
+                {
+                    List<Filtro> filtros = new List<Filtro>();
+                    filtros.Add(FiltroFactory.Exacto("DNI", txtDNI.Text.Trim()));
 
-                List<string> campos = new List<string>();
-                campos.Add("nombre");
-                campos.Add("apellido");
-                campos.Add("direccion");
-                campos.Add("telefono");
-                campos.Add("mail");
-                campos.Add("fecha_nacimiento");
+                    List<string> campos = new List<string>();
+                    campos.Add("nombre");
+                    campos.Add("apellido");
+                    campos.Add("direccion");
+                    campos.Add("telefono");
+                    campos.Add("mail");
+                    campos.Add("fecha_nacimiento");
 
-                Dictionary<string, List<object>> cliente = conexion.ConsultaPlana(Tabla.Cliente, campos, filtros);
+                    Dictionary<string, List<object>> cliente = conexion.ConsultaPlana(Tabla.Cliente, campos, filtros);
 
-                txtNombre.Text = cliente["nombre"].First().ToString();
-                txtApellido.Text = cliente["apellido"].First().ToString();
-                txtDireccion.Text = cliente["direccion"].First().ToString();
-                txtTelefono.Text = cliente["telefono"].First().ToString();
-                txtMail.Text = cliente["mail"].First().ToString();
-                txtNombre.Text = cliente["nombre"].First().ToString();
-                dtFechaDeNacimiento.Value = Convert.ToDateTime(cliente["fecha_nacimiento"].First());
+                    txtNombre.Text = cliente["nombre"].First().ToString();
+                    txtApellido.Text = cliente["apellido"].First().ToString();
+                    txtDireccion.Text = cliente["direccion"].First().ToString();
+                    txtTelefono.Text = cliente["telefono"].First().ToString();
+                    txtMail.Text = cliente["mail"].First().ToString();
+                    txtNombre.Text = cliente["nombre"].First().ToString();
+                    dtFechaDeNacimiento.Value = Convert.ToDateTime(cliente["fecha_nacimiento"].First());
+                }
             }
         }
 
@@ -161,22 +164,22 @@ namespace FrbaCrucero.CompraReservaPasaje
             resultado += this.ValidarSoloNumeros(txtDNI.Text, "DNI");
 
             // Nombre
-            resultado += this.ValidarSoloLetras(txtDNI.Text, "nombre");
+            resultado += this.ValidarSoloLetras(txtNombre.Text, "nombre");
 
             // Apellido
-            resultado += this.ValidarSoloLetras(txtDNI.Text, "apellido");
+            resultado += this.ValidarSoloLetras(txtApellido.Text, "apellido");
 
             // Teléfono
             resultado += this.ValidarSoloNumeros(txtTelefono.Text, "teléfono");
 
             // Mail
-            resultado += this.ValidarEsMail(txtTelefono.Text);
+            resultado += this.ValidarEsMail(txtMail.Text);
 
             // No puede hacer compras sobre viajes pasados.
-            resultado += this.ValidarSiYaComproEseViaje();
+            resultado += this.ValidarSiYaComproEseViaje(resultado);
 
             // No puede viajar a más de un destino a la vez
-            resultado += this.ValidarSiHayMasDeUnDestino();
+            resultado += this.ValidarSiHayMasDeUnDestino(resultado);
 
             return resultado;
         }
@@ -230,10 +233,13 @@ namespace FrbaCrucero.CompraReservaPasaje
             return "En el campo mail tiene que ingresar una direccion email válida.\n";
         }
 
-        private String ValidarSiYaComproEseViaje()
+        private String ValidarSiYaComproEseViaje(string resultado)
         {
-            if (TieneUnPasajeConViajePorComprar() || TieneUnaReservaConViajePorComprar())
-                return "No se puede hacer compras sobre viajes pasados.\n";
+            if (resultado == "")
+            {
+                if (TieneUnPasajeConViajePorComprar() || TieneUnaReservaConViajePorComprar())
+                    return "No se puede hacer compras sobre viajes pasados.\n";
+            }
 
             return "";
         }
@@ -268,18 +274,23 @@ namespace FrbaCrucero.CompraReservaPasaje
             return false;
         }
 
-        private string ValidarSiHayMasDeUnDestino()
+        private string ValidarSiHayMasDeUnDestino(string resultado)
         {
-            int idCliente = getIdCliente();
-            if (idCliente != -1)
+            if (resultado == "")
             {
-                List<Filtro> filtros = new List<Filtro>();
-                filtros.Add(FiltroFactory.Exacto("cliente_id", idCliente.ToString()));
-                filtros.Add(FiltroFactory.Exacto("fecha_inicio", ViajeElegido.FechaInicio.ToString("yyyy-MM-dd")));
+                int idCliente = getIdCliente();
+                if (idCliente != -1)
+                {
+                    List<Filtro> filtros = new List<Filtro>();
+                    filtros.Add(FiltroFactory.Exacto("cliente_id", idCliente.ToString()));
+                    filtros.Add(FiltroFactory.Exacto("fecha_inicio", ViajeElegido.FechaInicio.ToString("yyyy-MM-dd")));
 
-                if (conexion.ExisteRegistro(Tabla.ClienteReservoViaje, new List<string>(new string[] { "cliente_id" }), filtros))
-                    return "No puede viajar a más de un destino a la vez.\n";
+                    if (conexion.ExisteRegistro(Tabla.ClienteReservoViaje, new List<string>(new string[] { "cliente_id" }), filtros)
+                        || conexion.ExisteRegistro(Tabla.ClienteComproViaje, new List<string>(new string[] { "cliente_id" }), filtros))
+                        return "No puede viajar a más de un destino a la vez.\n";
+                }
             }
+            
             return "";
         }
 

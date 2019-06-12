@@ -508,7 +508,7 @@ WHERE r.habilitado = 1
 	AND cru.baja_vida_util = 0 
 	AND cru.baja_fuera_de_servicio = 0
 GROUP BY v.ID, v.fecha_inicio, v.pasajes_vendidos, v.fecha_fin_estimada, t.puerto_destino_id, pOrigen.descripcion,
- r.puerto_destino_id, pDestino.descripcion, pOrigen.ID, r.ID, cru.fabricante
+ r.puerto_destino_id, pDestino.descripcion, pOrigen.ID, r.ID, cru.fabricante, cru.modelo, cru.ID
 HAVING SUM(p.cant_cabina) > v.pasajes_vendidos
 GO
 
@@ -540,8 +540,10 @@ GO
 
 CREATE VIEW PINKIE_PIE.ClienteReservoViaje
 AS
-SELECT cliente_id, viaje_ID
+SELECT cliente_id, viaje_ID, fecha_inicio
 FROM PINKIE_PIE.Reserva 
 JOIN PINKIE_PIE.Cabina c
 	ON cabina_id = c.ID
+JOIN PINKIE_PIE.Viaje v
+	ON v.ID = viaje_id
 GO

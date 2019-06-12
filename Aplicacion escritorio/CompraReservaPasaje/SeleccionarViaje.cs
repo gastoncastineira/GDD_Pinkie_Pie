@@ -20,7 +20,7 @@ namespace FrbaCrucero.CompraReservaPasaje
         private int NumPag = 0;
         private DateTime FechaInicioViaje;
         private string IdPuertoOrigen, IdPuertoDestino;
-        private int PrecioTotal;
+        private double PrecioTotal;
 
         public SeleccionarViaje(DateTime fechaInicioViaje, string idPuertoOrigen, string idPuertoDestino)
         {
@@ -172,7 +172,7 @@ namespace FrbaCrucero.CompraReservaPasaje
                 Viaje viaje = new Viaje();
                 viaje.Id = Convert.ToInt32(dtViajes.CurrentRow.Cells[8].Value);
                 viaje.FechaInicio = FechaInicioViaje;
-                viaje.Fecha_Fin_Estimada = Convert.ToDateTime(dtViajes.CurrentRow.Cells[3].Value);
+                viaje.Fecha_Fin_Estimada = Convert.ToDateTime(dtViajes.CurrentRow.Cells[1].Value);
                 viaje.Recorrido_id = Convert.ToInt16(dtViajes.CurrentRow.Cells[7].Value);
 
                 List<Cabina> cabinas = new List<Cabina>();
@@ -218,9 +218,9 @@ namespace FrbaCrucero.CompraReservaPasaje
         {
             if (ValidarCampos() == "")
             {
-                PrecioTotal = Convert.ToInt16(txtCantidadPasajes.Text)
-                    * Convert.ToInt16(dtCabinasDisponibles.CurrentRow.Cells[1].Value)
-                    * Convert.ToInt16(dtViajes.CurrentRow.Cells[4].Value);
+                PrecioTotal = Convert.ToDouble(txtCantidadPasajes.Text)
+                    *  Convert.ToDouble(dtCabinasDisponibles.CurrentRow.Cells["PORCENTAJE_COSTO"].Value)
+                    * Convert.ToDouble(dtViajes.CurrentRow.Cells[4].Value); // TODO LEER MAIL
                 lblPrecioTotal.Text = "Precio total: " + PrecioTotal.ToString();
             }
         }

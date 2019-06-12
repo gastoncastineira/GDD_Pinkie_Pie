@@ -200,14 +200,14 @@
             this.dtFechaDeNacimiento.Location = new System.Drawing.Point(148, 230);
             this.dtFechaDeNacimiento.Name = "dtFechaDeNacimiento";
             this.dtFechaDeNacimiento.Size = new System.Drawing.Size(200, 20);
-            this.dtFechaDeNacimiento.TabIndex = 25;
+            this.dtFechaDeNacimiento.TabIndex = 6;
             // 
             // btnLimpiarCampos
             // 
             this.btnLimpiarCampos.Location = new System.Drawing.Point(550, 272);
             this.btnLimpiarCampos.Name = "btnLimpiarCampos";
             this.btnLimpiarCampos.Size = new System.Drawing.Size(107, 23);
-            this.btnLimpiarCampos.TabIndex = 26;
+            this.btnLimpiarCampos.TabIndex = 7;
             this.btnLimpiarCampos.Text = "Limpiar campos";
             this.btnLimpiarCampos.UseVisualStyleBackColor = true;
             this.btnLimpiarCampos.Click += new System.EventHandler(this.BtnLimpiarCampos_Click);

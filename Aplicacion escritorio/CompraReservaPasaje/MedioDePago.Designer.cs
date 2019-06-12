@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblMetodoDePago = new System.Windows.Forms.Label();
             this.cmbMetodoDePago = new System.Windows.Forms.ComboBox();
             this.cmbCantidadDeCuotas = new System.Windows.Forms.ComboBox();
             this.lblCantidadDeCuotas = new System.Windows.Forms.Label();
@@ -41,19 +41,23 @@
             this.lblPrecioTotal = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // label1
+            // lblMetodoDePago
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 37);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(155, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Seleccione un método de pago";
+            this.lblMetodoDePago.AutoSize = true;
+            this.lblMetodoDePago.Location = new System.Drawing.Point(12, 69);
+            this.lblMetodoDePago.Name = "lblMetodoDePago";
+            this.lblMetodoDePago.Size = new System.Drawing.Size(155, 13);
+            this.lblMetodoDePago.TabIndex = 0;
+            this.lblMetodoDePago.Text = "Seleccione un método de pago";
             // 
             // cmbMetodoDePago
             // 
-            this.cmbMetodoDePago.FormattingEnabled = true;
-            this.cmbMetodoDePago.Location = new System.Drawing.Point(173, 34);
+            this.cmbMetodoDePago.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMetodoDePago.Items.AddRange(new object[] {
+            "EFECTIVO",
+            "CREDITO",
+            "DEBITO"});
+            this.cmbMetodoDePago.Location = new System.Drawing.Point(173, 66);
             this.cmbMetodoDePago.Name = "cmbMetodoDePago";
             this.cmbMetodoDePago.Size = new System.Drawing.Size(121, 21);
             this.cmbMetodoDePago.TabIndex = 0;
@@ -61,6 +65,7 @@
             // 
             // cmbCantidadDeCuotas
             // 
+            this.cmbCantidadDeCuotas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCantidadDeCuotas.FormattingEnabled = true;
             this.cmbCantidadDeCuotas.Items.AddRange(new object[] {
             "2",
@@ -82,7 +87,7 @@
             "18",
             "19",
             "20"});
-            this.cmbCantidadDeCuotas.Location = new System.Drawing.Point(173, 120);
+            this.cmbCantidadDeCuotas.Location = new System.Drawing.Point(173, 156);
             this.cmbCantidadDeCuotas.Name = "cmbCantidadDeCuotas";
             this.cmbCantidadDeCuotas.Size = new System.Drawing.Size(121, 21);
             this.cmbCantidadDeCuotas.TabIndex = 2;
@@ -90,7 +95,7 @@
             // lblCantidadDeCuotas
             // 
             this.lblCantidadDeCuotas.AutoSize = true;
-            this.lblCantidadDeCuotas.Location = new System.Drawing.Point(12, 123);
+            this.lblCantidadDeCuotas.Location = new System.Drawing.Point(12, 159);
             this.lblCantidadDeCuotas.Name = "lblCantidadDeCuotas";
             this.lblCantidadDeCuotas.Size = new System.Drawing.Size(99, 13);
             this.lblCantidadDeCuotas.TabIndex = 3;
@@ -119,7 +124,7 @@
             // lblNumeroDeTarjeta
             // 
             this.lblNumeroDeTarjeta.AutoSize = true;
-            this.lblNumeroDeTarjeta.Location = new System.Drawing.Point(12, 82);
+            this.lblNumeroDeTarjeta.Location = new System.Drawing.Point(12, 118);
             this.lblNumeroDeTarjeta.Name = "lblNumeroDeTarjeta";
             this.lblNumeroDeTarjeta.Size = new System.Drawing.Size(91, 13);
             this.lblNumeroDeTarjeta.TabIndex = 6;
@@ -127,7 +132,7 @@
             // 
             // txtNumeroDeTarjerta
             // 
-            this.txtNumeroDeTarjerta.Location = new System.Drawing.Point(173, 79);
+            this.txtNumeroDeTarjerta.Location = new System.Drawing.Point(173, 115);
             this.txtNumeroDeTarjerta.Name = "txtNumeroDeTarjerta";
             this.txtNumeroDeTarjerta.Size = new System.Drawing.Size(121, 20);
             this.txtNumeroDeTarjerta.TabIndex = 1;
@@ -135,7 +140,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 169);
+            this.label2.Location = new System.Drawing.Point(12, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 13);
             this.label2.TabIndex = 8;
@@ -143,14 +148,16 @@
             // 
             // cmbTipoOperacion
             // 
+            this.cmbTipoOperacion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTipoOperacion.FormattingEnabled = true;
             this.cmbTipoOperacion.Items.AddRange(new object[] {
             "COMPRA",
             "RESERVA"});
-            this.cmbTipoOperacion.Location = new System.Drawing.Point(173, 161);
+            this.cmbTipoOperacion.Location = new System.Drawing.Point(173, 17);
             this.cmbTipoOperacion.Name = "cmbTipoOperacion";
             this.cmbTipoOperacion.Size = new System.Drawing.Size(121, 21);
             this.cmbTipoOperacion.TabIndex = 3;
+            this.cmbTipoOperacion.SelectedIndexChanged += new System.EventHandler(this.CmbTipoOperacion_SelectedIndexChanged);
             // 
             // lblPrecioTotal
             // 
@@ -177,7 +184,7 @@
             this.Controls.Add(this.lblCantidadDeCuotas);
             this.Controls.Add(this.cmbCantidadDeCuotas);
             this.Controls.Add(this.cmbMetodoDePago);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblMetodoDePago);
             this.Name = "MedioDePago";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Medio de pago";
@@ -189,7 +196,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblMetodoDePago;
         private System.Windows.Forms.ComboBox cmbMetodoDePago;
         private System.Windows.Forms.ComboBox cmbCantidadDeCuotas;
         private System.Windows.Forms.Label lblCantidadDeCuotas;

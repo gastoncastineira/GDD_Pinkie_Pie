@@ -17,14 +17,15 @@ namespace FrbaCrucero.CompraReservaPasaje
         public string IdPuertoOrigen, IdPuertoDestino, TipoDeOperacion;
         private Viaje ViajeElegido;
         public Cliente ClienteComprador;
-        private int CantidadPasajes, PrecioTotal;
+        private int CantidadDePasajes;
+        private double PrecioTotal;
         private MetodoDePago MedioDePago;
         private Conexion conexion = new Conexion();
         private int NumeroOperacion;
 
-        public Confirmacion(int cantPasajes, Viaje viajeElegido, string idPuertoOrigen, string idPuertoDestino, Cliente cliente, int precioTotal, MetodoDePago medioDePago, string tipoDeOperacion)
+        public Confirmacion(int cantPasajes, Viaje viajeElegido, string idPuertoOrigen, string idPuertoDestino, Cliente cliente, double precioTotal, MetodoDePago medioDePago, string tipoDeOperacion)
         {
-            CantidadPasajes = cantPasajes;
+            CantidadDePasajes = cantPasajes;
             ViajeElegido = viajeElegido;
             IdPuertoOrigen = idPuertoOrigen;
             IdPuertoDestino = idPuertoDestino;
@@ -49,7 +50,8 @@ namespace FrbaCrucero.CompraReservaPasaje
                 lblNumero.Text = "Numero de reserva: " + NumeroOperacion.ToString();
             }
 
-            lblCantidadDePasajeros.Text += CantidadPasajes.ToString();
+            lblCantidadDePasajeros.Text += CantidadDePasajes.ToString();
+            lblFechaDeConcepcion.Text += FrbaCrucero.ConfigurationHelper.FechaActual.ToString();
             lblFechaDeInicio.Text += ViajeElegido.FechaInicio.ToString();
             lblFechaFin.Text += ViajeElegido.Fecha_Fin_Estimada.ToString();
 
@@ -61,11 +63,11 @@ namespace FrbaCrucero.CompraReservaPasaje
             lblPuertoOrigen.Text += puertoOrigen["descripcion"].First().ToString();
 
             List<Filtro> filtrosPuertoDestino = new List<Filtro>();
-            filtrosPuertoDestino.Add(FiltroFactory.Exacto("ID", IdPuertoOrigen.ToString()));
+            filtrosPuertoDestino.Add(FiltroFactory.Exacto("ID", IdPuertoDestino.ToString()));
 
             Dictionary<string, List<object>> puertoDestino = conexion.ConsultaPlana(Tabla.Puerto, new List<string>(new string[] { "descripcion" }), filtrosPuertoDestino);
 
-            lblPuertoDestino.Text += puertoOrigen["descripcion"].First().ToString();
+            lblPuertoDestino.Text += puertoDestino["descripcion"].First().ToString();
             LlenarDGVTramos();
 
             List<Filtro> filtrosCrucero = new List<Filtro>();
@@ -80,7 +82,7 @@ namespace FrbaCrucero.CompraReservaPasaje
 
             lblIdeCrucero.Text += crucero["identificador"].First().ToString();
             lblFabricanteCrucero.Text += crucero["fabricante"].First().ToString();
-            lblModeloCrucero.Text += crucero["identificador"].First().ToString();
+            lblModeloCrucero.Text += crucero["modelo"].First().ToString();
 
             List<Filtro> filtrosTipo = new List<Filtro>();
             filtrosTipo.Add(FiltroFactory.Exacto("ID", ViajeElegido.Cabinas.First().Tipo_id.ToString()));
@@ -88,12 +90,13 @@ namespace FrbaCrucero.CompraReservaPasaje
             Dictionary<string, List<object>> tipoCabina = conexion.ConsultaPlana(Tabla.Tipo, new List<string>(new string[] { "tipo" }), filtrosTipo);
 
             lblTipoDeCabina.Text += tipoCabina["tipo"].First().ToString();
+            lblPrecioTotal.Text += PrecioTotal.ToString();
         }
 
         private void LlenarDGVTramos()
         {
             List<Filtro> filtrosTramos = new List<Filtro>();
-            filtrosTramos.Add(FiltroFactory.Exacto("ID", ViajeElegido.Recorrido_id.ToString()));
+            filtrosTramos.Add(FiltroFactory.Exacto("RECORRIDO_ID", ViajeElegido.Recorrido_id.ToString()));
 
             conexion.LlenarDataGridView(Tabla.TramosParaGridView, ref dtTramos, filtrosTramos);
 
@@ -105,8 +108,8 @@ namespace FrbaCrucero.CompraReservaPasaje
         private void BtnAtras_Click(object sender, EventArgs e)
         {
             this.Visible = false;
-            new DatosPersonales(CantidadPasajes, ViajeElegido, IdPuertoOrigen, IdPuertoDestino, PrecioTotal).Show();
 
+            new MedioDePago(CantidadDePasajes, ViajeElegido, IdPuertoOrigen, IdPuertoDestino, ClienteComprador, PrecioTotal).Show();
         }
 
         private void BtnConfirmar_Click(object sender, EventArgs e)
@@ -158,14 +161,11 @@ namespace FrbaCrucero.CompraReservaPasaje
                 tr.Insertar(Tabla.Reserva, datosMetodoDePago);
             }
 
-
-
             // Se suma al viaje elegido por el usuario la cantidad de pasajes vendidos 
             tr.Modificar(ViajeElegido.Id, Tabla.Viaje, datosViaje);
 
             // Se marca a la cabina como ocupada
             tr.Modificar(cabina.Id, Tabla.Cabina, datosCabina);
-
 
             tr.Commit();
 
@@ -211,7 +211,7 @@ namespace FrbaCrucero.CompraReservaPasaje
 
                 codigoGenerado = codigoRandom + random.Next(10, 100000);
             }
-            while (!(codigos["codigo"].Any(c => Convert.ToInt32(c) == codigoGenerado)));
+            while (codigos["codigo"].Any(c => Convert.ToInt32(c) == codigoGenerado));
 
             return codigoGenerado;
         }
@@ -247,7 +247,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             datosViaje["fecha_inicio"] = ViajeElegido.FechaInicio;
             // datosViaje["fecha_fin"] = null; // TODO ver si va
             datosViaje["fecha_fin_estimada"] = ViajeElegido.Fecha_Fin_Estimada;
-            datosViaje["pasajes_vendidos"] = ViajeElegido.PasajesVendidos + CantidadPasajes;
+            datosViaje["pasajes_vendidos"] = ViajeElegido.PasajesVendidos + CantidadDePasajes;
             datosViaje["recorrido_id"] = ViajeElegido.Recorrido_id;
 
             return datosViaje;

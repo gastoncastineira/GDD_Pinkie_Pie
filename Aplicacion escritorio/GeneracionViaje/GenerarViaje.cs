@@ -23,11 +23,6 @@ namespace FrbaCrucero.GeneracionViaje
             ViajeAGenerar = new Viaje();
         }
 
-        private void GenerarViaje_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void BtnConsultarCruceros_Click(object sender, EventArgs e)
         {
             try

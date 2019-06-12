@@ -62,17 +62,17 @@
             this.btnAtras.Location = new System.Drawing.Point(12, 556);
             this.btnAtras.Name = "btnAtras";
             this.btnAtras.Size = new System.Drawing.Size(75, 23);
-            this.btnAtras.TabIndex = 6;
+            this.btnAtras.TabIndex = 8;
             this.btnAtras.Text = "Atras";
             this.btnAtras.UseVisualStyleBackColor = true;
             this.btnAtras.Click += new System.EventHandler(this.BtnAtras_Click);
             // 
             // btnConfirmar
             // 
-            this.btnConfirmar.Location = new System.Drawing.Point(742, 556);
+            this.btnConfirmar.Location = new System.Drawing.Point(907, 556);
             this.btnConfirmar.Name = "btnConfirmar";
             this.btnConfirmar.Size = new System.Drawing.Size(75, 23);
-            this.btnConfirmar.TabIndex = 5;
+            this.btnConfirmar.TabIndex = 7;
             this.btnConfirmar.Text = "Confirmar";
             this.btnConfirmar.UseVisualStyleBackColor = true;
             this.btnConfirmar.Click += new System.EventHandler(this.BtnConfirmar_Click);
@@ -93,13 +93,13 @@
             this.dtViajes.RowHeadersVisible = false;
             this.dtViajes.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dtViajes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtViajes.Size = new System.Drawing.Size(805, 240);
-            this.dtViajes.TabIndex = 18;
+            this.dtViajes.Size = new System.Drawing.Size(970, 240);
+            this.dtViajes.TabIndex = 0;
             this.dtViajes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DtViajes_CellClick);
             // 
             // btnPrimerPagina
             // 
-            this.btnPrimerPagina.Location = new System.Drawing.Point(97, 271);
+            this.btnPrimerPagina.Location = new System.Drawing.Point(186, 271);
             this.btnPrimerPagina.Name = "btnPrimerPagina";
             this.btnPrimerPagina.Size = new System.Drawing.Size(116, 23);
             this.btnPrimerPagina.TabIndex = 1;
@@ -109,7 +109,7 @@
             // 
             // btnAnterior
             // 
-            this.btnAnterior.Location = new System.Drawing.Point(265, 271);
+            this.btnAnterior.Location = new System.Drawing.Point(361, 271);
             this.btnAnterior.Name = "btnAnterior";
             this.btnAnterior.Size = new System.Drawing.Size(116, 23);
             this.btnAnterior.TabIndex = 2;
@@ -119,7 +119,7 @@
             // 
             // btnSiguiente
             // 
-            this.btnSiguiente.Location = new System.Drawing.Point(426, 271);
+            this.btnSiguiente.Location = new System.Drawing.Point(522, 271);
             this.btnSiguiente.Name = "btnSiguiente";
             this.btnSiguiente.Size = new System.Drawing.Size(116, 23);
             this.btnSiguiente.TabIndex = 3;
@@ -129,7 +129,7 @@
             // 
             // btnUltimaPagina
             // 
-            this.btnUltimaPagina.Location = new System.Drawing.Point(600, 271);
+            this.btnUltimaPagina.Location = new System.Drawing.Point(695, 271);
             this.btnUltimaPagina.Name = "btnUltimaPagina";
             this.btnUltimaPagina.Size = new System.Drawing.Size(116, 23);
             this.btnUltimaPagina.TabIndex = 4;
@@ -139,16 +139,16 @@
             // 
             // txtCantidadPasajes
             // 
-            this.txtCantidadPasajes.Location = new System.Drawing.Point(183, 483);
+            this.txtCantidadPasajes.Location = new System.Drawing.Point(171, 483);
             this.txtCantidadPasajes.Name = "txtCantidadPasajes";
             this.txtCantidadPasajes.Size = new System.Drawing.Size(100, 20);
-            this.txtCantidadPasajes.TabIndex = 19;
+            this.txtCantidadPasajes.TabIndex = 6;
             this.txtCantidadPasajes.TextChanged += new System.EventHandler(this.TxtCantidadPasajes_TextChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(24, 486);
+            this.label6.Location = new System.Drawing.Point(12, 486);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(153, 13);
             this.label6.TabIndex = 20;
@@ -163,20 +163,20 @@
             this.dtCabinasDisponibles.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtCabinasDisponibles.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dtCabinasDisponibles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtCabinasDisponibles.Location = new System.Drawing.Point(27, 331);
+            this.dtCabinasDisponibles.Location = new System.Drawing.Point(15, 331);
             this.dtCabinasDisponibles.MultiSelect = false;
             this.dtCabinasDisponibles.Name = "dtCabinasDisponibles";
             this.dtCabinasDisponibles.ReadOnly = true;
             this.dtCabinasDisponibles.RowHeadersVisible = false;
             this.dtCabinasDisponibles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtCabinasDisponibles.Size = new System.Drawing.Size(287, 132);
-            this.dtCabinasDisponibles.TabIndex = 21;
+            this.dtCabinasDisponibles.TabIndex = 5;
             this.dtCabinasDisponibles.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DtCabinasDisponibles_CellClick);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(24, 315);
+            this.label2.Location = new System.Drawing.Point(12, 315);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(148, 13);
             this.label2.TabIndex = 22;
@@ -192,7 +192,7 @@
             this.dtTramos.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dtTramos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtTramos.Enabled = false;
-            this.dtTramos.Location = new System.Drawing.Point(516, 331);
+            this.dtTramos.Location = new System.Drawing.Point(695, 331);
             this.dtTramos.MultiSelect = false;
             this.dtTramos.Name = "dtTramos";
             this.dtTramos.ReadOnly = true;
@@ -204,7 +204,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(513, 315);
+            this.label4.Location = new System.Drawing.Point(692, 315);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(150, 13);
             this.label4.TabIndex = 24;
@@ -213,7 +213,7 @@
             // lblPrecioTotal
             // 
             this.lblPrecioTotal.AutoSize = true;
-            this.lblPrecioTotal.Location = new System.Drawing.Point(24, 524);
+            this.lblPrecioTotal.Location = new System.Drawing.Point(12, 524);
             this.lblPrecioTotal.Name = "lblPrecioTotal";
             this.lblPrecioTotal.Size = new System.Drawing.Size(66, 13);
             this.lblPrecioTotal.TabIndex = 25;
@@ -224,7 +224,7 @@
             this.AcceptButton = this.btnConfirmar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(829, 591);
+            this.ClientSize = new System.Drawing.Size(994, 591);
             this.Controls.Add(this.lblPrecioTotal);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dtTramos);

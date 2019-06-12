@@ -15,13 +15,14 @@ namespace FrbaCrucero.CompraReservaPasaje
     public partial class MedioDePago : Form
     {
         public string IdPuertoOrigen, IdPuertoDestino, RecorridoId;
-        private int CantidadDePasajes, PrecioTotal;
+        private int CantidadDePasajes;
+        private double PrecioTotal;
         private Viaje ViajeElegido;
         public Cliente ClienteComprador;
         private Conexion conexion = new Conexion();
 
 
-        public MedioDePago(int cantPasajes, Viaje viaje, string idPuertoOrigen, string idPuertoDestino, Cliente cliente, int precioTotal)
+        public MedioDePago(int cantPasajes, Viaje viaje, string idPuertoOrigen, string idPuertoDestino, Cliente cliente, double precioTotal)
         {
             CantidadDePasajes = cantPasajes;
             ViajeElegido = viaje;
@@ -33,14 +34,26 @@ namespace FrbaCrucero.CompraReservaPasaje
             InitializeComponent();
         }
 
+        private void MedioDePago_Load(object sender, EventArgs e)
+        {
+            lblMetodoDePago.Visible = false;
+            cmbMetodoDePago.Visible = false;
+            lblCantidadDeCuotas.Visible = false;
+            cmbCantidadDeCuotas.Visible = false;
+            lblNumeroDeTarjeta.Visible = false;
+            txtNumeroDeTarjerta.Visible = false;
+
+            lblPrecioTotal.Text = "La cantidad a pagar es " + PrecioTotal.ToString();
+        }
+
         private void BtnSiguiente_Click(object sender, EventArgs e)
         {
             String mensaje = ValidarCampos();
             if (mensaje == "")
             {
                 this.Visible = false;
-
-                new Confirmacion(CantidadDePasajes, ViajeElegido, IdPuertoOrigen, IdPuertoDestino, ClienteComprador, PrecioTotal, GetMetodoDePago(), cmbMetodoDePago.SelectedValue.ToString()).Show();
+                
+                new Confirmacion(CantidadDePasajes, ViajeElegido, IdPuertoOrigen, IdPuertoDestino, ClienteComprador, PrecioTotal, GetMetodoDePago(), cmbTipoOperacion.Items[cmbTipoOperacion.SelectedIndex].ToString()).Show();
             }
             else
             {
@@ -56,75 +69,164 @@ namespace FrbaCrucero.CompraReservaPasaje
 
         private MetodoDePago GetMetodoDePago()
         {
-            MetodoDePago medioDePago = new MetodoDePago();
+            if (cmbTipoOperacion.Items[cmbTipoOperacion.SelectedIndex].ToString() == "COMPRA")
+            {
+                MetodoDePago medioDePago = new MetodoDePago();
 
-            medioDePago.Tipo = cmbMetodoDePago.SelectedValue.ToString();
-            medioDePago.NumeroTarjeta = Convert.ToInt32(txtNumeroDeTarjerta.Text.ToString());
+                medioDePago.Tipo = cmbMetodoDePago.Items[cmbMetodoDePago.SelectedIndex].ToString();
 
-            return medioDePago;
+                if (cmbMetodoDePago.Items[cmbMetodoDePago.SelectedIndex].ToString() != "EFECTIVO")
+                    medioDePago.NumeroTarjeta = Convert.ToInt32(txtNumeroDeTarjerta.Text);
+
+                return medioDePago;
+            }
+
+            return null;
         }
 
         private void CmbMetodoDePago_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbMetodoDePago.SelectedValue.ToString() == "CREDITO" || cmbMetodoDePago.SelectedValue.ToString() == "DEBITO")
+            if (cmbMetodoDePago.Items[cmbMetodoDePago.SelectedIndex].ToString() == "CREDITO"
+                || cmbMetodoDePago.Items[cmbMetodoDePago.SelectedIndex].ToString() == "DEBITO")
             {
                 lblNumeroDeTarjeta.Visible = true;
                 txtNumeroDeTarjerta.Visible = true;
 
-                if (cmbMetodoDePago.SelectedValue.ToString() == "CREDITO")
+                if (cmbMetodoDePago.Items[cmbMetodoDePago.SelectedIndex].ToString() == "CREDITO")
                 {
                     lblCantidadDeCuotas.Visible = true;
                     cmbCantidadDeCuotas.Visible = true;
                 }
+                else
+                {
+                    lblCantidadDeCuotas.Visible = false;
+                    cmbCantidadDeCuotas.Visible = false;
+                }
             }
-
-        }
-
-        private void MedioDePago_Load(object sender, EventArgs e)
-        {
-            lblCantidadDeCuotas.Visible = false;
-            cmbCantidadDeCuotas.Visible = false;
-            lblNumeroDeTarjeta.Visible = false;
-            txtNumeroDeTarjerta.Visible = false;
-
-            Dictionary<string, List<object>> medioDePago = conexion.ConsultaPlana(Tabla.MedioDePago, new List<string>(new string[] { "tipo" }), null);
-
-            for (int i = 0; i < Convert.ToInt16(medioDePago["tipo"].Count); i++)
+            else
             {
-                cmbMetodoDePago.Items.Add(medioDePago["tipo"][i].ToString());
+                lblCantidadDeCuotas.Visible = false;
+                cmbCantidadDeCuotas.Visible = false;
+                lblNumeroDeTarjeta.Visible = false;
+                txtNumeroDeTarjerta.Visible = false;
             }
-
-            lblPrecioTotal.Text = "La cantidad a pagar es " + PrecioTotal.ToString();
         }
+
+        private void CmbTipoOperacion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbTipoOperacion.Items[cmbTipoOperacion.SelectedIndex].ToString() == "COMPRA")
+            {
+                lblMetodoDePago.Visible = true;
+                cmbMetodoDePago.Visible = true;
+                lblCantidadDeCuotas.Visible = false;
+                cmbCantidadDeCuotas.Visible = false;
+                lblNumeroDeTarjeta.Visible = false;
+                txtNumeroDeTarjerta.Visible = false;
+            }
+            else
+            {
+                lblMetodoDePago.Visible = false;
+                cmbMetodoDePago.Visible = false;
+                lblCantidadDeCuotas.Visible = false;
+                cmbCantidadDeCuotas.Visible = false;
+                lblNumeroDeTarjeta.Visible = false;
+                txtNumeroDeTarjerta.Visible = false;
+            }
+        }
+
 
         // ---------------------------------------VALIDACIONES------------------------------------------
         private string ValidarCampos()
         {
             string resultado = "";
 
+            // Tipo de operacion
+            resultado += ValidarSeSeleccionoTipoOperacion();
+
             // Metodo de pago
-            resultado += ValidarSeSeleccionoMetodoDePago();
+            resultado += ValidarSeSeleccionoMetodoDePago(resultado);
 
             // Numero de tarjeta
             resultado += ValidarCampoVacio(resultado);
+            resultado += ValidarSoloNumeros(resultado);
+
+            // Cantidad de cuotas
+            resultado += ValidarSeSeleccionoCuotas(resultado);
 
             return resultado;
         }
 
-        private string ValidarSeSeleccionoMetodoDePago()
+        private string ValidarSeSeleccionoTipoOperacion()
         {
-            if (cmbMetodoDePago.SelectedItem.ToString() != "")
+            if (cmbTipoOperacion.SelectedIndex != -1)
                 return "";
 
-            return "Debe ingresar un método de pago.\n";
+            return "Debe ingresar un tipo de operación.\n";
+        }
+
+        private string ValidarSeSeleccionoMetodoDePago(string resultado)
+        {
+            if (resultado == "")
+            {
+                if (cmbTipoOperacion.Items[cmbTipoOperacion.SelectedIndex].ToString() == "COMPRA")
+                {
+                    if (cmbMetodoDePago.SelectedIndex == -1)
+                        return "Debe ingresar un método de pago.\n";
+                }
+            }
+
+            return "";
         }
 
         private string ValidarCampoVacio(string resultado)
         {
-            if (cmbMetodoDePago.SelectedText != "EFECTIVO" && resultado == "")
+            if(resultado == "")
             {
-                if (string.IsNullOrEmpty(txtNumeroDeTarjerta.Text))
-                    return "El campo del numero de metodo de pago no debe estar vacio. Revise.\n";
+                if(cmbTipoOperacion.Items[cmbTipoOperacion.SelectedIndex].ToString() == "COMPRA")
+                {
+                    if (cmbMetodoDePago.Items[cmbMetodoDePago.SelectedIndex].ToString() != "EFECTIVO")
+                    {
+                        if (string.IsNullOrEmpty(txtNumeroDeTarjerta.Text))
+                            return "El campo del numero de número de tarjeta no debe estar vacio. Revise.\n";
+                    }
+                }    
+            } 
+
+            return "";
+        }
+
+        private string ValidarSoloNumeros(string resultado)
+        {
+            if (resultado == "")
+            {
+                if (cmbTipoOperacion.Items[cmbTipoOperacion.SelectedIndex].ToString() == "COMPRA")
+                {
+                    if (cmbMetodoDePago.Items[cmbMetodoDePago.SelectedIndex].ToString() != "EFECTIVO")
+                    {
+                        foreach (char letra in txtNumeroDeTarjerta.Text.ToString())
+                        {
+                            if (!char.IsNumber(letra))
+                                return "En el campo numero de tarjeta solo se pueden ingresar numeros. \n";
+                        }
+                    }
+                }      
+            }
+
+            return "";
+        }
+
+        private string ValidarSeSeleccionoCuotas(string resultado)
+        {
+            if (resultado == "")
+            {
+                if (cmbTipoOperacion.Items[cmbTipoOperacion.SelectedIndex].ToString() == "COMPRA")
+                {
+                    if (cmbMetodoDePago.Items[cmbMetodoDePago.SelectedIndex].ToString() == "CREDITO")
+                    {
+                        if (cmbCantidadDeCuotas.SelectedIndex == -1)
+                            return "Se debe seleccionar la cantidad de cuotas.\n";
+                    }
+                }
             }
 
             return "";

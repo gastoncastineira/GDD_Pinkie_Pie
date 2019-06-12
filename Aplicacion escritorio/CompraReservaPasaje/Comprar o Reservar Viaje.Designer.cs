@@ -1,6 +1,5 @@
 ﻿namespace FrbaCrucero.CompraPasaje
 {
-    e
     partial class ComprarReservarViaje
     {
         /// <summary>

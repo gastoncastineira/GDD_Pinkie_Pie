@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Conexiones;
-using FrbaCrucero.CompraReservaPasaje;
 using FrbaCrucero.model;
+using FrbaCrucero.CompraReservaPasaje;
 
 namespace FrbaCrucero.CompraPasaje
 {
