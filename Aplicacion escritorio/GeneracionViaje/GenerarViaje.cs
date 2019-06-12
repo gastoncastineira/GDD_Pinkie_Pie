@@ -60,7 +60,7 @@ namespace FrbaCrucero.GeneracionViaje
             }
         }
 
-        private void BtnGuardar_Click(object sender, EventArgs e) //ver video 39, ver poner un try catch
+        private void BtnGuardar_Click(object sender, EventArgs e) 
         {
             String mensaje = ValidarCampos();
             if (mensaje == "")
@@ -107,7 +107,6 @@ namespace FrbaCrucero.GeneracionViaje
         {
             Dictionary<string, object> datosViaje = new Dictionary<string, object>();
             datosViaje["fecha_inicio"] = ViajeAGenerar.FechaInicio;
-            datosViaje["fecha_fin"] = null;
             datosViaje["fecha_fin_estimada"] = ViajeAGenerar.Fecha_Fin_Estimada;
             datosViaje["pasajes_vendidos"] = ViajeAGenerar.PasajesVendidos;
             datosViaje["recorrido_id"] = ViajeAGenerar.Recorrido_id;
@@ -269,7 +268,8 @@ namespace FrbaCrucero.GeneracionViaje
 
                 Dictionary<string, List<object>> viajesConCrucero = conexion.ConsultaPlana(Tabla.ViajesConCrucero, camposViajes, filtrosCruceroEnViaje);
 
-                for (int i = 0; i < viajesConCrucero["id_viaje"].Count(); i++)
+                int cantidadDeViajesConCrucero = viajesConCrucero["id_viaje"].Count();
+                for (int i = 0; i < cantidadDeViajesConCrucero; i++)
                 {
                     if (!((Convert.ToDateTime(viajesConCrucero["fecha_inicio"][i]) <= ViajeAGenerar.FechaInicio
                         && Convert.ToDateTime(viajesConCrucero["fecha_fin_estimada"][i]) <= ViajeAGenerar.FechaInicio)
@@ -279,7 +279,6 @@ namespace FrbaCrucero.GeneracionViaje
                         return "El crucero está ocupado en otro viaje en el rango de fechas que eligió.\n";
                     }
                 }
-
 
                 // EL CRUCERO ESTA DISPONIBLE
                 return "";
@@ -302,8 +301,6 @@ namespace FrbaCrucero.GeneracionViaje
 
             return "";
         }
-
-
     }
 }
 

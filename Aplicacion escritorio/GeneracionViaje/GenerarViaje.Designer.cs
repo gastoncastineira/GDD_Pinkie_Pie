@@ -77,7 +77,7 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(492, 293);
+            this.btnGuardar.Location = new System.Drawing.Point(497, 278);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 23);
             this.btnGuardar.TabIndex = 8;
@@ -196,7 +196,7 @@
             this.AcceptButton = this.btnGuardar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(622, 348);
+            this.ClientSize = new System.Drawing.Size(599, 318);
             this.Controls.Add(this.txtCrucero);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -218,6 +218,7 @@
             this.Name = "GenerarViaje";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Generar un viaje";
+            this.Load += new System.EventHandler(this.GenerarViaje_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
