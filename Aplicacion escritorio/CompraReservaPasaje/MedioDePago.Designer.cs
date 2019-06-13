@@ -39,6 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cmbTipoOperacion = new System.Windows.Forms.ComboBox();
             this.lblPrecioTotal = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblMetodoDePago
@@ -168,12 +169,22 @@
             this.lblPrecioTotal.TabIndex = 9;
             this.lblPrecioTotal.Text = "La cantidad a pagar es";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(327, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(199, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Una reserva tiene una validez de 3 días.";
+            // 
             // MedioDePago
             // 
             this.AcceptButton = this.btnSiguiente;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(534, 282);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblPrecioTotal);
             this.Controls.Add(this.cmbTipoOperacion);
             this.Controls.Add(this.label2);
@@ -207,5 +218,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbTipoOperacion;
         private System.Windows.Forms.Label lblPrecioTotal;
+        private System.Windows.Forms.Label label1;
     }
 }

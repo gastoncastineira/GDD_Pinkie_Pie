@@ -73,22 +73,28 @@ namespace FrbaCrucero.GeneracionViaje
                 List<Filtro> filtros = new List<Filtro>();
                 filtros.Add(FiltroFactory.Exacto("id_crucero", txtCrucero.Text.ToString()));
 
-                Dictionary<string, List<object>> cantCabinas = conexion.ConsultaPlana(Tabla.Piso, new List<string>(new string[] { "isnull(SUM(cant_cabina), 0) AS cantidadCabinas" }), filtros);
+                List<string> camposPiso = new List<string>();
+                camposPiso.Add("Nro_piso");
+                camposPiso.Add("cant_cabina");
+                camposPiso.Add("id_crucero");
+                camposPiso.Add("id_tipo");
 
-                List<string> camposCabinas = new List<string>();
-                camposCabinas.Add("tipo_id");
-                camposCabinas.Add("numero_piso");
-                camposCabinas.Add("numero_habitacion");
-
-                Dictionary<string, List<object>> cabinas = conexion.ConsultaPlana(Tabla.Cabina, camposCabinas, new List<Filtro>(new Filtro[] { FiltroFactory.Exacto("crucero_id", txtCrucero.Text.ToString()) }));
+                Dictionary<string, List<object>> pisos = conexion.ConsultaPlana(Tabla.Piso, camposPiso, filtros);
 
                 List<Cabina> cabinasVacias = new List<Cabina>();
 
-                for (int i = 0; i < Convert.ToInt16(cantCabinas["cantidadCabinas"].First()); i++)
+                for (int i = 0; i < pisos["Nro_piso"].Count; i++)
                 {
-                    Cabina cabina = new Cabina(Convert.ToInt16(txtCrucero.Text), Convert.ToInt16(cabinas["tipo_id"][i]), Convert.ToInt16(cabinas["numero_piso"][i]), Convert.ToInt16(cabinas["numero_habitacion"][i]), false);
+                    for (int j = 0; j < Convert.ToInt32(pisos["cant_cabina"][i]); j++)
+                    {
+                        Cabina cabina = new Cabina();
+                        cabina.Crucero_id = Convert.ToInt32(txtCrucero.Text);
+                        cabina.Tipo_id = Convert.ToInt32(pisos["id_tipo"][i]);
+                        cabina.NumeroPiso = Convert.ToInt32(pisos["Nro_piso"][i]);
+                        cabina.NumeroHabitacion = GetNroHabitacion(Convert.ToInt32(pisos["Nro_piso"][i]), cabinasVacias);
 
-                    cabinasVacias.Add(cabina);
+                        cabinasVacias.Add(cabina);
+                    }
                 }
 
                 ViajeAGenerar.Cabinas = cabinasVacias;
@@ -101,6 +107,13 @@ namespace FrbaCrucero.GeneracionViaje
             {
                 MessageBox.Show(mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        int GetNroHabitacion(int numeroPiso, List<Cabina> cabinasInsertadasHastaElMomento)
+        {
+            List<Cabina> cabinasConMismoNumeroDePiso = cabinasInsertadasHastaElMomento.Where(c => c.NumeroPiso == numeroPiso).ToList();
+
+            return cabinasConMismoNumeroDePiso.Count();
         }
 
         private void InsertarViaje()
