@@ -64,5 +64,9 @@ namespace FrbaCrucero.Acceso
             txtusuario.Text = string.Empty;
         }
 
+        private void PictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

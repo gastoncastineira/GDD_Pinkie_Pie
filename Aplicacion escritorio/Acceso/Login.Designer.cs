@@ -37,14 +37,14 @@
             // 
             // txtusuario
             // 
-            this.txtusuario.Location = new System.Drawing.Point(91, 25);
+            this.txtusuario.Location = new System.Drawing.Point(93, 17);
             this.txtusuario.Name = "txtusuario";
             this.txtusuario.Size = new System.Drawing.Size(100, 20);
             this.txtusuario.TabIndex = 0;
             // 
             // txtContraseña
             // 
-            this.txtContraseña.Location = new System.Drawing.Point(91, 65);
+            this.txtContraseña.Location = new System.Drawing.Point(93, 56);
             this.txtContraseña.Name = "txtContraseña";
             this.txtContraseña.PasswordChar = '*';
             this.txtContraseña.Size = new System.Drawing.Size(100, 20);
@@ -53,7 +53,7 @@
             // lblUsuario
             // 
             this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Location = new System.Drawing.Point(12, 28);
+            this.lblUsuario.Location = new System.Drawing.Point(26, 20);
             this.lblUsuario.Name = "lblUsuario";
             this.lblUsuario.Size = new System.Drawing.Size(41, 13);
             this.lblUsuario.TabIndex = 2;
@@ -62,7 +62,7 @@
             // lblContraseña
             // 
             this.lblContraseña.AutoSize = true;
-            this.lblContraseña.Location = new System.Drawing.Point(12, 68);
+            this.lblContraseña.Location = new System.Drawing.Point(26, 56);
             this.lblContraseña.Name = "lblContraseña";
             this.lblContraseña.Size = new System.Drawing.Size(61, 13);
             this.lblContraseña.TabIndex = 3;
@@ -70,7 +70,7 @@
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(63, 132);
+            this.btnLogin.Location = new System.Drawing.Point(72, 92);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);
             this.btnLogin.TabIndex = 4;
@@ -80,9 +80,10 @@
             // 
             // Login
             // 
+            this.AccessibleRole = System.Windows.Forms.AccessibleRole.OutlineButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(207, 163);
+            this.ClientSize = new System.Drawing.Size(217, 138);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.lblContraseña);
             this.Controls.Add(this.lblUsuario);
