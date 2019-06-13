@@ -54,6 +54,8 @@
             this.ButtonVer});
             this.dataGridViewRecorridos.Location = new System.Drawing.Point(12, 54);
             this.dataGridViewRecorridos.Name = "dataGridViewRecorridos";
+            this.dataGridViewRecorridos.ReadOnly = true;
+            this.dataGridViewRecorridos.RowHeadersVisible = false;
             this.dataGridViewRecorridos.Size = new System.Drawing.Size(782, 189);
             this.dataGridViewRecorridos.TabIndex = 0;
             this.dataGridViewRecorridos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewRecorridos_CellContentClick);

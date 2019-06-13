@@ -331,14 +331,6 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
 	WHERE M.RESERVA_CODIGO IS NOT NULL
 
 GO
-CREATE TRIGGER PINKIE_PIE.RefreshViewTramosParaGridView
-ON PINKIE_PIE.Tramo_X_Recorrido
-AFTER DELETE AS
-BEGIN
-	EXEC sp_refreshview 'TramosParaGridView'
-END
-
-GO
 CREATE PROCEDURE PINKIE_PIE.existe_usuario @Usuario nvarchar(50), @Contrasenia nvarchar(max), @resultado bit OUTPUT
 AS
 BEGIN
