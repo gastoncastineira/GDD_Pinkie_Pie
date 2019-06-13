@@ -35,13 +35,13 @@ namespace FrbaCrucero.Acceso
                     new AbmCrucero.ListaDeCruceros().Show();
                     break;
                 case Funcion.COMPRA_PASAJE:
-                    //new Abm_Empresa_Espectaculo.ListadoEmpresas().Show();
+                    new FrbaCrucero.CompraPasaje.ComprarReservarViaje().Show();
                     break;
                 case Funcion.ABM_RECORRIDO:
                     new AbmRecorrido.ListaDeRecorridos().Show();
                     break;
                 case Funcion.GENERAR_VIAJE:
-                    //new Canje_Puntos.Canje_Puntos(idCliente).Show();
+                    new FrbaCrucero.GeneracionViaje.GenerarViaje().Show();
                     break;
                 case Funcion.PAGO_RESERVA:
                     new PagoReserva.PagoReserva().Show();

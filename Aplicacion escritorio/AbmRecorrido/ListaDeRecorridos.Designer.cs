@@ -36,7 +36,6 @@
             this.buttonCrear = new System.Windows.Forms.Button();
             this.dataGridViewTramos = new System.Windows.Forms.DataGridView();
             this.labelTramo = new System.Windows.Forms.Label();
-            this.buttonOut = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRecorridos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTramos)).BeginInit();
             this.SuspendLayout();
@@ -64,16 +63,19 @@
             // 
             this.ButtomDelete.HeaderText = "Dar de baja";
             this.ButtomDelete.Name = "ButtomDelete";
+            this.ButtomDelete.ReadOnly = true;
             // 
             // ButtomEdit
             // 
             this.ButtomEdit.HeaderText = "Modificar";
             this.ButtomEdit.Name = "ButtomEdit";
+            this.ButtomEdit.ReadOnly = true;
             // 
             // ButtonVer
             // 
             this.ButtonVer.HeaderText = "Ver detalle";
             this.ButtonVer.Name = "ButtonVer";
+            this.ButtonVer.ReadOnly = true;
             // 
             // labelNombreGrid
             // 
@@ -97,9 +99,15 @@
             // 
             // dataGridViewTramos
             // 
+            this.dataGridViewTramos.AllowUserToAddRows = false;
+            this.dataGridViewTramos.AllowUserToDeleteRows = false;
+            this.dataGridViewTramos.AllowUserToResizeColumns = false;
+            this.dataGridViewTramos.AllowUserToResizeRows = false;
             this.dataGridViewTramos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewTramos.Location = new System.Drawing.Point(12, 295);
+            this.dataGridViewTramos.MultiSelect = false;
             this.dataGridViewTramos.Name = "dataGridViewTramos";
+            this.dataGridViewTramos.ReadOnly = true;
             this.dataGridViewTramos.Size = new System.Drawing.Size(782, 137);
             this.dataGridViewTramos.TabIndex = 3;
             // 
@@ -112,22 +120,11 @@
             this.labelTramo.TabIndex = 4;
             this.labelTramo.Text = "Tramos del recorido:";
             // 
-            // buttonOut
-            // 
-            this.buttonOut.Location = new System.Drawing.Point(658, 11);
-            this.buttonOut.Name = "buttonOut";
-            this.buttonOut.Size = new System.Drawing.Size(136, 28);
-            this.buttonOut.TabIndex = 5;
-            this.buttonOut.Text = "Cerrar Sesion";
-            this.buttonOut.UseVisualStyleBackColor = true;
-            this.buttonOut.Click += new System.EventHandler(this.ButtonOut_Click);
-            // 
             // ListaDeRecorridos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(803, 445);
-            this.Controls.Add(this.buttonOut);
             this.Controls.Add(this.labelTramo);
             this.Controls.Add(this.dataGridViewTramos);
             this.Controls.Add(this.buttonCrear);
@@ -153,6 +150,5 @@
         private System.Windows.Forms.DataGridViewButtonColumn ButtonVer;
         private System.Windows.Forms.DataGridView dataGridViewTramos;
         private System.Windows.Forms.Label labelTramo;
-        private System.Windows.Forms.Button buttonOut;
     }
 }

@@ -72,14 +72,13 @@ namespace FrbaCrucero
             flag = true;
             Close();
             new AbmCrucero.ListaDeCruceros().Show();
-            //new Abm_Cliente.ListadoClientes().Show();
         }
 
         private void Compra_Pasaje_Click(object sender, EventArgs e)
         {
             flag = true;
             Close();
-            //new Abm_Empresa_Espectaculo.ListadoEmpresas().Show();
+            new FrbaCrucero.CompraPasaje.ComprarReservarViaje().Show();
         }
 
         private void ABM_Rol_Click(object sender, EventArgs e)
@@ -100,7 +99,7 @@ namespace FrbaCrucero
         {
             flag = true;
             Close();
-            //new Canje_Puntos.Canje_Puntos(idCliente).Show();
+           new FrbaCrucero.GeneracionViaje.GenerarViaje().Show();
         }
 
         private void Pago_Reserva_Click(object sender, EventArgs e)

@@ -12,12 +12,12 @@ using FrbaCrucero.model;
 
 namespace FrbaCrucero.GeneracionViaje
 {
-    public partial class GenerarViaje : Form
+    public partial class GenerarViaje : FormTemplate
     {
         private Viaje ViajeAGenerar;
         private Conexion conexion = new Conexion();
 
-        public GenerarViaje()
+        public GenerarViaje():base()
         {
             InitializeComponent();
             ViajeAGenerar = new Viaje();

@@ -13,11 +13,11 @@ using FrbaCrucero.CompraReservaPasaje;
 
 namespace FrbaCrucero.CompraPasaje
 {
-    public partial class ComprarReservarViaje : Form
+    public partial class ComprarReservarViaje : FormTemplate
     {
         private Conexion conexion = new Conexion();
 
-        public ComprarReservarViaje()
+        public ComprarReservarViaje():base()
         {
             InitializeComponent();
         }
