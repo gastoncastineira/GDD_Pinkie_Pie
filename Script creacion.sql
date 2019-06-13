@@ -183,8 +183,8 @@ CREATE PROCEDURE crear_admins @cant int
 AS
 BEGIN
 DECLARE @contador int
-SET @contador = 2
-WHILE @contador < @cant
+SET @contador = 3
+WHILE @contador - 2 < @cant
 	BEGIN
 		INSERT INTO PINKIE_PIE.[Usuario](usuario, contrasenia, ID)
 		VALUES	(CONCAT('admin', CAST(@contador-1 as varchar(10))), HASHBYTES('SHA2_256', N'w23e'), @contador)
@@ -198,7 +198,7 @@ GO
 SET IDENTITY_INSERT PINKIE_PIE.[Usuario] ON
 
 INSERT INTO PINKIE_PIE.[Usuario](usuario, contrasenia, ID)
-VALUES ("cliente", HASHBYTES('SHA2_256', N'0'), 1);
+VALUES ("cliente", HASHBYTES('SHA2_256', N'0'), 1), ("admin", HASHBYTES('SHA2_256', N'w23e'), 2)
 
 EXEC crear_admins @cant = 10;
 
@@ -209,7 +209,7 @@ SET IDENTITY_INSERT PINKIE_PIE.[Usuario] OFF
 
 -- Inserto rol_x_usuario
 INSERT INTO PINKIE_PIE.[Rol_X_Usuario](ID_ROL, ID_Usuario)
-VALUES (2,1)
+VALUES (2,1), (1,2)
 
 -- Cargo relaciones en al tabla intermedia
 
