@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,6 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbmCrucero\AltaCruceros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCrucero\AltaCruceros.Designer.cs">
+      <DependentUpon>AltaCruceros.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmCrucero\ComboboxItem.cs" />
     <Compile Include="AbmCrucero\ListaDeCruceros.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -202,6 +210,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AbmCrucero\AltaCruceros.resx">
+      <DependentUpon>AltaCruceros.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmCrucero\ListaDeCruceros.resx">
       <DependentUpon>ListaDeCruceros.cs</DependentUpon>
     </EmbeddedResource>
@@ -270,6 +281,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Cruceros.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -284,7 +296,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Properties\imagen_loggin.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\imagen_loggin_chica.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

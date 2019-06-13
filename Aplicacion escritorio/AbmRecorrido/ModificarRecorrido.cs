@@ -43,12 +43,23 @@ namespace FrbaCrucero.AbmRecorrido
             
             Transaccion tr = conexion.IniciarTransaccion();
             int idTramo;
-            //necesito el id del recorrido y el id del tramo
 
             for (int i = 0; i < tramos.Count(); i++)
             {
-                Filtro filtroOrigen = FiltroFactory.Exacto("ORIGEN_DESC", tramos[i].Split(' ').GetValue(1).ToString() );
-                Filtro filtroDestino = FiltroFactory.Exacto("DESTINO_DESC", tramos[i].Split(' ').GetValue(3).ToString() );
+                string[] cadenas = tramos[i].Split('.'); string origen; string destino;
+                if (cadenas[0].Split(' ').Length == 3)
+                {
+                    origen = cadenas[0].Split(' ')[1] + " " + cadenas[0].Split(' ')[2];
+                }
+                else { origen = cadenas[0].Split(' ')[1]; }
+                if (cadenas[1].TrimStart(' ').Split(' ').Length == 3)
+                {
+                    destino = cadenas[1].TrimStart(' ').Split(' ')[1] + " " + cadenas[1].TrimStart(' ').Split(' ')[2];
+                }
+                else { destino = cadenas[1].TrimStart(' ').Split(' ')[1]; }
+
+                Filtro filtroOrigen = FiltroFactory.Exacto("ORIGEN_DESC",origen );
+                Filtro filtroDestino = FiltroFactory.Exacto("DESTINO_DESC", destino );
                 List<Filtro> filtros = new List<Filtro>();
                 filtros.Add(filtroOrigen);
                 filtros.Add(filtroDestino);

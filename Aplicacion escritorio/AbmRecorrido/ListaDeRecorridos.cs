@@ -12,13 +12,12 @@ using FrbaCrucero.Acceso;
 
 namespace FrbaCrucero.AbmRecorrido
 {
-    public partial class ListaDeRecorridos : Form
+    public partial class ListaDeRecorridos : FormTemplate
     {
         private Conexion conexion = new Conexion();
-        public ListaDeRecorridos()
+        public ListaDeRecorridos():base()
         {
             InitializeComponent();
-
         }
 
         private void ListaDeRecorridos_Load(object sender, EventArgs e)

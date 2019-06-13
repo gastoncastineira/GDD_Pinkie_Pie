@@ -31,20 +31,23 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnIngresar = new System.Windows.Forms.Button();
             this.btnAdmin = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(74, 9);
+            this.label1.Location = new System.Drawing.Point(22, 95);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(113, 13);
+            this.label1.Size = new System.Drawing.Size(60, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Inserte mensaje bonito";
+            this.label1.Text = "Bienvenido";
+            this.label1.Click += new System.EventHandler(this.Label1_Click);
             // 
             // btnIngresar
             // 
-            this.btnIngresar.Location = new System.Drawing.Point(95, 84);
+            this.btnIngresar.Location = new System.Drawing.Point(25, 148);
             this.btnIngresar.Name = "btnIngresar";
             this.btnIngresar.Size = new System.Drawing.Size(75, 23);
             this.btnIngresar.TabIndex = 1;
@@ -54,7 +57,7 @@
             // 
             // btnAdmin
             // 
-            this.btnAdmin.Location = new System.Drawing.Point(95, 147);
+            this.btnAdmin.Location = new System.Drawing.Point(25, 206);
             this.btnAdmin.Name = "btnAdmin";
             this.btnAdmin.Size = new System.Drawing.Size(75, 23);
             this.btnAdmin.TabIndex = 2;
@@ -62,16 +65,27 @@
             this.btnAdmin.UseVisualStyleBackColor = true;
             this.btnAdmin.Click += new System.EventHandler(this.btnAdmin_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::FrbaCrucero.Properties.Resources.imagen_loggin_chica;
+            this.pictureBox1.Location = new System.Drawing.Point(141, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(209, 258);
+            this.pictureBox1.TabIndex = 6;
+            this.pictureBox1.TabStop = false;
+            // 
             // Inicial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(268, 192);
+            this.ClientSize = new System.Drawing.Size(373, 296);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnAdmin);
             this.Controls.Add(this.btnIngresar);
             this.Controls.Add(this.label1);
             this.Name = "Inicial";
             this.Text = "Inicio";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -82,6 +96,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnIngresar;
         private System.Windows.Forms.Button btnAdmin;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

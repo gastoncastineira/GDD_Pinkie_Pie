@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonOut = new System.Windows.Forms.Button();
             this.labelTramo = new System.Windows.Forms.Label();
             this.dataGridViewCabinas = new System.Windows.Forms.DataGridView();
             this.buttonCrear = new System.Windows.Forms.Button();
@@ -40,15 +39,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCabinas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCruceros)).BeginInit();
             this.SuspendLayout();
-            // 
-            // buttonOut
-            // 
-            this.buttonOut.Location = new System.Drawing.Point(655, 15);
-            this.buttonOut.Name = "buttonOut";
-            this.buttonOut.Size = new System.Drawing.Size(136, 28);
-            this.buttonOut.TabIndex = 11;
-            this.buttonOut.Text = "Cerrar Sesion";
-            this.buttonOut.UseVisualStyleBackColor = true;
             // 
             // labelTramo
             // 
@@ -63,7 +53,9 @@
             // 
             this.dataGridViewCabinas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewCabinas.Location = new System.Drawing.Point(9, 299);
+            this.dataGridViewCabinas.MultiSelect = false;
             this.dataGridViewCabinas.Name = "dataGridViewCabinas";
+            this.dataGridViewCabinas.ReadOnly = true;
             this.dataGridViewCabinas.Size = new System.Drawing.Size(782, 137);
             this.dataGridViewCabinas.TabIndex = 9;
             // 
@@ -75,6 +67,7 @@
             this.buttonCrear.TabIndex = 8;
             this.buttonCrear.Text = "Crear nuevo crucero";
             this.buttonCrear.UseVisualStyleBackColor = true;
+            this.buttonCrear.Click += new System.EventHandler(this.buttonCrear_Click_1);
             // 
             // labelNombreGrid
             // 
@@ -97,31 +90,36 @@
             this.ButtomEdit,
             this.ButtonVer});
             this.dataGridViewCruceros.Location = new System.Drawing.Point(9, 58);
+            this.dataGridViewCruceros.MultiSelect = false;
             this.dataGridViewCruceros.Name = "dataGridViewCruceros";
+            this.dataGridViewCruceros.ReadOnly = true;
             this.dataGridViewCruceros.Size = new System.Drawing.Size(782, 189);
             this.dataGridViewCruceros.TabIndex = 6;
+            this.dataGridViewCruceros.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCruceros_CellContentClick);
             // 
             // ButtomDelete
             // 
             this.ButtomDelete.HeaderText = "Dar de baja";
             this.ButtomDelete.Name = "ButtomDelete";
+            this.ButtomDelete.ReadOnly = true;
             // 
             // ButtomEdit
             // 
             this.ButtomEdit.HeaderText = "Modificar";
             this.ButtomEdit.Name = "ButtomEdit";
+            this.ButtomEdit.ReadOnly = true;
             // 
             // ButtonVer
             // 
             this.ButtonVer.HeaderText = "Ver detalle";
             this.ButtonVer.Name = "ButtonVer";
+            this.ButtonVer.ReadOnly = true;
             // 
             // ListaDeCruceros
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.buttonOut);
             this.Controls.Add(this.labelTramo);
             this.Controls.Add(this.dataGridViewCabinas);
             this.Controls.Add(this.buttonCrear);
@@ -129,6 +127,7 @@
             this.Controls.Add(this.dataGridViewCruceros);
             this.Name = "ListaDeCruceros";
             this.Text = "ListaDeCruceros";
+            this.Load += new System.EventHandler(this.ListaDeCruceros_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCabinas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCruceros)).EndInit();
             this.ResumeLayout(false);
@@ -138,7 +137,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button buttonOut;
         private System.Windows.Forms.Label labelTramo;
         private System.Windows.Forms.DataGridView dataGridViewCabinas;
         private System.Windows.Forms.Button buttonCrear;

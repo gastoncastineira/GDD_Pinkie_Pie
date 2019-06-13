@@ -64,17 +64,18 @@ namespace FrbaCrucero.CompraPasaje
             }
         }
 
+        private List<Filtro> filtrosIgualDestino(string campo)
+        {
+            List<Filtro> filtros = new List<Filtro>();
+            filtros.Add(FiltroFactory.Exacto("CAST(fecha_inicio AS DATE)", dtFechaDeViaje.Value.ToString("yyyy-MM-dd")));
+            filtros.Add(FiltroFactory.Exacto("puertoOrigen", getIdPuerto(txtOrigen.Text.ToString())));
+            filtros.Add(FiltroFactory.Exacto(campo, getIdPuerto(txtDestino.Text.ToString())));
+
+            return filtros;
+        }
+
         private bool HayViajes()
         {
-            List<Filtro> filtrosIgualDestino(string campo)
-            {
-                List<Filtro> filtros = new List<Filtro>();
-                filtros.Add(FiltroFactory.Exacto("CAST(fecha_inicio AS DATE)", dtFechaDeViaje.Value.ToString("yyyy-MM-dd")));
-                filtros.Add(FiltroFactory.Exacto("puertoOrigen", getIdPuerto(txtOrigen.Text.ToString())));
-                filtros.Add(FiltroFactory.Exacto(campo, getIdPuerto(txtDestino.Text.ToString())));
-
-                return filtros;
-            }
 
             return conexion.ExisteRegistro(Tabla.ViajesEnFechaYOrigenDestino, new List<string>(new string[] { "viaje" }), filtrosIgualDestino("tramoPuertoDestino"));
         }
@@ -137,7 +138,7 @@ namespace FrbaCrucero.CompraPasaje
 
                 Dictionary<string, List<object>> puerto = conexion.ConsultaPlana(Tabla.Puerto, new List<string>(new string[] { "descripcion" }), filtros);
 
-                if (puerto["descripcion"].Count() >= 1) // TODO CAMBIAR >= A ==
+                if (puerto["descripcion"].Count() == 1) 
                     return "";
 
                 return "El puerto " + tipoPuerto + " no existe.\n";

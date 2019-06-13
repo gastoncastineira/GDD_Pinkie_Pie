@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
+using FrbaCrucero.AbmCrucero;
 
 namespace Conexiones
 {
@@ -397,6 +398,61 @@ namespace Conexiones
                     }
                 }
             }
+        }
+
+        public void LlenarComboFabricantes(ref ComboBox combo)
+        {
+
+            string comandoString = "SELECT DISTINCT fabricante FROM " + Tabla.Crucero;
+
+            using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.CommandText = comandoString;
+                    command.CommandType = CommandType.Text;
+                    command.Connection = sqlConnection;
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        combo.Items.Add(reader[0].ToString());
+                    }
+                }
+            }
+
+        }
+
+        public void LlenarComboTipoPisos(ref DataGridViewComboBoxColumn combo)
+        {
+
+            string comandoString = "SELECT tipo FROM " + Tabla.Tipo;
+
+            using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.CommandText = comandoString;
+                    command.CommandType = CommandType.Text;
+                    command.Connection = sqlConnection;
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    List<string> items = new List<string>();
+
+                    while (reader.Read())
+                    {
+                        items.Add(reader[0].ToString());
+                    }
+
+                    combo.DataSource = items;
+
+                }
+            }
+
         }
 
 

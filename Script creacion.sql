@@ -182,8 +182,8 @@ CREATE PROCEDURE crear_admins @cant int
 AS
 BEGIN
 DECLARE @contador int
-SET @contador = 2
-WHILE @contador < @cant
+SET @contador = 3
+WHILE @contador - 2 < @cant
 	BEGIN
 		INSERT INTO PINKIE_PIE.[Usuario](usuario, contrasenia, ID)
 		VALUES	(CONCAT('admin', CAST(@contador-1 as varchar(10))), HASHBYTES('SHA2_256', N'w23e'), @contador)
@@ -197,7 +197,7 @@ GO
 SET IDENTITY_INSERT PINKIE_PIE.[Usuario] ON
 
 INSERT INTO PINKIE_PIE.[Usuario](usuario, contrasenia, ID)
-VALUES ("cliente", HASHBYTES('SHA2_256', N'0'), 1);
+VALUES ("cliente", HASHBYTES('SHA2_256', N'0'), 1), ("admin", HASHBYTES('SHA2_256', N'w23e'), 2)
 
 EXEC crear_admins @cant = 10;
 
@@ -208,7 +208,7 @@ SET IDENTITY_INSERT PINKIE_PIE.[Usuario] OFF
 
 -- Inserto rol_x_usuario
 INSERT INTO PINKIE_PIE.[Rol_X_Usuario](ID_ROL, ID_Usuario)
-VALUES (2,1)
+VALUES (2,1), (1,2)
 
 -- Cargo relaciones en al tabla intermedia
 
@@ -269,7 +269,7 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
   -- Inserto piso
 
   INSERT INTO PINKIE_PIE.Piso(cant_cabina, Nro_piso, id_crucero, id_tipo)
-  SELECT DISTINCT MAX(m.CABINA_NRO), m.CABINA_PISO, c.ID, t.ID FROM gd_esquema.Maestra m
+  SELECT COUNT(DISTINCT m.CABINA_NRO), m.CABINA_PISO, c.ID, t.ID FROM gd_esquema.Maestra m
   JOIN PINKIE_PIE.Crucero c ON m.CRUCERO_IDENTIFICADOR = c.identificador AND m.CRU_FABRICANTE = c.fabricante AND m.CRUCERO_MODELO = c.modelo
   JOIN PINKIE_PIE.Tipo t ON t.porcentaje_costo = m.CABINA_TIPO_PORC_RECARGO AND t.tipo = m.CABINA_TIPO
   GROUP BY m.CABINA_PISO, c.ID, t.ID
@@ -327,14 +327,6 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
 		AND v.recorrido_id = (SELECT ID FROM PINKIE_PIE.Recorrido r 
 								WHERE m.RECORRIDO_CODIGO = r.codigo)))
 	WHERE M.RESERVA_CODIGO IS NOT NULL
-
-GO
-CREATE TRIGGER PINKIE_PIE.RefreshViewTramosParaGridView
-ON PINKIE_PIE.Tramo_X_Recorrido
-AFTER DELETE AS
-BEGIN
-	EXEC sp_refreshview 'TramosParaGridView'
-END
 
 GO
 CREATE PROCEDURE PINKIE_PIE.existe_usuario @Usuario nvarchar(50), @Contrasenia nvarchar(max), @resultado bit OUTPUT
