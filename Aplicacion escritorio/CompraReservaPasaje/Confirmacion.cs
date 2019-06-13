@@ -136,7 +136,7 @@ namespace FrbaCrucero.CompraReservaPasaje
 
                     datos["fecha_nacimiento"] = ClienteComprador.FechaDeNacimiento;
                     datos["telefono"] = ClienteComprador.Telefono;
-                    datos["nombre"] = ClienteComprador.Telefono;
+                    datos["nombre"] = ClienteComprador.Nombre;
                     datos["apellido"] = ClienteComprador.Apellido;
                     datos["DNI"] = ClienteComprador.Dni;
                     datos["direccion"] = ClienteComprador.Direccion;
@@ -145,37 +145,40 @@ namespace FrbaCrucero.CompraReservaPasaje
                     ClienteComprador.Id = tr.Insertar(Tabla.Cliente, datos);
                 }
 
-               
-                
                 datosOperacion["cliente_id"] = ClienteComprador.Id;
 
-
+                string tipo;
                 if (TipoDeOperacion == "COMPRA")
                 {
                     // Se inserta metodo de pago
                     int idMetodoDePago = tr.Insertar(Tabla.MedioDePago, datosMetodoDePago);
 
-                    datosOperacion["medio_de_pago_id"] = idMetodoDePago;
-
                     // Se inserta una compra
+                    datosOperacion["medio_de_pago_id"] = idMetodoDePago;
+                    datosOperacion["fecha_de_compra"] = FrbaCrucero.ConfigurationHelper.FechaActual;
+
                     tr.Insertar(Tabla.Pasaje, datosOperacion);
+                    tipo = "compra";
                 }
                 else
                 {
                     // Se inserta una reserva
-                    tr.Insertar(Tabla.Reserva, datosOperacion);
+                    datosOperacion["fecha_de_reserva"] = FrbaCrucero.ConfigurationHelper.FechaActual;
+
+                    tr.Insertar(Tabla.Reserva, datosOperacion); 
+                    tipo = "reserva";
                 }
 
                 // Se suma al viaje elegido por el usuario la cantidad de pasajes vendidos 
-                tr.Modificar(ViajeElegido.Id, Tabla.Viaje, datosViaje);
+                tr.Modificar(ViajeElegido.Id, Tabla.Viaje, datosViaje); 
 
                 // Se marca a la cabina como ocupada
-                tr.Modificar(idCabina, Tabla.Cabina, datosCabina);
+                tr.Modificar(idCabina, Tabla.Cabina, datosCabina); 
 
                 tr.Commit();
 
 
-                MessageBox.Show("Se ha hecho la compra correctamente!", "Compra confirmada");
+                MessageBox.Show("Se ha hecho la " + tipo + " correctamente!\n" + "Gracias por su " + tipo + "\n", "Confirmación");
             }
             else
             {
@@ -248,7 +251,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             datosOperacion["codigo"] = NumeroOperacion; 
             datosOperacion["precio"] = PrecioTotal;
             datosOperacion["cabina_id"] = idCabina; 
-            datosOperacion["fecha_de_compra"] = FrbaCrucero.ConfigurationHelper.FechaActual;
+            
 
             return datosOperacion;
         }
@@ -328,7 +331,8 @@ namespace FrbaCrucero.CompraReservaPasaje
             {
                 List<Filtro> filtros = new List<Filtro>();
                 filtros.Add(FiltroFactory.Exacto("cliente_id", ClienteComprador.Id.ToString()));
-                filtros.Add(FiltroFactory.Exacto("fecha_inicio", ViajeElegido.FechaInicio.ToString("yyyy-MM-dd")));
+                filtros.Add(FiltroFactory.MenorIgual("FECHA_DE_INICIO", "'" + ViajeElegido.FechaInicio.ToString("yyyy-MM-dd") + "'"));
+                filtros.Add(FiltroFactory.MayorIgual("FECHA_DE_FIN_ESTIMADA", "'" + ViajeElegido.FechaInicio.ToString("yyyy-MM-dd") + "'"));
 
                 if (conexion.ExisteRegistro(Tabla.ClienteReservoViaje, new List<string>(new string[] { "cliente_id" }), filtros)
                     || conexion.ExisteRegistro(Tabla.ClienteComproViaje, new List<string>(new string[] { "cliente_id" }), filtros))

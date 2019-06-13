@@ -186,11 +186,12 @@
             // lblPrecioTotal
             // 
             this.lblPrecioTotal.AutoSize = true;
+            this.lblPrecioTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPrecioTotal.Location = new System.Drawing.Point(37, 452);
             this.lblPrecioTotal.Name = "lblPrecioTotal";
-            this.lblPrecioTotal.Size = new System.Drawing.Size(66, 13);
+            this.lblPrecioTotal.Size = new System.Drawing.Size(157, 18);
             this.lblPrecioTotal.TabIndex = 13;
-            this.lblPrecioTotal.Text = "Precio total: ";
+            this.lblPrecioTotal.Text = "PRECIO A PAGAR: ";
             // 
             // lblFechaDeConcepcion
             // 

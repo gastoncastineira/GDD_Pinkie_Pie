@@ -220,7 +220,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             {
                 PrecioTotal = Convert.ToDouble(txtCantidadPasajes.Text)
                     *  Convert.ToDouble(dtCabinasDisponibles.CurrentRow.Cells["PORCENTAJE_COSTO"].Value)
-                    * Convert.ToDouble(dtViajes.CurrentRow.Cells[4].Value); // TODO LEER MAIL
+                    * Convert.ToDouble(dtViajes.CurrentRow.Cells[4].Value); 
                 lblPrecioTotal.Text = "Precio total: " + PrecioTotal.ToString();
             }
         }

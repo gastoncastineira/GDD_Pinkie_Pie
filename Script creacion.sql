@@ -529,7 +529,7 @@ GO
 
 CREATE VIEW PINKIE_PIE.ClienteComproViaje
 AS
-SELECT cliente_id, viaje_ID, fecha_inicio
+SELECT cliente_id, viaje_ID, CAST(fecha_inicio AS DATE) AS FECHA_DE_INICIO, CAST(fecha_fin_estimada AS DATE) AS FECHA_DE_FIN_ESTIMADA
 FROM PINKIE_PIE.Pasaje 
 JOIN PINKIE_PIE.Cabina c
 	ON cabina_id = c.ID
@@ -539,7 +539,7 @@ GO
 
 CREATE VIEW PINKIE_PIE.ClienteReservoViaje
 AS
-SELECT cliente_id, viaje_ID, fecha_inicio
+SELECT cliente_id, viaje_ID, CAST(fecha_inicio AS DATE) AS FECHA_DE_INICIO, CAST(fecha_fin_estimada AS DATE) AS FECHA_DE_FIN_ESTIMADA
 FROM PINKIE_PIE.Reserva 
 JOIN PINKIE_PIE.Cabina c
 	ON cabina_id = c.ID

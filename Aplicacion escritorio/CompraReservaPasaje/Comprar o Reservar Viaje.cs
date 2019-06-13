@@ -76,11 +76,7 @@ namespace FrbaCrucero.CompraPasaje
                 return filtros;
             }
 
-            //bool hayViajesConRecorridoDeIgualDestino = conexion.ExisteRegistro(Tabla.ViajesEnFechaYOrigenDestino, new List<string>(new string[] { "viaje" }), filtrosIgualDestino("recorridoPuertoDestino"));   
-            bool hayViajesConTramoDeDestinoIgual = conexion.ExisteRegistro(Tabla.ViajesEnFechaYOrigenDestino, new List<string>(new string[] { "viaje" }), filtrosIgualDestino("tramoPuertoDestino"));
-
-            return hayViajesConTramoDeDestinoIgual;
-            //return (hayViajesConRecorridoDeIgualDestino || hayViajesConTramoDeDestinoIgual);
+            return conexion.ExisteRegistro(Tabla.ViajesEnFechaYOrigenDestino, new List<string>(new string[] { "viaje" }), filtrosIgualDestino("tramoPuertoDestino"));
         }
 
         private string getIdPuerto(string descripcion)

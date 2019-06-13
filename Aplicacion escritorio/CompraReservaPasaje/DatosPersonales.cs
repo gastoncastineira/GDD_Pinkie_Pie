@@ -150,9 +150,12 @@ namespace FrbaCrucero.CompraReservaPasaje
                 filtros.Add(FiltroFactory.Libre("nombre", txtNombre.Text.ToString()));
                 filtros.Add(FiltroFactory.Libre("apellido", txtApellido.Text.ToString()));
 
-                Dictionary<string, List<object>> cliente = conexion.ConsultaPlana(Tabla.Cliente, new List<string>(new string[] { "ID" }), filtros);
+                if (conexion.ExisteRegistro(Tabla.Cliente, new List<string>(new string[] { "ID" }), filtros))
+                {
+                    Dictionary<string, List<object>> cliente = conexion.ConsultaPlana(Tabla.Cliente, new List<string>(new string[] { "ID" }), filtros);
 
-                return Convert.ToInt32(cliente["ID"].First());
+                    return Convert.ToInt32(cliente["ID"].First());
+                }
             }
 
             return -1;
@@ -160,7 +163,6 @@ namespace FrbaCrucero.CompraReservaPasaje
 
         private void BtnLimpiarCampos_Click(object sender, EventArgs e)
         {
-            txtDNI.Text = null;
             txtNombre.Text = null;
             txtApellido.Text = null;
             txtDireccion.Text = null;
