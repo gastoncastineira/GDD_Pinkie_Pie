@@ -47,7 +47,9 @@
             this.dataGridViewTramos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ButtonDelete});
             this.dataGridViewTramos.Location = new System.Drawing.Point(12, 29);
+            this.dataGridViewTramos.MultiSelect = false;
             this.dataGridViewTramos.Name = "dataGridViewTramos";
+            this.dataGridViewTramos.ReadOnly = true;
             this.dataGridViewTramos.Size = new System.Drawing.Size(593, 150);
             this.dataGridViewTramos.TabIndex = 0;
             this.dataGridViewTramos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewTramos_CellContentClick);
@@ -56,6 +58,7 @@
             // 
             this.ButtonDelete.HeaderText = "Eliminar Tramo";
             this.ButtonDelete.Name = "ButtonDelete";
+            this.ButtonDelete.ReadOnly = true;
             // 
             // labelTramos
             // 

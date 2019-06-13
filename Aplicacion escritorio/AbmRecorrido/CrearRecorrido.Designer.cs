@@ -63,10 +63,12 @@
             this.dataGridViewRecorrido.AllowUserToResizeRows = false;
             this.dataGridViewRecorrido.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewRecorrido.Location = new System.Drawing.Point(302, 12);
+            this.dataGridViewRecorrido.MultiSelect = false;
             this.dataGridViewRecorrido.Name = "dataGridViewRecorrido";
             this.dataGridViewRecorrido.ReadOnly = true;
             this.dataGridViewRecorrido.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridViewRecorrido.Size = new System.Drawing.Size(629, 212);
+            this.dataGridViewRecorrido.StandardTab = true;
             this.dataGridViewRecorrido.TabIndex = 2;
             // 
             // buttonQuitar

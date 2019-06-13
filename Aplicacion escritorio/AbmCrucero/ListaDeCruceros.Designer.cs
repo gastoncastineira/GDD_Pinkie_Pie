@@ -53,7 +53,9 @@
             // 
             this.dataGridViewCabinas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewCabinas.Location = new System.Drawing.Point(9, 299);
+            this.dataGridViewCabinas.MultiSelect = false;
             this.dataGridViewCabinas.Name = "dataGridViewCabinas";
+            this.dataGridViewCabinas.ReadOnly = true;
             this.dataGridViewCabinas.Size = new System.Drawing.Size(782, 137);
             this.dataGridViewCabinas.TabIndex = 9;
             // 
@@ -88,7 +90,9 @@
             this.ButtomEdit,
             this.ButtonVer});
             this.dataGridViewCruceros.Location = new System.Drawing.Point(9, 58);
+            this.dataGridViewCruceros.MultiSelect = false;
             this.dataGridViewCruceros.Name = "dataGridViewCruceros";
+            this.dataGridViewCruceros.ReadOnly = true;
             this.dataGridViewCruceros.Size = new System.Drawing.Size(782, 189);
             this.dataGridViewCruceros.TabIndex = 6;
             this.dataGridViewCruceros.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCruceros_CellContentClick);
@@ -97,16 +101,19 @@
             // 
             this.ButtomDelete.HeaderText = "Dar de baja";
             this.ButtomDelete.Name = "ButtomDelete";
+            this.ButtomDelete.ReadOnly = true;
             // 
             // ButtomEdit
             // 
             this.ButtomEdit.HeaderText = "Modificar";
             this.ButtomEdit.Name = "ButtomEdit";
+            this.ButtomEdit.ReadOnly = true;
             // 
             // ButtonVer
             // 
             this.ButtonVer.HeaderText = "Ver detalle";
             this.ButtonVer.Name = "ButtonVer";
+            this.ButtonVer.ReadOnly = true;
             // 
             // ListaDeCruceros
             // 
