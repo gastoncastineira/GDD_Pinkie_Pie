@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
+using FrbaCrucero.AbmCrucero;
 
 namespace Conexiones
 {
@@ -399,7 +400,7 @@ namespace Conexiones
             }
         }
 
-                public void LlenarComboFabricantes(ref ComboBox combo)
+        public void LlenarComboFabricantes(ref ComboBox combo)
         {
 
             string comandoString = "SELECT DISTINCT fabricante FROM " + Tabla.Crucero;
@@ -440,13 +441,17 @@ namespace Conexiones
 
                     SqlDataReader reader = command.ExecuteReader();
 
+                    List<ComboboxItem> items = new List<ComboboxItem>();
+
                     while (reader.Read())
                     {
-                        FrbaCrucero.AbmCrucero.ComboboxItem item = new FrbaCrucero.AbmCrucero.ComboboxItem();
-                        item.Value = reader[0].ToString();
-                        item.Text = reader[1].ToString();
-                        combo.Items.Add(item);
+                        items.Add(new ComboboxItem() { Name = reader[0].ToString(), Value = reader[1].ToString() });
                     }
+
+                    combo.DataSource = items;
+                    combo.DisplayMember = "Name";
+                    combo.ValueMember = "Value";
+
                 }
             }
 

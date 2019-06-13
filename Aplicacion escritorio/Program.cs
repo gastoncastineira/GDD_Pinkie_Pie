@@ -18,11 +18,10 @@ namespace FrbaCrucero
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
-            //FormInicial = new Inicial();
-
-            FormInicial = new AbmCrucero.ListaDeCruceros();
-
+            FormInicial = new Inicial();
+            //FormInicial = new AbmCrucero.ListaDeCruceros();
             Application.Run(FormInicial);
+
         }
     }
 }

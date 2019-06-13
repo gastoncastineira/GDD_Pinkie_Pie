@@ -33,6 +33,7 @@ namespace FrbaCrucero.AbmCrucero
         private void cargarTipoPiso()
         {
             conexion.LlenarComboTipoPisos(ref tipoPiso);
+            tipoPiso.DisplayMember = "";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -47,24 +48,43 @@ namespace FrbaCrucero.AbmCrucero
 
                 Transaccion tr = conexion.IniciarTransaccion();
 
-                Dictionary<string, object> filas = new Dictionary<string, object>();
-                filas.Add("modelo", textBox1.Text);
-                filas.Add("fabricante", comboBox2.Text);
-                filas.Add("identificador", textBox2.Text);
-                filas.Add("baja_fuera_de_servicio", false);
-                filas.Add("baja_vida_util", false);
-                filas.Add("fecha_de_alta", ConfigurationHelper.FechaActual);
+                Dictionary<string, object> crucero = new Dictionary<string, object>();
+                crucero.Add("modelo", textBox1.Text);
+                crucero.Add("fabricante", comboBox2.Text);
+                crucero.Add("identificador", textBox2.Text);
+                crucero.Add("baja_fuera_de_servicio", false);
+                crucero.Add("baja_vida_util", false);
+                crucero.Add("fecha_de_alta", ConfigurationHelper.FechaActual);
 
-                int pkCrucero = tr.Insertar(Tabla.Crucero, filas);
+                int pkCrucero = tr.Insertar(Tabla.Crucero, crucero);
 
-                foreach (DataGridViewRow row in dataGridView1.Rows){
+                Dictionary<string, object> piso = new Dictionary<string, object>();
 
-                    filas.Add("Nro_piso",row.Cells["nroPiso"].Value);
-                    filas.Add("id_crucero",pkCrucero);
-                    filas.Add("id_tipo", row.Cells["tipoPiso"].Value);
-                    filas.Add("cant_cabina", row.Cells["cantCabinasPiso"].Value);
+                for (int i = 0; i < dataGridView1.Rows.Count-1; i++)
+                {
+
+                    var row = dataGridView1.Rows[i];
+
+                    piso["Nro_piso"] = row.Cells["nroPiso"].Value;
+                    piso["id_crucero"] = pkCrucero;
+                    piso["id_tipo"] = row.Cells["tipoPiso"].Value.ToString();
+
+                    var tipo = row.Cells["tipoPiso"].Value.ToString();
+
+                    Filtro filtro = FiltroFactory.Exacto("tipo", tipo);
+
+                    var returnAsqueroso = conexion.ConsultaPlana(Tabla.Tipo, new List<string>() { "ID" }, new List<Filtro> { filtro });
+
+                    piso["id_tipo"] = returnAsqueroso["ID"][0];
+
+                    piso["cant_cabina"] = row.Cells["cantCabinasPiso"].Value;
+
+                    tr.Insertar(Tabla.Piso, piso);
+
+                    MessageBox.Show("Crucero dado de alta exitosamente. Felicidades :D", "Crucero creado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 }
+
 
                 tr.Commit();
 
@@ -100,46 +120,44 @@ namespace FrbaCrucero.AbmCrucero
 
         }
 
-        private bool dataGridVacio(DataGridView data) {
+        private bool dataGridVacio(DataGridView data)
+        {
 
-            if (data.Rows.Count == 0)
+            bool invalido = false;
+
+            for (int j = 0; j < data.Rows.Count - 1; j++)
             {
-                return true;
-            }
-            else
-            {
-                
-                bool invalido = false;
-                foreach (DataGridViewRow row in data.Rows){
 
+                var row = data.Rows[j];
 
-                    for (int i = 0; i < row.Cells.Count; i++)
-                      {
-                        if (row.Cells[i].Value == null || row.Cells[i].Value == DBNull.Value || String.IsNullOrWhiteSpace(row.Cells[i].Value.ToString()) || String.IsNullOrWhiteSpace(row.Cells[i].Value.ToString()))
-                        {
-                            invalido = true;
-                            break;
-                        }
-                      } 
-                    
-
-                    if (invalido)
+                for (int i = 0; i < row.Cells.Count; i++)
+                {
+                    if (row.Cells[i].Value == null || row.Cells[i].Value == DBNull.Value || String.IsNullOrWhiteSpace(row.Cells[i].Value.ToString()) || String.IsNullOrWhiteSpace(row.Cells[i].Value.ToString()))
                     {
+                        invalido = true;
                         break;
                     }
-
                 }
 
-                return invalido;
+
+                if (invalido)
+                {
+                    break;
+                }
+
 
             }
 
+            return invalido;
+
         }
+
 
         private bool stringVacio(string str)
         {
             return string.IsNullOrWhiteSpace(str) || string.IsNullOrEmpty(str);
         }
+
 
     }
 }
