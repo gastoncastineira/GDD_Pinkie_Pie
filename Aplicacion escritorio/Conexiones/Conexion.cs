@@ -428,7 +428,7 @@ namespace Conexiones
         public void LlenarComboTipoPisos(ref DataGridViewComboBoxColumn combo)
         {
 
-            string comandoString = "SELECT ID,tipo FROM " + Tabla.Tipo;
+            string comandoString = "SELECT tipo FROM " + Tabla.Tipo;
 
             using (SqlConnection sqlConnection = new SqlConnection(conectionString))
             {
@@ -441,16 +441,14 @@ namespace Conexiones
 
                     SqlDataReader reader = command.ExecuteReader();
 
-                    List<ComboboxItem> items = new List<ComboboxItem>();
+                    List<string> items = new List<string>();
 
                     while (reader.Read())
                     {
-                        items.Add(new ComboboxItem() { Name = reader[0].ToString(), Value = reader[1].ToString() });
+                        items.Add(reader[0].ToString());
                     }
 
                     combo.DataSource = items;
-                    combo.DisplayMember = "Name";
-                    combo.ValueMember = "Value";
 
                 }
             }

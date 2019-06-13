@@ -154,7 +154,6 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "AltaCruceros";
             this.Text = "AltaCruceros";
-            this.Load += new System.EventHandler(this.AltaCruceros_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

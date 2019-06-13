@@ -81,12 +81,12 @@ namespace FrbaCrucero.AbmCrucero
 
                     tr.Insertar(Tabla.Piso, piso);
 
-                    MessageBox.Show("Crucero dado de alta exitosamente. Felicidades :D", "Crucero creado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 }
 
-
                 tr.Commit();
+
+                MessageBox.Show("Crucero dado de alta exitosamente. Felicidades :D", "Crucero creado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 /*
                 Transaccion tr = conexion.IniciarTransaccion();
