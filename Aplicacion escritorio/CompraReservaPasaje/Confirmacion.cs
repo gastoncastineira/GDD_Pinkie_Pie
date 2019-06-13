@@ -166,18 +166,14 @@ namespace FrbaCrucero.CompraReservaPasaje
                 for (int i = 0; i < CantidadDePasajes; i++)
                 {
                     int idCabina = ObtenerIdCabina();
-                    int nroOperacion;
                     Dictionary<string, object> datosOperacion = ObtenerDatosOperacion(idCabina);
-                    datosOperacion["cliente_id"] = ClienteComprador.Id;
+                    datosOperacion["codigo"] = NumerosOperacion[i];
 
                     if (TipoDeOperacion == "COMPRA")
                     {
                         // Se inserta una compra
-                        nroOperacion = NumerosOperacion[i];
-
                         datosOperacion["medio_de_pago_id"] = idMetodoDePago;
                         datosOperacion["fecha_de_compra"] = FrbaCrucero.ConfigurationHelper.FechaActual;
-                        datosOperacion["codigo"] = nroOperacion;
 
                         conexion.Insertar(Tabla.Pasaje, datosOperacion);
                         tipo = "compra";
@@ -185,10 +181,7 @@ namespace FrbaCrucero.CompraReservaPasaje
                     else
                     {
                         // Se inserta una reserva
-                        nroOperacion = NumerosOperacion[i];
-
-                        datosOperacion["fecha_de_reserva"] = FrbaCrucero.ConfigurationHelper.FechaActual;
-                        datosOperacion["codigo"] = nroOperacion;
+                        datosOperacion["fecha_de_reserva"] = FrbaCrucero.ConfigurationHelper.FechaActual;  
 
                         conexion.Insertar(Tabla.Reserva, datosOperacion);
                         tipo = "reserva";
@@ -264,10 +257,9 @@ namespace FrbaCrucero.CompraReservaPasaje
         {
             Dictionary<string, object> datosOperacion = new Dictionary<string, object>();
 
-            
-            datosOperacion["precio"] = PrecioTotal;
-            datosOperacion["cabina_id"] = idCabina; 
-            
+            datosOperacion["cabina_id"] = idCabina;
+            datosOperacion["precio"] = PrecioTotal / CantidadDePasajes;
+            datosOperacion["cliente_id"] = ClienteComprador.Id;
 
             return datosOperacion;
         }
