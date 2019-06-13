@@ -71,6 +71,7 @@ namespace FrbaCrucero
         {
             flag = true;
             Close();
+            new AbmCrucero.ListaDeCruceros().Show();
             //new Abm_Cliente.ListadoClientes().Show();
         }
 
@@ -92,7 +93,7 @@ namespace FrbaCrucero
         {
             flag = true;
             Close();
-            //new Abm_Grado.ListaGrado().Show();
+            new AbmRecorrido.ListaDeRecorridos().Show();
         }
 
         private void Generar_Viaje_Click(object sender, EventArgs e)

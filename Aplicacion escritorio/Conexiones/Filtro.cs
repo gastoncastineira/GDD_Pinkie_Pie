@@ -14,7 +14,7 @@ namespace Conexiones
             Condicion = condicion;
         }
 
-        internal string Columna { get; }
-        internal string Condicion { get; }
+        internal string Columna { get; set; }
+        internal string Condicion { get; set;}
     }
 }

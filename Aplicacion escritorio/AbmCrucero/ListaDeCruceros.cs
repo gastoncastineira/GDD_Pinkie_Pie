@@ -18,10 +18,9 @@ namespace FrbaCrucero.AbmCrucero
         public ListaDeCruceros()
         {
             InitializeComponent();
-
         }
 
-        private void ListaDeRecorridos_Load(object sender, EventArgs e)
+        private void ListaDeCruceros_Load(object sender, EventArgs e)
         {
             this.reLoad();
         }
@@ -34,8 +33,28 @@ namespace FrbaCrucero.AbmCrucero
             dataGridViewCabinas.Refresh();
         }
 
-        private void DataGridViewRecorridos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void LabelNombreGrid_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void ButtonOut_Click(object sender, EventArgs e)
+        {
+            Login log = new Login();
+            log.Show();
+            this.Close();
+        }
+
+        private void buttonCrear_Click_1(object sender, EventArgs e)
+        {
+            AltaCruceros form = new AltaCruceros();
+            form.Show();
+            form.Focus();
+        }
+
+        private void dataGridViewCruceros_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
             var senderGrid = (DataGridView)sender;
             string PK = dataGridViewCruceros.Rows[e.RowIndex].Cells[3].Value.ToString();
 
@@ -53,7 +72,7 @@ namespace FrbaCrucero.AbmCrucero
                             dataGridViewCruceros.Rows[e.RowIndex].Cells[4].Value.ToString(),
                             dataGridViewCruceros.Rows[e.RowIndex].Cells[5].Value.ToString(),
                             dataGridViewCruceros.Rows[e.RowIndex].Cells[6].Value.ToString()
-                            ,this).Show();
+                            , this).Show();
                     }
                     break;
                 case 2:
@@ -65,23 +84,8 @@ namespace FrbaCrucero.AbmCrucero
                     }
                     break;
             }
-        }
-
-        private void LabelNombreGrid_Click(object sender, EventArgs e)
-        {
 
         }
 
-        private void ButtonCrear_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ButtonOut_Click(object sender, EventArgs e)
-        {
-            Login log = new Login();
-            log.Show();
-            this.Close();
-        }
     }
 }

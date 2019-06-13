@@ -399,6 +399,59 @@ namespace Conexiones
             }
         }
 
+                public void LlenarComboFabricantes(ref ComboBox combo)
+        {
+
+            string comandoString = "SELECT DISTINCT fabricante FROM " + Tabla.Crucero;
+
+            using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.CommandText = comandoString;
+                    command.CommandType = CommandType.Text;
+                    command.Connection = sqlConnection;
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        combo.Items.Add(reader[0].ToString());
+                    }
+                }
+            }
+
+        }
+
+        public void LlenarComboTipoPisos(ref DataGridViewComboBoxColumn combo)
+        {
+
+            string comandoString = "SELECT ID,tipo FROM " + Tabla.Tipo;
+
+            using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.CommandText = comandoString;
+                    command.CommandType = CommandType.Text;
+                    command.Connection = sqlConnection;
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        FrbaCrucero.AbmCrucero.ComboboxItem item = new FrbaCrucero.AbmCrucero.ComboboxItem();
+                        item.Value = reader[0].ToString();
+                        item.Text = reader[1].ToString();
+                        combo.Items.Add(item);
+                    }
+                }
+            }
+
+        }
+
 
     }
 }
