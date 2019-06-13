@@ -22,17 +22,17 @@ namespace FrbaCrucero
                 switch (f)
                 {
                     case Funcion.ABM_CRUCERO:
-                        item = new ToolStripMenuItem("ABM Cliente");
+                        item = new ToolStripMenuItem("ABM Crucero");
                         item.Click += ABM_Crucero_Click;
                         verToolStripMenuItem.DropDownItems.Add(item);
                         break;
                     case Funcion.COMPRA_PASAJE:
-                        item = new ToolStripMenuItem("ABM Empresa");
+                        item = new ToolStripMenuItem("Compra/Reserva de pasaje");
                         item.Click += Compra_Pasaje_Click;
                         verToolStripMenuItem.DropDownItems.Add(item);
                         break;
                     case Funcion.ABM_RECORRIDO:
-                        item = new ToolStripMenuItem("ABM Grado");
+                        item = new ToolStripMenuItem("ABM Recorrido");
                         item.Click += ABM_Recorrido_Click;
                         verToolStripMenuItem.DropDownItems.Add(item);
                         break;
@@ -42,12 +42,12 @@ namespace FrbaCrucero
                         verToolStripMenuItem.DropDownItems.Add(item);
                         break;
                     case Funcion.GENERAR_VIAJE:
-                        item = new ToolStripMenuItem("Canje de puntos");
+                        item = new ToolStripMenuItem("Generar Viaje");
                         item.Click += Generar_Viaje_Click;
                         verToolStripMenuItem.DropDownItems.Add(item);
                         break;
                     case Funcion.PAGO_RESERVA:
-                        item = new ToolStripMenuItem("Comprar");
+                        item = new ToolStripMenuItem("Pago de Reserva");
                         item.Click += Pago_Reserva_Click;
                         verToolStripMenuItem.DropDownItems.Add(item);
                         break;
