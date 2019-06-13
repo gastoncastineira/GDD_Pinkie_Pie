@@ -20,8 +20,8 @@ namespace FrbaCrucero.CompraReservaPasaje
         private int CantidadDePasajes;
         private double PrecioTotal;
         private MetodoDePago MedioDePago;
+        private List<int> NumerosOperacion = new List<int>();
         private Conexion conexion = new Conexion();
-        private int NumeroOperacion;
 
         public Confirmacion(int cantPasajes, Viaje viajeElegido, string idPuertoOrigen, string idPuertoDestino, Cliente cliente, double precioTotal, MetodoDePago medioDePago, string tipoDeOperacion)
         {
@@ -40,15 +40,9 @@ namespace FrbaCrucero.CompraReservaPasaje
         private void Confirmacion_Load(object sender, EventArgs e)
         {
             if (TipoDeOperacion == "COMPRA")
-            {
-                NumeroOperacion = ObtenerCodigoDeOperacion(Tabla.Pasaje);
-                lblNumero.Text = "Numero de compra: " + NumeroOperacion.ToString();
-            }
+                lblNumeros.Text += "compras";
             else
-            {
-                NumeroOperacion = ObtenerCodigoDeOperacion(Tabla.Reserva);
-                lblNumero.Text = "Numero de reserva: " + NumeroOperacion.ToString();
-            }
+                lblNumeros.Text += "reservas";
 
             lblCantidadDePasajeros.Text += CantidadDePasajes.ToString();
             lblFechaDeConcepcion.Text += FrbaCrucero.ConfigurationHelper.FechaActual.ToString();
@@ -68,6 +62,8 @@ namespace FrbaCrucero.CompraReservaPasaje
             Dictionary<string, List<object>> puertoDestino = conexion.ConsultaPlana(Tabla.Puerto, new List<string>(new string[] { "descripcion" }), filtrosPuertoDestino);
 
             lblPuertoDestino.Text += puertoDestino["descripcion"].First().ToString();
+
+            LlenarDGVNumerosOperacion();
             LlenarDGVTramos();
 
             List<Filtro> filtrosCrucero = new List<Filtro>();
@@ -105,6 +101,24 @@ namespace FrbaCrucero.CompraReservaPasaje
             dtTramos.ClearSelection();
         }
 
+        private void LlenarDGVNumerosOperacion()
+        {
+            string tabla = "";
+            if (TipoDeOperacion == "COMPRA")
+                tabla = Tabla.Pasaje;
+            else
+                tabla = Tabla.Reserva;
+
+            for (int i = 0; i < CantidadDePasajes; i++)
+            {
+                int numero = ObtenerCodigoDeOperacion(tabla);
+                NumerosOperacion.Add(numero);
+                dtNumerosOperacion.Rows.Add(numero.ToString());
+            }
+
+            dtNumerosOperacion.ClearSelection();
+        }
+
         private void BtnAtras_Click(object sender, EventArgs e)
         {
             this.Visible = false;
@@ -119,15 +133,8 @@ namespace FrbaCrucero.CompraReservaPasaje
             {
                 // Se obtienen los datos que se van a insertar
                 Dictionary<string, object> datosMetodoDePago = ObtenerDatosMetodoDePago();
-
-                int idCabina = ObtenerIdCabina();
-
-                Dictionary<string, object> datosOperacion = ObtenerDatosOperacion(idCabina);
                 Dictionary<string, object> datosViaje = ObtenerDatosViaje();
-                Dictionary<string, object> datosCabina = ObtenerDatosCabina();
-
-
-                Transaccion tr = conexion.IniciarTransaccion();
+                string tipo = "";
 
                 // Se Inserta el Cliente en caso de que no exista
                 if (ClienteComprador.Id == -1)
@@ -142,41 +149,55 @@ namespace FrbaCrucero.CompraReservaPasaje
                     datos["direccion"] = ClienteComprador.Direccion;
                     datos["mail"] = ClienteComprador.Mail;
 
-                    ClienteComprador.Id = tr.Insertar(Tabla.Cliente, datos);
+                    ClienteComprador.Id = conexion.Insertar(Tabla.Cliente, datos);
                 }
 
-                datosOperacion["cliente_id"] = ClienteComprador.Id;
-
-                string tipo;
+                int idMetodoDePago = 0;
                 if (TipoDeOperacion == "COMPRA")
                 {
                     // Se inserta metodo de pago
-                    int idMetodoDePago = tr.Insertar(Tabla.MedioDePago, datosMetodoDePago);
-
-                    // Se inserta una compra
-                    datosOperacion["medio_de_pago_id"] = idMetodoDePago;
-                    datosOperacion["fecha_de_compra"] = FrbaCrucero.ConfigurationHelper.FechaActual;
-
-                    tr.Insertar(Tabla.Pasaje, datosOperacion);
-                    tipo = "compra";
-                }
-                else
-                {
-                    // Se inserta una reserva
-                    datosOperacion["fecha_de_reserva"] = FrbaCrucero.ConfigurationHelper.FechaActual;
-
-                    tr.Insertar(Tabla.Reserva, datosOperacion); 
-                    tipo = "reserva";
+                    idMetodoDePago = conexion.Insertar(Tabla.MedioDePago, datosMetodoDePago);
                 }
 
                 // Se suma al viaje elegido por el usuario la cantidad de pasajes vendidos 
-                tr.Modificar(ViajeElegido.Id, Tabla.Viaje, datosViaje); 
+                conexion.Modificar(ViajeElegido.Id, Tabla.Viaje, datosViaje);
 
-                // Se marca a la cabina como ocupada
-                tr.Modificar(idCabina, Tabla.Cabina, datosCabina); 
+                // Se marcan a las cabinas como ocupada y se insertan las compras/reservas
+                for (int i = 0; i < CantidadDePasajes; i++)
+                {
+                    int idCabina = ObtenerIdCabina();
+                    int nroOperacion;
+                    Dictionary<string, object> datosOperacion = ObtenerDatosOperacion(idCabina);
+                    datosOperacion["cliente_id"] = ClienteComprador.Id;
 
-                tr.Commit();
+                    if (TipoDeOperacion == "COMPRA")
+                    {
+                        // Se inserta una compra
+                        nroOperacion = NumerosOperacion[i];
 
+                        datosOperacion["medio_de_pago_id"] = idMetodoDePago;
+                        datosOperacion["fecha_de_compra"] = FrbaCrucero.ConfigurationHelper.FechaActual;
+                        datosOperacion["codigo"] = nroOperacion;
+
+                        conexion.Insertar(Tabla.Pasaje, datosOperacion);
+                        tipo = "compra";
+                    }
+                    else
+                    {
+                        // Se inserta una reserva
+                        nroOperacion = NumerosOperacion[i];
+
+                        datosOperacion["fecha_de_reserva"] = FrbaCrucero.ConfigurationHelper.FechaActual;
+                        datosOperacion["codigo"] = nroOperacion;
+
+                        conexion.Insertar(Tabla.Reserva, datosOperacion);
+                        tipo = "reserva";
+                    }
+                    
+                    // Se marca a la cabina como ocupada
+                    Dictionary<string, object> datosCabina = ObtenerDatosCabina();
+                    conexion.Modificar(idCabina, Tabla.Cabina, datosCabina);
+                }
 
                 MessageBox.Show("Se ha hecho la " + tipo + " correctamente!\n" + "Gracias por su " + tipo + "\n", "Confirmación");
             }
@@ -195,12 +216,6 @@ namespace FrbaCrucero.CompraReservaPasaje
 
             List<string> campos = new List<string>();
             campos.Add("ID");
-            campos.Add("crucero_id");
-            campos.Add("viaje_id");
-            campos.Add("tipo_id");
-            campos.Add("numero_piso");
-            campos.Add("numero_habitacion");
-            campos.Add("ocupado");
 
             Dictionary<string, List<object>> cabinasVacias = conexion.ConsultaPlana(Tabla.Cabina, campos, filtros);
 
@@ -223,7 +238,8 @@ namespace FrbaCrucero.CompraReservaPasaje
 
                 codigoGenerado = codigoRandom + random.Next(10, 100000);
             }
-            while (codigos["codigo"].Any(c => Convert.ToInt32(c) == codigoGenerado));
+            while (codigos["codigo"].Any(c => Convert.ToInt32(c) == codigoGenerado)
+            || NumerosOperacion.Any(n => n == codigoGenerado));
 
             return codigoGenerado;
         }
@@ -248,7 +264,7 @@ namespace FrbaCrucero.CompraReservaPasaje
         {
             Dictionary<string, object> datosOperacion = new Dictionary<string, object>();
 
-            datosOperacion["codigo"] = NumeroOperacion; 
+            
             datosOperacion["precio"] = PrecioTotal;
             datosOperacion["cabina_id"] = idCabina; 
             

@@ -137,7 +137,7 @@ namespace FrbaCrucero.CompraPasaje
 
                 Dictionary<string, List<object>> puerto = conexion.ConsultaPlana(Tabla.Puerto, new List<string>(new string[] { "descripcion" }), filtros);
 
-                if (puerto["descripcion"].Count() == 1) 
+                if (puerto["descripcion"].Count() >= 1) // TODO CAMBIAR >= A ==
                     return "";
 
                 return "El puerto " + tipoPuerto + " no existe.\n";
