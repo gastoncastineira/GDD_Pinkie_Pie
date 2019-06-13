@@ -134,8 +134,7 @@ CREATE TABLE PINKIE_PIE.[Reserva](
 	[codigo] [decimal] (18,0),
 	[fecha_de_reserva] [datetime2] (3),
 	[precio] [decimal] (18,2),
-	[cabina_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Cabina(ID),
-	[medio_de_pago_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.MedioDePago(ID)
+	[cabina_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Cabina(ID)
 );
 
 CREATE TABLE PINKIE_PIE.[Piso](
@@ -310,12 +309,11 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
 	WHERE M.PASAJE_CODIGO IS NOT NULL AND M.PASAJE_PRECIO IS NOT NULL AND M.PASAJE_FECHA_COMPRA IS NOT NULL
 
   -- Inserto reserva
-	INSERT INTO PINKIE_PIE.Reserva (codigo, fecha_de_reserva, cliente_id, precio, medio_de_pago_id, cabina_id)
+	INSERT INTO PINKIE_PIE.Reserva (codigo, fecha_de_reserva, cliente_id, precio, cabina_id)
 	SELECT  M.RESERVA_CODIGO, 
 	M.RESERVA_FECHA, 
 	cli.ID,
 	M.RECORRIDO_PRECIO_BASE*M.CABINA_TIPO_PORC_RECARGO,
-	1,
 	c.ID
 	FROM gd_esquema.Maestra M
 	JOIN PINKIE_PIE.Cliente cli ON (m.CLI_APELLIDO = cli.apellido AND m.CLI_DIRECCION = cli.direccion AND m.CLI_DNI = cli.DNI AND m.CLI_FECHA_NAC = cli.fecha_nacimiento AND m.CLI_MAIL = cli.mail AND m.CLI_NOMBRE = cli.nombre AND m.CLI_TELEFONO = cli.telefono)

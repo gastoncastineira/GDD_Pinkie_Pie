@@ -44,7 +44,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             {
                 this.Visible = false;
 
-                new MedioDePago(CantidadDePasajes, ViajeElegido, IdPuertoOrigen, IdPuertoDestino, getCliente(), PrecioTotal).Show();
+                new MedioDePago(CantidadDePasajes, ViajeElegido, IdPuertoOrigen, IdPuertoDestino, GetCliente(), PrecioTotal).Show();
             }
             else
             {
@@ -52,10 +52,10 @@ namespace FrbaCrucero.CompraReservaPasaje
             }
         }
 
-        private Cliente getCliente()
+        private Cliente GetCliente()
         {
             Cliente cliente = new Cliente();
-            cliente.Id = getIdCliente();
+            cliente.Id = GetIdCliente();
 
             if (cliente.Id != -1)
             {
@@ -80,6 +80,16 @@ namespace FrbaCrucero.CompraReservaPasaje
                 cliente.Telefono = Convert.ToInt32(cli["telefono"].First());
                 cliente.Mail = cli["mail"].First().ToString();
                 cliente.FechaDeNacimiento = Convert.ToDateTime(cli["fecha_nacimiento"].First());
+            }
+            else
+            {
+                cliente.FechaDeNacimiento = dtFechaDeNacimiento.Value;
+                cliente.Telefono = Convert.ToInt32(txtTelefono.Text);
+                cliente.Nombre = txtNombre.Text.ToString();
+                cliente.Apellido = txtApellido.Text.ToString();
+                cliente.Dni = Convert.ToInt32(txtDNI.Text);
+                cliente.Direccion = txtDireccion.Text.ToString();
+                cliente.Mail = txtMail.Text.ToString();
             }
 
             return cliente;
@@ -117,17 +127,23 @@ namespace FrbaCrucero.CompraReservaPasaje
 
         private int CantClientesConMismoDNI()
         {
-            List<Filtro> filtros = new List<Filtro>();
-            filtros.Add(FiltroFactory.Exacto("DNI", txtDNI.Text.ToString().Trim()));
+            if (ValidarSoloNumeros(txtDNI.Text, "DNI") == "")
+            {
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(FiltroFactory.Exacto("DNI", txtDNI.Text.ToString().Trim()));
 
-            Dictionary<string, List<object>> cantIdsConEseDNI = conexion.ConsultaPlana(Tabla.Cliente, new List<string>(new string[] { "COUNT(ID) AS cantidad" }), filtros);
+                Dictionary<string, List<object>> cantIdsConEseDNI = conexion.ConsultaPlana(Tabla.Cliente, new List<string>(new string[] { "COUNT(ID) AS cantidad" }), filtros);
 
-            return Convert.ToInt16(cantIdsConEseDNI["cantidad"].First());
+                return Convert.ToInt16(cantIdsConEseDNI["cantidad"].First());
+            }
+
+            return -1;
         }
 
-        private int getIdCliente()
+        private int GetIdCliente()
         {
-            if (CantClientesConMismoDNI() != 0)
+            int cantClienteConMismoDNI = CantClientesConMismoDNI();
+            if (cantClienteConMismoDNI != 0 && cantClienteConMismoDNI != -1)
             {
                 List<Filtro> filtros = new List<Filtro>();
                 filtros.Add(FiltroFactory.Exacto("DNI", txtDNI.Text.ToString().Trim()));
@@ -136,7 +152,7 @@ namespace FrbaCrucero.CompraReservaPasaje
 
                 Dictionary<string, List<object>> cliente = conexion.ConsultaPlana(Tabla.Cliente, new List<string>(new string[] { "ID" }), filtros);
 
-                return Convert.ToInt16(cliente["ID"].First());
+                return Convert.ToInt32(cliente["ID"].First());
             }
 
             return -1;
@@ -154,7 +170,7 @@ namespace FrbaCrucero.CompraReservaPasaje
         }
 
         // ---------------------------------------VALIDACIONES------------------------------------------
-        private String ValidarCampos() // TODO
+        private String ValidarCampos() 
         {
             String resultado = "";
 
@@ -174,12 +190,6 @@ namespace FrbaCrucero.CompraReservaPasaje
 
             // Mail
             resultado += this.ValidarEsMail(txtMail.Text);
-
-            // No puede hacer compras sobre viajes pasados.
-            resultado += this.ValidarSiYaComproEseViaje(resultado);
-
-            // No puede viajar a más de un destino a la vez
-            resultado += this.ValidarSiHayMasDeUnDestino(resultado);
 
             return resultado;
         }
@@ -220,79 +230,22 @@ namespace FrbaCrucero.CompraReservaPasaje
 
         private String ValidarEsMail(String texto)
         {
-            int cantArroba = 0;
-            foreach (char letra in texto.Trim())
+            if (!string.IsNullOrEmpty(txtMail.Text))
             {
-                if (letra == '@')
-                    cantArroba++;
-            }
-
-            if (cantArroba == 1)
-                return "";
-
-            return "En el campo mail tiene que ingresar una direccion email válida.\n";
-        }
-
-        private String ValidarSiYaComproEseViaje(string resultado)
-        {
-            if (resultado == "")
-            {
-                if (TieneUnPasajeConViajePorComprar() || TieneUnaReservaConViajePorComprar())
-                    return "No se puede hacer compras sobre viajes pasados.\n";
-            }
-
-            return "";
-        }
-
-        private bool TieneUnPasajeConViajePorComprar()
-        {
-            int idCliente = getIdCliente();
-            if (idCliente != -1)
-            {
-                List<Filtro> filtros = new List<Filtro>();
-                filtros.Add(FiltroFactory.Exacto("cliente_id", idCliente.ToString()));
-                filtros.Add(FiltroFactory.Exacto("viaje_id", ViajeElegido.Id.ToString()));
-
-                return conexion.ExisteRegistro(Tabla.ClienteComproViaje, new List<string>(new string[] { "cliente_id" }), filtros);
-            }
-
-            return false;
-        }
-
-        private bool TieneUnaReservaConViajePorComprar()
-        {
-            int idCliente = getIdCliente();
-            if (idCliente != -1)
-            {
-                List<Filtro> filtros = new List<Filtro>();
-                filtros.Add(FiltroFactory.Exacto("cliente_id", idCliente.ToString()));
-                filtros.Add(FiltroFactory.Exacto("viaje_id", ViajeElegido.Id.ToString()));
-
-                return conexion.ExisteRegistro(Tabla.ClienteReservoViaje, new List<string>(new string[] { "cliente_id" }), filtros);
-            }
-
-            return false;
-        }
-
-        private string ValidarSiHayMasDeUnDestino(string resultado)
-        {
-            if (resultado == "")
-            {
-                int idCliente = getIdCliente();
-                if (idCliente != -1)
+                int cantArroba = 0;
+                foreach (char letra in texto.Trim())
                 {
-                    List<Filtro> filtros = new List<Filtro>();
-                    filtros.Add(FiltroFactory.Exacto("cliente_id", idCliente.ToString()));
-                    filtros.Add(FiltroFactory.Exacto("fecha_inicio", ViajeElegido.FechaInicio.ToString("yyyy-MM-dd")));
-
-                    if (conexion.ExisteRegistro(Tabla.ClienteReservoViaje, new List<string>(new string[] { "cliente_id" }), filtros)
-                        || conexion.ExisteRegistro(Tabla.ClienteComproViaje, new List<string>(new string[] { "cliente_id" }), filtros))
-                        return "No puede viajar a más de un destino a la vez.\n";
+                    if (letra == '@')
+                        cantArroba++;
                 }
+
+                if (cantArroba == 1)
+                    return "";
+
+                return "En el campo mail tiene que ingresar una direccion email válida.\n";
             }
-            
+
             return "";
         }
-
     }
 }

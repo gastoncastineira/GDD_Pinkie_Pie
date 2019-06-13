@@ -218,7 +218,6 @@
             this.Name = "GenerarViaje";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Generar un viaje";
-            this.Load += new System.EventHandler(this.GenerarViaje_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

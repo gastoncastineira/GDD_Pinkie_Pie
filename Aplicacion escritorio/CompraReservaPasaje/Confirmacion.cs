@@ -114,88 +114,97 @@ namespace FrbaCrucero.CompraReservaPasaje
 
         private void BtnConfirmar_Click(object sender, EventArgs e)
         {
-            // Se obtienen los datos que se van a insertar
-            Dictionary<string, object> datosMetodoDePago = ObtenerDatosMetodoDePago();
-
-            Cabina cabina = ObtenerCabina();
-
-            Dictionary<string, object> datosOperacion = ObtenerDatosOperacion(cabina);
-            Dictionary<string, object> datosViaje = ObtenerDatosViaje();
-            Dictionary<string, object> datosCabina = ObtenerDatosCabina(cabina);
-
-
-            Transaccion tr = conexion.IniciarTransaccion();
-
-            // Se Inserta el Cliente en caso de que no exista
-            if (ClienteComprador.Id == -1)
+            String mensaje = ValidarCampos();
+            if (mensaje == "")
             {
-                Dictionary<string, object> datos = new Dictionary<string, object>();
+                // Se obtienen los datos que se van a insertar
+                Dictionary<string, object> datosMetodoDePago = ObtenerDatosMetodoDePago();
 
-                datos["fecha_inicio"] = ClienteComprador.FechaDeNacimiento;
-                datos["telefono"] = ClienteComprador.Telefono;
-                datos["nombre"] = ClienteComprador.Telefono;
-                datos["apellido"] = ClienteComprador.Apellido;
-                datos["DNI"] = ClienteComprador.Dni;
-                datos["mail"] = ClienteComprador.Direccion;
-                datos["puntos"] = 0;
+                int idCabina = ObtenerIdCabina();
 
-                tr.Insertar(Tabla.Cliente, datos);
-            }
-
-            // Se inserta metodo de pago
-            int idMetodoDePago = tr.Insertar(Tabla.MedioDePago, datosMetodoDePago);
+                Dictionary<string, object> datosOperacion = ObtenerDatosOperacion(idCabina);
+                Dictionary<string, object> datosViaje = ObtenerDatosViaje();
+                Dictionary<string, object> datosCabina = ObtenerDatosCabina();
 
 
-            datosOperacion["medio_de_pago_id"] = idMetodoDePago;
+                Transaccion tr = conexion.IniciarTransaccion();
 
-            if (TipoDeOperacion == "COMPRA")
-            {
-                // Se inserta una compra
-                datosOperacion["codigo"] = ObtenerCodigoDeOperacion(Tabla.Pasaje);
-                tr.Insertar(Tabla.Pasaje, datosMetodoDePago);
+                // Se Inserta el Cliente en caso de que no exista
+                if (ClienteComprador.Id == -1)
+                {
+                    Dictionary<string, object> datos = new Dictionary<string, object>();
+
+                    datos["fecha_nacimiento"] = ClienteComprador.FechaDeNacimiento;
+                    datos["telefono"] = ClienteComprador.Telefono;
+                    datos["nombre"] = ClienteComprador.Telefono;
+                    datos["apellido"] = ClienteComprador.Apellido;
+                    datos["DNI"] = ClienteComprador.Dni;
+                    datos["direccion"] = ClienteComprador.Direccion;
+                    datos["mail"] = ClienteComprador.Mail;
+
+                    ClienteComprador.Id = tr.Insertar(Tabla.Cliente, datos);
+                }
+
+               
+                
+                datosOperacion["cliente_id"] = ClienteComprador.Id;
+
+
+                if (TipoDeOperacion == "COMPRA")
+                {
+                    // Se inserta metodo de pago
+                    int idMetodoDePago = tr.Insertar(Tabla.MedioDePago, datosMetodoDePago);
+
+                    datosOperacion["medio_de_pago_id"] = idMetodoDePago;
+
+                    // Se inserta una compra
+                    tr.Insertar(Tabla.Pasaje, datosOperacion);
+                }
+                else
+                {
+                    // Se inserta una reserva
+                    tr.Insertar(Tabla.Reserva, datosOperacion);
+                }
+
+                // Se suma al viaje elegido por el usuario la cantidad de pasajes vendidos 
+                tr.Modificar(ViajeElegido.Id, Tabla.Viaje, datosViaje);
+
+                // Se marca a la cabina como ocupada
+                tr.Modificar(idCabina, Tabla.Cabina, datosCabina);
+
+                tr.Commit();
+
+
+                MessageBox.Show("Se ha hecho la compra correctamente!", "Compra confirmada");
             }
             else
             {
-                // Se inserta una reserva
-                datosOperacion["codigo"] = ObtenerCodigoDeOperacion(Tabla.Reserva);
-                tr.Insertar(Tabla.Reserva, datosMetodoDePago);
+                MessageBox.Show(mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            // Se suma al viaje elegido por el usuario la cantidad de pasajes vendidos 
-            tr.Modificar(ViajeElegido.Id, Tabla.Viaje, datosViaje);
-
-            // Se marca a la cabina como ocupada
-            tr.Modificar(cabina.Id, Tabla.Cabina, datosCabina);
-
-            tr.Commit();
-
-
-            MessageBox.Show("Se ha hecho la compra correctamente!", "Compra confirmada");
         }
 
-        private Cabina ObtenerCabina()
+        private int ObtenerIdCabina()
         {
             List<Filtro> filtros = new List<Filtro>();
             filtros.Add(FiltroFactory.Exacto("viaje_id", ViajeElegido.Id.ToString()));
             filtros.Add(FiltroFactory.Exacto("tipo_id", ViajeElegido.Cabinas.First().Tipo_id.ToString()));
             filtros.Add(FiltroFactory.Exacto("ocupado", "0"));
 
-            Dictionary<string, List<object>> cabinasVacias = conexion.ConsultaPlana(Tabla.Cabina, new List<string>(new string[] { "*" }), filtros);
+            List<string> campos = new List<string>();
+            campos.Add("ID");
+            campos.Add("crucero_id");
+            campos.Add("viaje_id");
+            campos.Add("tipo_id");
+            campos.Add("numero_piso");
+            campos.Add("numero_habitacion");
+            campos.Add("ocupado");
 
-            Cabina cabina = new Cabina();
+            Dictionary<string, List<object>> cabinasVacias = conexion.ConsultaPlana(Tabla.Cabina, campos, filtros);
 
             Random random = new Random();
             int indiceCabinaRandom = random.Next(0, random.Next(0, cabinasVacias["ID"].Count()));
 
-            cabina.Id = Convert.ToInt16(cabinasVacias["ID"][indiceCabinaRandom]);
-            cabina.Crucero_id = Convert.ToInt16(cabinasVacias["crucero_id"][indiceCabinaRandom]);
-            cabina.Viaje_id = Convert.ToInt16(cabinasVacias["viaje_id"][indiceCabinaRandom]);
-            cabina.Tipo_id = Convert.ToInt16(cabinasVacias["tipo_id"][indiceCabinaRandom]);
-            cabina.NumeroPiso = Convert.ToInt16(cabinasVacias["numero_piso"][indiceCabinaRandom]);
-            cabina.NumeroHabitacion = Convert.ToInt16(cabinasVacias["numero_habitacion"][indiceCabinaRandom]);
-            cabina.Ocupado = false;
-
-            return cabina;
+            return Convert.ToInt32(cabinasVacias["ID"][indiceCabinaRandom]);
         }
 
         private int ObtenerCodigoDeOperacion(string tabla)
@@ -219,21 +228,26 @@ namespace FrbaCrucero.CompraReservaPasaje
         // --------------------------------------------------OBTENER DATOS--------------------------------------------
         private Dictionary<string, object> ObtenerDatosMetodoDePago()
         {
-            Dictionary<string, object> datosMetodoDePago = new Dictionary<string, object>();
+            if (TipoDeOperacion == "COMPRA")
+            {
+                Dictionary<string, object> datosMetodoDePago = new Dictionary<string, object>();
 
-            datosMetodoDePago["tipo"] = MedioDePago.Tipo;
-            datosMetodoDePago["numero_de_tarjeta"] = MedioDePago.NumeroTarjeta;
+                datosMetodoDePago["tipo"] = MedioDePago.Tipo;
+                datosMetodoDePago["numero_de_tarjeta"] = MedioDePago.NumeroTarjeta;
 
-            return datosMetodoDePago;
+                return datosMetodoDePago;
+            }
+
+            return null;
         }
 
-        private Dictionary<string, object> ObtenerDatosOperacion(Cabina cabina)
+        private Dictionary<string, object> ObtenerDatosOperacion(int idCabina)
         {
             Dictionary<string, object> datosOperacion = new Dictionary<string, object>();
 
-            datosOperacion["cliente_id"] = ClienteComprador.Id;
+            datosOperacion["codigo"] = NumeroOperacion; 
             datosOperacion["precio"] = PrecioTotal;
-            datosOperacion["cabina_id"] = cabina.Id;
+            datosOperacion["cabina_id"] = idCabina; 
             datosOperacion["fecha_de_compra"] = FrbaCrucero.ConfigurationHelper.FechaActual;
 
             return datosOperacion;
@@ -243,29 +257,85 @@ namespace FrbaCrucero.CompraReservaPasaje
         {
             Dictionary<string, object> datosViaje = new Dictionary<string, object>();
 
-            datosViaje["ID"] = ViajeElegido.Id;
-            datosViaje["fecha_inicio"] = ViajeElegido.FechaInicio;
-            // datosViaje["fecha_fin"] = null; // TODO ver si va
-            datosViaje["fecha_fin_estimada"] = ViajeElegido.Fecha_Fin_Estimada;
             datosViaje["pasajes_vendidos"] = ViajeElegido.PasajesVendidos + CantidadDePasajes;
-            datosViaje["recorrido_id"] = ViajeElegido.Recorrido_id;
 
             return datosViaje;
         }
 
-        private Dictionary<string, object> ObtenerDatosCabina(Cabina cabina)
+        private Dictionary<string, object> ObtenerDatosCabina()
         {
             Dictionary<string, object> datosCabina = new Dictionary<string, object>();
 
-            datosCabina["ID"] = cabina.Id;
-            datosCabina["crucero_id"] = cabina.Crucero_id;
-            datosCabina["viaje_id"] = cabina.Viaje_id;
-            datosCabina["tipo_id"] = cabina.Tipo_id;
-            datosCabina["numero_piso"] = cabina.NumeroPiso;
-            datosCabina["numero_habitacion"] = cabina.NumeroHabitacion;
-            datosCabina["ocupado"] = 0;
+            datosCabina["ocupado"] = 1;
 
             return datosCabina;
+        }
+
+        // ---------------------------------------VALIDACIONES------------------------------------------
+
+        private String ValidarCampos()
+        {
+            String resultado = "";
+
+            // No puede hacer compras sobre viajes pasados.
+            resultado += this.ValidarSiYaComproEseViaje();
+
+            // No puede viajar a más de un destino a la vez
+            resultado += this.ValidarSiHayMasDeUnDestino();
+
+            return resultado;
+        }
+        private String ValidarSiYaComproEseViaje()
+        {
+            if (TieneUnPasajeConViajePorComprar() || TieneUnaReservaConViajePorComprar())
+                return "No se puede hacer compras sobre viajes pasados.\n";
+
+            return "";
+        }
+
+        private bool TieneUnPasajeConViajePorComprar()
+        {
+            int idCliente = ClienteComprador.Id;
+            if (idCliente != -1)
+            {
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(FiltroFactory.Exacto("cliente_id", idCliente.ToString()));
+                filtros.Add(FiltroFactory.Exacto("viaje_id", ViajeElegido.Id.ToString()));
+
+                return conexion.ExisteRegistro(Tabla.ClienteComproViaje, new List<string>(new string[] { "cliente_id" }), filtros);
+            }
+
+            return false;
+        }
+
+        private bool TieneUnaReservaConViajePorComprar()
+        {
+            if (ClienteComprador.Id != -1)
+            {
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(FiltroFactory.Exacto("cliente_id", ClienteComprador.Id.ToString()));
+                filtros.Add(FiltroFactory.Exacto("viaje_id", ViajeElegido.Id.ToString()));
+
+                return conexion.ExisteRegistro(Tabla.ClienteReservoViaje, new List<string>(new string[] { "cliente_id" }), filtros);
+            }
+
+            return false;
+        }
+
+        private string ValidarSiHayMasDeUnDestino()
+        {
+            if (ClienteComprador.Id != -1)
+            {
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(FiltroFactory.Exacto("cliente_id", ClienteComprador.Id.ToString()));
+                filtros.Add(FiltroFactory.Exacto("fecha_inicio", ViajeElegido.FechaInicio.ToString("yyyy-MM-dd")));
+
+                if (conexion.ExisteRegistro(Tabla.ClienteReservoViaje, new List<string>(new string[] { "cliente_id" }), filtros)
+                    || conexion.ExisteRegistro(Tabla.ClienteComproViaje, new List<string>(new string[] { "cliente_id" }), filtros))
+                    return "No puede viajar a más de un destino a la vez.\n";
+            }
+
+            return "";
         }
 
     }
