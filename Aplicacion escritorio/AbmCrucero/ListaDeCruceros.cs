@@ -117,8 +117,12 @@ namespace FrbaCrucero.AbmCrucero
                     var id = int.Parse(dataGridViewCruceros.Rows[j].Cells[3].Value.ToString());
                     Dictionary<string,object> modificacion = new Dictionary<string,object>();
                     modificacion.Add(baja, true);
-                    conexion.Modificar(id, Tabla.Crucero, modificacion);
 
+                    if(baja == "baja_vida_util"){
+                        modificacion.Add("fecha_baja_definitiva", ConfigurationHelper.FechaActual);
+                    }
+
+                    conexion.Modificar(id, Tabla.Crucero, modificacion);
                     conexion.CancelarPasajes(id, ConfigurationHelper.FechaActual);
 
                 }

@@ -19,7 +19,7 @@ namespace FrbaCrucero
             Application.SetCompatibleTextRenderingDefault(false);
             
             //FormInicial = new Inicial();
-            FormInicial = new FrbaCrucero.AbmCrucero.ListaDeCruceros();
+            FormInicial = new FrbaCrucero.PagoReserva.PagoReserva();
             Application.Run(FormInicial);
 
         }

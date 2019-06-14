@@ -418,7 +418,7 @@ namespace Conexiones
 
                     while (reader.Read())
                     {
-                        combo.Items.Add(reader[0].ToString());
+                        combo.Items.Add(reader[0].ToString().ToUpper());
                     }
                 }
             }

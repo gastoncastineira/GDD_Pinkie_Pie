@@ -29,11 +29,6 @@ namespace FrbaCrucero.AbmCrucero
             InitializeComponent();
         }
 
-        private void Label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void ButtonCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -42,12 +37,28 @@ namespace FrbaCrucero.AbmCrucero
         private void ButtonAceptar_Click(object sender, EventArgs e)
         {
             Dictionary<string, object> cambios = new Dictionary<string, object>();
-            cambios.Add("modelo",textBoxModelo.Text.Trim());
-            cambios.Add("fabricante",textBoxFabricante.Text.Trim());
-            cambios.Add("identificador",textBoxIdentificador.Text.Trim());
-            conexion.Modificar(int.Parse(ID),Tabla.Crucero,cambios);
-            padre.reLoad();
-            this.Close();
+
+            if (this.camposVacios())
+            {
+                MessageBox.Show("Se han encontrado campos vacios. Por favor completelos e intentelo nuevamente", "Campos vacios", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (this.identRepetido())
+            {
+
+                MessageBox.Show("Ya existe un crucero con ese identificador", "Identificador existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            } else 
+            {
+
+                cambios.Add("modelo", textBoxModelo.Text.Trim());
+                cambios.Add("fabricante", textBoxFabricante.Text.Trim());
+                cambios.Add("identificador", textBoxIdentificador.Text.Trim());
+                conexion.Modificar(int.Parse(ID), Tabla.Crucero, cambios);
+                padre.reLoad();
+                this.Close();
+
+            }
+
         }
 
         private void ModificarCrucero_Load(object sender, EventArgs e)
@@ -55,13 +66,21 @@ namespace FrbaCrucero.AbmCrucero
             textBoxModelo.Text = modelo;
             textBoxFabricante.Text = fabricante;
             textBoxIdentificador.Text = identificador;
+        }
 
-            //List<Filtro> listFiltro = new List<Filtro>();
-            //listFiltro.Add(FiltroFactory.Exacto("Crucero", ID));
-            //conexion.LlenarDataGridView(Tabla.CabinasDeCrucero, ref dataGridViewCabinas, listFiltro);
-            //listFiltro.Clear();
-            //listFiltro.Add(FiltroFactory.Exacto("ID", ID));
-            //comboBoxDescripcionCabina.DataSource = conexion.ConseguirTabla(Tabla.Tipo, listFiltro).Columns[1];
+        private bool camposVacios()
+        {
+            return (this.stringVacio(textBoxModelo.Text) || this.stringVacio(textBoxFabricante.Text) || this.stringVacio(textBoxIdentificador.Text)) ;
+        }
+
+        private bool stringVacio(string str)
+        {
+            return string.IsNullOrWhiteSpace(str) || string.IsNullOrEmpty(str);
+        }
+
+        private bool identRepetido() {
+            Dictionary<string, List<object>> rdos = conexion.ConsultaPlana(Tabla.Crucero, new List<string> { "identificador" }, new List<Filtro> { FiltroFactory.Exacto("identificador", textBoxIdentificador.Text) });
+            return rdos["identificador"].Count > 0;
         }
 
     }

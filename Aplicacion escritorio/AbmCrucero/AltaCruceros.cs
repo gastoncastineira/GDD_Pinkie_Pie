@@ -18,13 +18,10 @@ namespace FrbaCrucero.AbmCrucero
 
         public AltaCruceros()
         {
-
             InitializeComponent();
             cargarFabricantes();
             cargarTipoPiso();
-            
         }
-
 
         private void cargarFabricantes(){
             conexion.LlenarComboFabricantes(ref comboBox2);
@@ -36,12 +33,23 @@ namespace FrbaCrucero.AbmCrucero
             tipoPiso.DisplayMember = "";
         }
 
+        private bool identRepetido(){
+            
+            Dictionary<string, List<object>> rdos = conexion.ConsultaPlana(Tabla.Crucero,new List<string> {"identificador"},new List<Filtro> {FiltroFactory.Exacto("identificador",textBox2.Text)});
+            return rdos["identificador"].Count > 0;
+
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
 
             if (this.camposVacios())
             {
-                MessageBox.Show("Se han encontra campos vacios. Por favor completelos e intentelo nuevamente", "Campos vacios", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Se han encontrado campos vacios. Por favor completelos e intentelo nuevamente", "Campos vacios", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (this.identRepetido())
+            {
+                MessageBox.Show("Ya existe un crucero con ese identificador", "Identificador existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -50,7 +58,7 @@ namespace FrbaCrucero.AbmCrucero
 
                 Dictionary<string, object> crucero = new Dictionary<string, object>();
                 crucero.Add("modelo", textBox1.Text);
-                crucero.Add("fabricante", comboBox2.Text);
+                crucero.Add("fabricante", comboBox2.Text.ToUpper());
                 crucero.Add("identificador", textBox2.Text);
                 crucero.Add("baja_fuera_de_servicio", false);
                 crucero.Add("baja_vida_util", false);
@@ -60,7 +68,7 @@ namespace FrbaCrucero.AbmCrucero
 
                 Dictionary<string, object> piso = new Dictionary<string, object>();
 
-                for (int i = 0; i < dataGridView1.Rows.Count-1; i++)
+                for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
                 {
 
                     var row = dataGridView1.Rows[i];
@@ -88,35 +96,13 @@ namespace FrbaCrucero.AbmCrucero
 
                 MessageBox.Show("Crucero dado de alta exitosamente. Felicidades :D", "Crucero creado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                /*
-                Transaccion tr = conexion.IniciarTransaccion();
-
-                Dictionary<string, object> registros = new Dictionary<string, object>();
-                registros.Add("codigo",1);
-                registros.Add("puerto_origen_id", int.Parse(origenID));
-                registros.Add("puerto_destino_id", int.Parse(destinoID.Last()));
-
-                int pkRecorrido = tr.Insertar(Tabla.Recorrido, registros);
-
-                tramosID.ForEach( id => tr.InsertarTablaIntermedia(Tabla.Tramo_X_Recorrido, "ID_Recorrido", "ID_Tramo", pkRecorrido, int.Parse(id)));
-
-                tr.Commit();
-                */
-
             }
              
         }
 
         private bool camposVacios(){
 
-            if (this.stringVacio(textBox1.Text) || this.stringVacio(textBox2.Text) || this.stringVacio(comboBox2.Text) || this.dataGridVacio(dataGridView1))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return this.stringVacio(textBox1.Text) || this.stringVacio(textBox2.Text) || this.stringVacio(comboBox2.Text) || this.dataGridVacio(dataGridView1);
 
         }
 

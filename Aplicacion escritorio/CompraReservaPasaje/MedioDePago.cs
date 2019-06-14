@@ -12,7 +12,7 @@ using FrbaCrucero.model;
 
 namespace FrbaCrucero.CompraReservaPasaje
 {
-    public partial class MedioDePago : FormTemplate
+    public partial class MedioDePago : Form
     {
         public string IdPuertoOrigen, IdPuertoDestino, RecorridoId;
         private int CantidadDePasajes;
