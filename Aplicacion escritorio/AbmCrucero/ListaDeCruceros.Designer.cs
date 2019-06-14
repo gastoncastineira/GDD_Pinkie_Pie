@@ -33,7 +33,9 @@
             this.buttonCrear = new System.Windows.Forms.Button();
             this.labelNombreGrid = new System.Windows.Forms.Label();
             this.dataGridViewCruceros = new System.Windows.Forms.DataGridView();
-            this.ButtomDelete = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.seleccionado = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ButtomEdit = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ButtonVer = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCabinas)).BeginInit();
@@ -86,40 +88,58 @@
             this.dataGridViewCruceros.AllowUserToResizeRows = false;
             this.dataGridViewCruceros.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewCruceros.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ButtomDelete,
+            this.seleccionado,
             this.ButtomEdit,
             this.ButtonVer});
             this.dataGridViewCruceros.Location = new System.Drawing.Point(9, 58);
             this.dataGridViewCruceros.MultiSelect = false;
             this.dataGridViewCruceros.Name = "dataGridViewCruceros";
-            this.dataGridViewCruceros.ReadOnly = true;
             this.dataGridViewCruceros.Size = new System.Drawing.Size(782, 189);
             this.dataGridViewCruceros.TabIndex = 6;
             this.dataGridViewCruceros.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCruceros_CellContentClick);
             // 
-            // ButtomDelete
+            // button1
             // 
-            this.ButtomDelete.HeaderText = "Dar de baja";
-            this.ButtomDelete.Name = "ButtomDelete";
-            this.ButtomDelete.ReadOnly = true;
+            this.button1.Location = new System.Drawing.Point(503, 253);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(144, 23);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "Borrar por fuera de servicio";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(653, 253);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(135, 23);
+            this.button2.TabIndex = 12;
+            this.button2.Text = "Borrar por vida util";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // seleccionado
+            // 
+            this.seleccionado.HeaderText = "";
+            this.seleccionado.Name = "seleccionado";
             // 
             // ButtomEdit
             // 
             this.ButtomEdit.HeaderText = "Modificar";
             this.ButtomEdit.Name = "ButtomEdit";
-            this.ButtomEdit.ReadOnly = true;
             // 
             // ButtonVer
             // 
             this.ButtonVer.HeaderText = "Ver detalle";
             this.ButtonVer.Name = "ButtonVer";
-            this.ButtonVer.ReadOnly = true;
             // 
             // ListaDeCruceros
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.labelTramo);
             this.Controls.Add(this.dataGridViewCabinas);
             this.Controls.Add(this.buttonCrear);
@@ -142,7 +162,9 @@
         private System.Windows.Forms.Button buttonCrear;
         public System.Windows.Forms.Label labelNombreGrid;
         private System.Windows.Forms.DataGridView dataGridViewCruceros;
-        private System.Windows.Forms.DataGridViewButtonColumn ButtomDelete;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn seleccionado;
         private System.Windows.Forms.DataGridViewButtonColumn ButtomEdit;
         private System.Windows.Forms.DataGridViewButtonColumn ButtonVer;
     }

@@ -67,6 +67,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Image = global::FrbaCrucero.Properties.Resources.imagen_loggin_chica;
             this.pictureBox1.Location = new System.Drawing.Point(141, 12);
             this.pictureBox1.Name = "pictureBox1";

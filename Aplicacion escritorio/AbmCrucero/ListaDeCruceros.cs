@@ -12,7 +12,7 @@ using FrbaCrucero.Acceso;
 
 namespace FrbaCrucero.AbmCrucero
 {
-    public partial class ListaDeCruceros : FormTemplate
+    public partial class ListaDeCruceros : Form
     {
         private Conexion conexion = new Conexion();
         public ListaDeCruceros():base()
@@ -31,6 +31,14 @@ namespace FrbaCrucero.AbmCrucero
             dataGridViewCabinas.DataSource = null;
             dataGridViewCabinas.Rows.Clear();
             dataGridViewCabinas.Refresh();
+
+            for (int i = 3; i < dataGridViewCruceros.Columns.Count ; i++)
+            {
+                DataGridViewColumn row = dataGridViewCruceros.Columns[i];
+                row.ReadOnly = true;
+            }
+
+
         }
 
         private void LabelNombreGrid_Click(object sender, EventArgs e)
@@ -60,11 +68,6 @@ namespace FrbaCrucero.AbmCrucero
 
             switch (e.ColumnIndex)
             {
-                case 0:
-                    if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
-                    {   //Dar de baja
-                    }
-                    break;
                 case 1:
                     if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
                     {   //Modificar
@@ -83,6 +86,43 @@ namespace FrbaCrucero.AbmCrucero
                         conexion.LlenarDataGridView(Tabla.CabinasDeCrucero, ref dataGridViewCabinas, listFiltro);
                     }
                     break;
+            }
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            this.darDeBajaCrucero("baja_fuera_de_servicio");
+        
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            this.darDeBajaCrucero("baja_vida_util");
+
+        }
+
+        private void darDeBajaCrucero(string baja){
+
+            for (int j = 0; j < dataGridViewCruceros.Rows.Count - 1; j++)
+            {
+
+                var check = dataGridViewCruceros.Rows[j].Cells[0];
+
+                if (check.Selected)
+                {
+
+                    var id = int.Parse(dataGridViewCruceros.Rows[j].Cells[3].Value.ToString());
+                    Dictionary<string,object> modificacion = new Dictionary<string,object>();
+                    modificacion.Add(baja, true);
+                    conexion.Modificar(id, Tabla.Crucero, modificacion);
+
+                    conexion.CancelarPasajes(id, ConfigurationHelper.FechaActual);
+
+                }
+
             }
 
         }
