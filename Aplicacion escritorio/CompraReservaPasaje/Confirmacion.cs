@@ -153,11 +153,29 @@ namespace FrbaCrucero.CompraReservaPasaje
                 }
 
                 int idMetodoDePago = 0;
-                if (TipoDeOperacion == "COMPRA")
+                List<Filtro> filtros = new List<Filtro>();
+
+                if (TipoDeOperacion == "COMPRA" && MedioDePago.Tipo != "EFECTIVO")
                 {
-                    // Se inserta metodo de pago
-                    idMetodoDePago = conexion.Insertar(Tabla.MedioDePago, datosMetodoDePago);
+                    filtros.Add(FiltroFactory.Exacto("tipo", MedioDePago.Tipo));
+                    filtros.Add(FiltroFactory.Exacto("numero_de_tarjeta", MedioDePago.NumeroTarjeta.ToString()));
+
+                    if (!(conexion.ExisteRegistro(Tabla.MedioDePago, new List<string>(new string[] { "ID" }), filtros)))
+                    {
+                        // Se inserta metodo de pago
+                        idMetodoDePago = conexion.Insertar(Tabla.MedioDePago, datosMetodoDePago);
+                    }
+                    else
+                    {
+                        Dictionary<string, List<object>> tipoCabina = conexion.ConsultaPlana(Tabla.MedioDePago, new List<string>(new string[] { "ID" }), filtros);
+
+                        idMetodoDePago = Convert.ToInt32(tipoCabina["ID"].First());
+                    }
                 }
+                
+                if (TipoDeOperacion == "COMPRA")
+                    idMetodoDePago = 1;
+                
 
                 // Se suma al viaje elegido por el usuario la cantidad de pasajes vendidos 
                 conexion.Modificar(ViajeElegido.Id, Tabla.Viaje, datosViaje);
@@ -171,7 +189,7 @@ namespace FrbaCrucero.CompraReservaPasaje
                     datosOperacion["cliente_id"] = ClienteComprador.Id;
 
                     if (TipoDeOperacion == "COMPRA")
-                    {
+                    {   
                         // Se inserta una compra
                         nroOperacion = NumerosOperacion[i];
 

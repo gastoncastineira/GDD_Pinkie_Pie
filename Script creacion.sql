@@ -475,7 +475,8 @@ SELECT v.fecha_inicio AS FECHA_INICIO, v.fecha_fin_estimada AS FECHA_DE_FIN,
 	v.ID AS VIAJE_ID,
 	cru.fabricante AS CRUCERO_FABRICANTE,
 	cru.modelo AS CRUCERO_MODELO,
-	cru.ID AS CRUCERO_ID
+	cru.ID AS CRUCERO_ID,
+	pDestino.ID AS RECORRIDO_ID_DESTINO
 FROM PINKIE_PIE.Viaje v
 JOIN PINKIE_PIE.Recorrido r
 	ON r.ID = v.recorrido_id

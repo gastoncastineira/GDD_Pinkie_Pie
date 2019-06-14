@@ -258,7 +258,7 @@ namespace FrbaCrucero.CompraReservaPasaje
         private void CmbFiltro_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbFiltro.Items[cmbFiltro.SelectedIndex].ToString() == "SI")
-                LlenarDGVViajes(FiltroFactory.Exacto("RECORRIDO_DESTINO", IdPuertoDestino));
+                LlenarDGVViajes(FiltroFactory.Exacto("RECORRIDO_ID_DESTINO", IdPuertoDestino));
             else
                 LlenarDGVViajes(FiltroFactory.Exacto("T_PUERTO_DESTINO", IdPuertoDestino));
         }
