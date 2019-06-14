@@ -45,7 +45,7 @@
             // lblMetodoDePago
             // 
             this.lblMetodoDePago.AutoSize = true;
-            this.lblMetodoDePago.Location = new System.Drawing.Point(12, 69);
+            this.lblMetodoDePago.Location = new System.Drawing.Point(15, 94);
             this.lblMetodoDePago.Name = "lblMetodoDePago";
             this.lblMetodoDePago.Size = new System.Drawing.Size(155, 13);
             this.lblMetodoDePago.TabIndex = 0;
@@ -58,7 +58,7 @@
             "EFECTIVO",
             "CREDITO",
             "DEBITO"});
-            this.cmbMetodoDePago.Location = new System.Drawing.Point(173, 66);
+            this.cmbMetodoDePago.Location = new System.Drawing.Point(176, 91);
             this.cmbMetodoDePago.Name = "cmbMetodoDePago";
             this.cmbMetodoDePago.Size = new System.Drawing.Size(121, 21);
             this.cmbMetodoDePago.TabIndex = 0;
@@ -69,6 +69,7 @@
             this.cmbCantidadDeCuotas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCantidadDeCuotas.FormattingEnabled = true;
             this.cmbCantidadDeCuotas.Items.AddRange(new object[] {
+            "1",
             "2",
             "3",
             "4",
@@ -88,7 +89,7 @@
             "18",
             "19",
             "20"});
-            this.cmbCantidadDeCuotas.Location = new System.Drawing.Point(173, 156);
+            this.cmbCantidadDeCuotas.Location = new System.Drawing.Point(176, 181);
             this.cmbCantidadDeCuotas.Name = "cmbCantidadDeCuotas";
             this.cmbCantidadDeCuotas.Size = new System.Drawing.Size(121, 21);
             this.cmbCantidadDeCuotas.TabIndex = 2;
@@ -96,7 +97,7 @@
             // lblCantidadDeCuotas
             // 
             this.lblCantidadDeCuotas.AutoSize = true;
-            this.lblCantidadDeCuotas.Location = new System.Drawing.Point(12, 159);
+            this.lblCantidadDeCuotas.Location = new System.Drawing.Point(15, 184);
             this.lblCantidadDeCuotas.Name = "lblCantidadDeCuotas";
             this.lblCantidadDeCuotas.Size = new System.Drawing.Size(99, 13);
             this.lblCantidadDeCuotas.TabIndex = 3;
@@ -104,7 +105,7 @@
             // 
             // btnAtras
             // 
-            this.btnAtras.Location = new System.Drawing.Point(28, 247);
+            this.btnAtras.Location = new System.Drawing.Point(31, 272);
             this.btnAtras.Name = "btnAtras";
             this.btnAtras.Size = new System.Drawing.Size(75, 23);
             this.btnAtras.TabIndex = 5;
@@ -114,7 +115,7 @@
             // 
             // btnSiguiente
             // 
-            this.btnSiguiente.Location = new System.Drawing.Point(416, 247);
+            this.btnSiguiente.Location = new System.Drawing.Point(423, 272);
             this.btnSiguiente.Name = "btnSiguiente";
             this.btnSiguiente.Size = new System.Drawing.Size(75, 23);
             this.btnSiguiente.TabIndex = 4;
@@ -125,7 +126,7 @@
             // lblNumeroDeTarjeta
             // 
             this.lblNumeroDeTarjeta.AutoSize = true;
-            this.lblNumeroDeTarjeta.Location = new System.Drawing.Point(12, 118);
+            this.lblNumeroDeTarjeta.Location = new System.Drawing.Point(15, 143);
             this.lblNumeroDeTarjeta.Name = "lblNumeroDeTarjeta";
             this.lblNumeroDeTarjeta.Size = new System.Drawing.Size(91, 13);
             this.lblNumeroDeTarjeta.TabIndex = 6;
@@ -133,7 +134,7 @@
             // 
             // txtNumeroDeTarjerta
             // 
-            this.txtNumeroDeTarjerta.Location = new System.Drawing.Point(173, 115);
+            this.txtNumeroDeTarjerta.Location = new System.Drawing.Point(176, 140);
             this.txtNumeroDeTarjerta.Name = "txtNumeroDeTarjerta";
             this.txtNumeroDeTarjerta.Size = new System.Drawing.Size(121, 20);
             this.txtNumeroDeTarjerta.TabIndex = 1;
@@ -141,7 +142,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 25);
+            this.label2.Location = new System.Drawing.Point(15, 50);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 13);
             this.label2.TabIndex = 8;
@@ -154,7 +155,7 @@
             this.cmbTipoOperacion.Items.AddRange(new object[] {
             "COMPRA",
             "RESERVA"});
-            this.cmbTipoOperacion.Location = new System.Drawing.Point(173, 17);
+            this.cmbTipoOperacion.Location = new System.Drawing.Point(176, 42);
             this.cmbTipoOperacion.Name = "cmbTipoOperacion";
             this.cmbTipoOperacion.Size = new System.Drawing.Size(121, 21);
             this.cmbTipoOperacion.TabIndex = 3;
@@ -163,7 +164,7 @@
             // lblPrecioTotal
             // 
             this.lblPrecioTotal.AutoSize = true;
-            this.lblPrecioTotal.Location = new System.Drawing.Point(12, 204);
+            this.lblPrecioTotal.Location = new System.Drawing.Point(15, 229);
             this.lblPrecioTotal.Name = "lblPrecioTotal";
             this.lblPrecioTotal.Size = new System.Drawing.Size(116, 13);
             this.lblPrecioTotal.TabIndex = 9;
@@ -172,7 +173,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(327, 24);
+            this.label1.Location = new System.Drawing.Point(330, 49);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(199, 13);
             this.label1.TabIndex = 10;
@@ -183,7 +184,7 @@
             this.AcceptButton = this.btnSiguiente;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(534, 282);
+            this.ClientSize = new System.Drawing.Size(534, 304);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblPrecioTotal);
             this.Controls.Add(this.cmbTipoOperacion);

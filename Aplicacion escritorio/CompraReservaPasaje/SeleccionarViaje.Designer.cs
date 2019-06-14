@@ -43,6 +43,8 @@
             this.dtTramos = new System.Windows.Forms.DataGridView();
             this.label4 = new System.Windows.Forms.Label();
             this.lblPrecioTotal = new System.Windows.Forms.Label();
+            this.cmbFiltro = new System.Windows.Forms.ComboBox();
+            this.lblMostrar = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtViajes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtCabinasDisponibles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtTramos)).BeginInit();
@@ -51,7 +53,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 9);
+            this.label3.Location = new System.Drawing.Point(12, 98);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(103, 13);
             this.label3.TabIndex = 15;
@@ -59,7 +61,7 @@
             // 
             // btnAtras
             // 
-            this.btnAtras.Location = new System.Drawing.Point(12, 556);
+            this.btnAtras.Location = new System.Drawing.Point(12, 645);
             this.btnAtras.Name = "btnAtras";
             this.btnAtras.Size = new System.Drawing.Size(75, 23);
             this.btnAtras.TabIndex = 8;
@@ -69,7 +71,7 @@
             // 
             // btnConfirmar
             // 
-            this.btnConfirmar.Location = new System.Drawing.Point(907, 556);
+            this.btnConfirmar.Location = new System.Drawing.Point(907, 645);
             this.btnConfirmar.Name = "btnConfirmar";
             this.btnConfirmar.Size = new System.Drawing.Size(75, 23);
             this.btnConfirmar.TabIndex = 7;
@@ -86,7 +88,7 @@
             this.dtViajes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtViajes.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dtViajes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtViajes.Location = new System.Drawing.Point(12, 25);
+            this.dtViajes.Location = new System.Drawing.Point(12, 114);
             this.dtViajes.MultiSelect = false;
             this.dtViajes.Name = "dtViajes";
             this.dtViajes.ReadOnly = true;
@@ -99,7 +101,7 @@
             // 
             // btnPrimerPagina
             // 
-            this.btnPrimerPagina.Location = new System.Drawing.Point(186, 271);
+            this.btnPrimerPagina.Location = new System.Drawing.Point(186, 360);
             this.btnPrimerPagina.Name = "btnPrimerPagina";
             this.btnPrimerPagina.Size = new System.Drawing.Size(116, 23);
             this.btnPrimerPagina.TabIndex = 1;
@@ -109,7 +111,7 @@
             // 
             // btnAnterior
             // 
-            this.btnAnterior.Location = new System.Drawing.Point(361, 271);
+            this.btnAnterior.Location = new System.Drawing.Point(361, 360);
             this.btnAnterior.Name = "btnAnterior";
             this.btnAnterior.Size = new System.Drawing.Size(116, 23);
             this.btnAnterior.TabIndex = 2;
@@ -119,7 +121,7 @@
             // 
             // btnSiguiente
             // 
-            this.btnSiguiente.Location = new System.Drawing.Point(522, 271);
+            this.btnSiguiente.Location = new System.Drawing.Point(522, 360);
             this.btnSiguiente.Name = "btnSiguiente";
             this.btnSiguiente.Size = new System.Drawing.Size(116, 23);
             this.btnSiguiente.TabIndex = 3;
@@ -129,7 +131,7 @@
             // 
             // btnUltimaPagina
             // 
-            this.btnUltimaPagina.Location = new System.Drawing.Point(695, 271);
+            this.btnUltimaPagina.Location = new System.Drawing.Point(695, 360);
             this.btnUltimaPagina.Name = "btnUltimaPagina";
             this.btnUltimaPagina.Size = new System.Drawing.Size(116, 23);
             this.btnUltimaPagina.TabIndex = 4;
@@ -139,7 +141,7 @@
             // 
             // txtCantidadPasajes
             // 
-            this.txtCantidadPasajes.Location = new System.Drawing.Point(171, 483);
+            this.txtCantidadPasajes.Location = new System.Drawing.Point(171, 572);
             this.txtCantidadPasajes.Name = "txtCantidadPasajes";
             this.txtCantidadPasajes.Size = new System.Drawing.Size(100, 20);
             this.txtCantidadPasajes.TabIndex = 6;
@@ -148,7 +150,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 486);
+            this.label6.Location = new System.Drawing.Point(12, 575);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(153, 13);
             this.label6.TabIndex = 20;
@@ -163,7 +165,7 @@
             this.dtCabinasDisponibles.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtCabinasDisponibles.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dtCabinasDisponibles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtCabinasDisponibles.Location = new System.Drawing.Point(15, 331);
+            this.dtCabinasDisponibles.Location = new System.Drawing.Point(15, 420);
             this.dtCabinasDisponibles.MultiSelect = false;
             this.dtCabinasDisponibles.Name = "dtCabinasDisponibles";
             this.dtCabinasDisponibles.ReadOnly = true;
@@ -176,7 +178,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 315);
+            this.label2.Location = new System.Drawing.Point(12, 404);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(148, 13);
             this.label2.TabIndex = 22;
@@ -192,7 +194,7 @@
             this.dtTramos.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dtTramos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtTramos.Enabled = false;
-            this.dtTramos.Location = new System.Drawing.Point(695, 331);
+            this.dtTramos.Location = new System.Drawing.Point(695, 420);
             this.dtTramos.MultiSelect = false;
             this.dtTramos.Name = "dtTramos";
             this.dtTramos.ReadOnly = true;
@@ -204,7 +206,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(692, 315);
+            this.label4.Location = new System.Drawing.Point(692, 404);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(150, 13);
             this.label4.TabIndex = 24;
@@ -213,18 +215,42 @@
             // lblPrecioTotal
             // 
             this.lblPrecioTotal.AutoSize = true;
-            this.lblPrecioTotal.Location = new System.Drawing.Point(12, 524);
+            this.lblPrecioTotal.Location = new System.Drawing.Point(12, 613);
             this.lblPrecioTotal.Name = "lblPrecioTotal";
             this.lblPrecioTotal.Size = new System.Drawing.Size(66, 13);
             this.lblPrecioTotal.TabIndex = 25;
             this.lblPrecioTotal.Text = "Precio total: ";
+            // 
+            // cmbFiltro
+            // 
+            this.cmbFiltro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFiltro.FormattingEnabled = true;
+            this.cmbFiltro.Items.AddRange(new object[] {
+            "SI",
+            "NO"});
+            this.cmbFiltro.Location = new System.Drawing.Point(12, 60);
+            this.cmbFiltro.Name = "cmbFiltro";
+            this.cmbFiltro.Size = new System.Drawing.Size(121, 21);
+            this.cmbFiltro.TabIndex = 26;
+            this.cmbFiltro.SelectedIndexChanged += new System.EventHandler(this.CmbFiltro_SelectedIndexChanged);
+            // 
+            // lblMostrar
+            // 
+            this.lblMostrar.AutoSize = true;
+            this.lblMostrar.Location = new System.Drawing.Point(12, 44);
+            this.lblMostrar.Name = "lblMostrar";
+            this.lblMostrar.Size = new System.Drawing.Size(201, 13);
+            this.lblMostrar.TabIndex = 27;
+            this.lblMostrar.Text = "Mostrar viajes donde el viaje destino sea ";
             // 
             // SeleccionarViaje
             // 
             this.AcceptButton = this.btnConfirmar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(994, 591);
+            this.ClientSize = new System.Drawing.Size(994, 681);
+            this.Controls.Add(this.lblMostrar);
+            this.Controls.Add(this.cmbFiltro);
             this.Controls.Add(this.lblPrecioTotal);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dtTramos);
@@ -268,5 +294,7 @@
         private System.Windows.Forms.DataGridView dtTramos;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblPrecioTotal;
+        private System.Windows.Forms.ComboBox cmbFiltro;
+        private System.Windows.Forms.Label lblMostrar;
     }
 }

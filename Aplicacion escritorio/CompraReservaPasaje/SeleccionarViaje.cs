@@ -13,7 +13,7 @@ using FrbaCrucero.model;
 
 namespace FrbaCrucero.CompraReservaPasaje
 {
-    public partial class SeleccionarViaje : Form
+    public partial class SeleccionarViaje : FormTemplate
     {
         private Conexion conexion = new Conexion();
         private DataTable Datos;
@@ -22,7 +22,7 @@ namespace FrbaCrucero.CompraReservaPasaje
         private string IdPuertoOrigen, IdPuertoDestino;
         private double PrecioTotal;
 
-        public SeleccionarViaje(DateTime fechaInicioViaje, string idPuertoOrigen, string idPuertoDestino)
+        public SeleccionarViaje(DateTime fechaInicioViaje, string idPuertoOrigen, string idPuertoDestino) : base()
         {
             InitializeComponent();
             FechaInicioViaje = fechaInicioViaje;
@@ -32,17 +32,24 @@ namespace FrbaCrucero.CompraReservaPasaje
 
         private void SeleccionarViaje_Load(object sender, EventArgs e)
         {
-            LlenarDGVViajes();
+            List<Filtro> filtrosPuerto = new List<Filtro>();
+            filtrosPuerto.Add(FiltroFactory.Exacto("ID", IdPuertoDestino));
+
+            Dictionary<string, List<object>> puerto = conexion.ConsultaPlana(Tabla.Puerto, new List<string>(new string[] { "descripcion" }), filtrosPuerto);
+
+            lblMostrar.Text += puerto["descripcion"].First().ToString();
+
+            LlenarDGVViajes(FiltroFactory.Exacto("T_PUERTO_DESTINO", IdPuertoDestino));
             LlenarDGVTramos(0);
             LlenarDGVCabinasDisponibles(0);
         }
 
-        private void LlenarDGVViajes()
+        private void LlenarDGVViajes(Filtro destino)
         {
             List<Filtro> filtros = new List<Filtro>();
             filtros.Add(FiltroFactory.Exacto("CAST(FECHA_INICIO AS DATE)", FechaInicioViaje.ToString("yyyy-MM-dd")));
             filtros.Add(FiltroFactory.Exacto("ID_PUERTO_ORIGEN_RECORRIDO", IdPuertoOrigen));
-            filtros.Add(FiltroFactory.Exacto("T_PUERTO_DESTINO", IdPuertoDestino));
+            filtros.Add(destino);
 
             Datos = conexion.ConseguirTabla(Tabla.ViajesDisponiblesGridView, filtros);
             PasarPagina();
@@ -94,6 +101,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             dtViajes.Columns[7].Visible = false;
             dtViajes.Columns[8].Visible = false;
             dtViajes.Columns[11].Visible = false;
+            dtViajes.Columns[12].Visible = false;
         }
 
         private void BtnPrimerPagina_Click(object sender, EventArgs e)
@@ -219,8 +227,8 @@ namespace FrbaCrucero.CompraReservaPasaje
             if (ValidarCampos() == "")
             {
                 PrecioTotal = Convert.ToDouble(txtCantidadPasajes.Text)
-                    *  Convert.ToDouble(dtCabinasDisponibles.CurrentRow.Cells["PORCENTAJE_COSTO"].Value)
-                    * Convert.ToDouble(dtViajes.CurrentRow.Cells[4].Value); 
+                    * Convert.ToDouble(dtCabinasDisponibles.CurrentRow.Cells["PORCENTAJE_COSTO"].Value)
+                    * Convert.ToDouble(dtViajes.CurrentRow.Cells[4].Value);
                 lblPrecioTotal.Text = "Precio total: " + PrecioTotal.ToString();
             }
         }
@@ -245,6 +253,14 @@ namespace FrbaCrucero.CompraReservaPasaje
             }
 
             return "";
+        }
+
+        private void CmbFiltro_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbFiltro.Items[cmbFiltro.SelectedIndex].ToString() == "SI")
+                LlenarDGVViajes(FiltroFactory.Exacto("RECORRIDO_DESTINO", IdPuertoDestino));
+            else
+                LlenarDGVViajes(FiltroFactory.Exacto("T_PUERTO_DESTINO", IdPuertoDestino));
         }
 
         private String ValidarCamposVacios()
