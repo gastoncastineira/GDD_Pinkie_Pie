@@ -477,7 +477,8 @@ SELECT v.fecha_inicio AS FECHA_INICIO, v.fecha_fin_estimada AS FECHA_DE_FIN,
 	v.ID AS VIAJE_ID,
 	cru.fabricante AS CRUCERO_FABRICANTE,
 	cru.modelo AS CRUCERO_MODELO,
-	cru.ID AS CRUCERO_ID
+	cru.ID AS CRUCERO_ID,
+	pDestino.ID AS RECORRIDO_DESTINO_ID
 FROM PINKIE_PIE.Viaje v
 JOIN PINKIE_PIE.Recorrido r
 	ON r.ID = v.recorrido_id
@@ -499,7 +500,7 @@ WHERE r.habilitado = 1
 	AND cru.baja_vida_util = 0 
 	AND cru.baja_fuera_de_servicio = 0
 GROUP BY v.ID, v.fecha_inicio, v.pasajes_vendidos, v.fecha_fin_estimada, t.puerto_destino_id, pOrigen.descripcion,
- r.puerto_destino_id, pDestino.descripcion, pOrigen.ID, r.ID, cru.fabricante, cru.modelo, cru.ID
+ r.puerto_destino_id, pDestino.descripcion, pOrigen.ID, r.ID, cru.fabricante, cru.modelo, cru.ID, pDestino.ID
 HAVING SUM(p.cant_cabina) > v.pasajes_vendidos
 GO
 

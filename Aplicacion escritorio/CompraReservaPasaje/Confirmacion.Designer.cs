@@ -46,6 +46,7 @@
             this.lblFechaDeConcepcion = new System.Windows.Forms.Label();
             this.dtNumerosOperacion = new System.Windows.Forms.DataGridView();
             this.Numero = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dtTramos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtNumerosOperacion)).BeginInit();
             this.SuspendLayout();
@@ -53,7 +54,7 @@
             // lblNumeros
             // 
             this.lblNumeros.AutoSize = true;
-            this.lblNumeros.Location = new System.Drawing.Point(37, 137);
+            this.lblNumeros.Location = new System.Drawing.Point(32, 134);
             this.lblNumeros.Name = "lblNumeros";
             this.lblNumeros.Size = new System.Drawing.Size(67, 13);
             this.lblNumeros.TabIndex = 0;
@@ -80,7 +81,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(37, 288);
+            this.label5.Location = new System.Drawing.Point(32, 285);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(84, 13);
             this.label5.TabIndex = 4;
@@ -134,7 +135,7 @@
             this.dtTramos.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dtTramos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtTramos.Enabled = false;
-            this.dtTramos.Location = new System.Drawing.Point(40, 304);
+            this.dtTramos.Location = new System.Drawing.Point(35, 301);
             this.dtTramos.Name = "dtTramos";
             this.dtTramos.ReadOnly = true;
             this.dtTramos.RowHeadersVisible = false;
@@ -192,9 +193,9 @@
             this.lblPrecioTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPrecioTotal.Location = new System.Drawing.Point(37, 600);
             this.lblPrecioTotal.Name = "lblPrecioTotal";
-            this.lblPrecioTotal.Size = new System.Drawing.Size(157, 18);
+            this.lblPrecioTotal.Size = new System.Drawing.Size(214, 18);
             this.lblPrecioTotal.TabIndex = 13;
-            this.lblPrecioTotal.Text = "PRECIO A PAGAR: ";
+            this.lblPrecioTotal.Text = "PRECIO TOTAL A PAGAR: ";
             // 
             // lblFechaDeConcepcion
             // 
@@ -215,8 +216,9 @@
             this.dtNumerosOperacion.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dtNumerosOperacion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtNumerosOperacion.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Numero});
-            this.dtNumerosOperacion.Location = new System.Drawing.Point(40, 153);
+            this.Numero,
+            this.Precio});
+            this.dtNumerosOperacion.Location = new System.Drawing.Point(35, 150);
             this.dtNumerosOperacion.Name = "dtNumerosOperacion";
             this.dtNumerosOperacion.ReadOnly = true;
             this.dtNumerosOperacion.RowHeadersVisible = false;
@@ -229,6 +231,12 @@
             this.Numero.HeaderText = "Número";
             this.Numero.Name = "Numero";
             this.Numero.ReadOnly = true;
+            // 
+            // Precio
+            // 
+            this.Precio.HeaderText = "Precio";
+            this.Precio.Name = "Precio";
+            this.Precio.ReadOnly = true;
             // 
             // Confirmacion
             // 
@@ -284,5 +292,6 @@
         private System.Windows.Forms.Label lblFechaDeConcepcion;
         private System.Windows.Forms.DataGridView dtNumerosOperacion;
         private System.Windows.Forms.DataGridViewTextBoxColumn Numero;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Precio;
     }
 }

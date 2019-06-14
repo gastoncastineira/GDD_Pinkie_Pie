@@ -12,7 +12,7 @@ using FrbaCrucero.model;
 
 namespace FrbaCrucero.CompraReservaPasaje
 {
-    public partial class Confirmacion : Form
+    public partial class Confirmacion : FormTemplate
     {
         public string IdPuertoOrigen, IdPuertoDestino, TipoDeOperacion;
         private Viaje ViajeElegido;
@@ -23,7 +23,7 @@ namespace FrbaCrucero.CompraReservaPasaje
         private List<int> NumerosOperacion = new List<int>();
         private Conexion conexion = new Conexion();
 
-        public Confirmacion(int cantPasajes, Viaje viajeElegido, string idPuertoOrigen, string idPuertoDestino, Cliente cliente, double precioTotal, MetodoDePago medioDePago, string tipoDeOperacion)
+        public Confirmacion(int cantPasajes, Viaje viajeElegido, string idPuertoOrigen, string idPuertoDestino, Cliente cliente, double precioTotal, MetodoDePago medioDePago, string tipoDeOperacion) : base()
         {
             CantidadDePasajes = cantPasajes;
             ViajeElegido = viajeElegido;
@@ -113,7 +113,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             {
                 int numero = ObtenerCodigoDeOperacion(tabla);
                 NumerosOperacion.Add(numero);
-                dtNumerosOperacion.Rows.Add(numero.ToString());
+                dtNumerosOperacion.Rows.Add(numero.ToString(), (PrecioTotal / CantidadDePasajes).ToString());
             }
 
             dtNumerosOperacion.ClearSelection();
