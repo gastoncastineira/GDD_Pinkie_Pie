@@ -43,10 +43,12 @@ namespace FrbaCrucero.AbmRecorrido
             
             Transaccion tr = conexion.IniciarTransaccion();
             int idTramo;
+            string origen = "";
+            string destino ="";
 
             for (int i = 0; i < tramos.Count(); i++)
             {
-                string[] cadenas = tramos[i].Split('.'); string origen; string destino;
+                string[] cadenas = tramos[i].Split('.'); 
                 if (cadenas[0].Split(' ').Length == 3)
                 {
                     origen = cadenas[0].Split(' ')[1] + " " + cadenas[0].Split(' ')[2];
@@ -71,27 +73,52 @@ namespace FrbaCrucero.AbmRecorrido
             }
 
             tr.Commit();
-                foreach (int i in checkedListBoxTramos.CheckedIndices)
-                {
-                    checkedListBoxTramos.SetItemCheckState(i, CheckState.Unchecked);
-                }
+
+            actualizarCheckedListBoxConUltimoDestino(destino);
             this.reLoad();
 
         }
 
+        private void actualizarCheckedListBoxConUltimoDestino(string ultimoDestino)
+        {
+            for (int i = checkedListBoxTramos.Items.Count; i > 0; i--)
+            {
+                checkedListBoxTramos.Items.RemoveAt(i - 1);
+            }
+            checkedListBoxTramos.Refresh();
+            conexion.LlenarCheckedListConTramosDescriptos(ref checkedListBoxTramos, ultimoDestino);
+        }
+
         private void DataGridViewTramos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            var senderGrid = (DataGridView)sender;
-            string PkTramo = dataGridViewTramos.Rows[e.RowIndex].Cells[2].Value.ToString();
+            if(e.RowIndex != -1)
+            {
+                var senderGrid = (DataGridView)sender;
+                string PkTramo = dataGridViewTramos.Rows[e.RowIndex].Cells[2].Value.ToString();
 
-            
-            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.ColumnIndex == 0)
+
+                if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.ColumnIndex == 0)
                 {
                     conexion.eliminarTablaIntermedia(Tabla.Tramo_X_Recorrido, "ID_Recorrido", "ID_Tramo", PkRecorrido, int.Parse(PkTramo));
 
-                }
-            this.reLoad();
+                    if (dataGridViewTramos.Rows.Count > 1)
+                    {
+                        string ID = dataGridViewTramos.Rows[e.RowIndex - 1].Cells[2].Value.ToString();
 
+                        List<Filtro> filtros = new List<Filtro>();
+                        filtros.Add(FiltroFactory.Exacto("TRAMO_ID", ID));
+                        List<string> columnas = new List<string>();
+                        columnas.Add("PUERTO_DESTINO");
+                        Dictionary<string, List<object>> res = conexion.ConsultaPlana(Tabla.TramosParaGridView, columnas, filtros);
+                        actualizarCheckedListBoxConUltimoDestino(res["PUERTO_DESTINO"].Last().ToString());
+                    }
+                    else
+                    {
+                        actualizarCheckedListBoxConUltimoDestino(null);
+                    }
+                }
+                this.reLoad();
+            }
         }
 
         private void ModificarRecorrido_Load(object sender, EventArgs e)

@@ -144,6 +144,17 @@ namespace FrbaCrucero.AbmCrucero
             return string.IsNullOrWhiteSpace(str) || string.IsNullOrEmpty(str);
         }
 
+        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            e.Control.KeyPress += new KeyPressEventHandler(Column1_KeyPress);
+        }
 
+        private void Column1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

@@ -359,10 +359,6 @@ JOIN PINKIE_PIE.Pasaje p ON p.cabina_id = c.ID
 GROUP BY r.codigo, puerto_origen_id, puerto_destino_id, v.fecha_inicio, v.fecha_fin
 
 GO
-CREATE VIEW PINKIE_PIE.top_5_clientes_puntos AS
-SELECT TOP 5 * FROM PINKIE_PIE.Cliente c ORDER BY c.puntos DESC
-
-GO
 CREATE VIEW PINKIE_PIE.top_5_viajes_cabinas_vacias AS
 SELECT v.ID AS viaje_id, (SELECT r.codigo FROM PINKIE_PIE.Recorrido r WHERE r.ID = v.recorrido_id) AS cod_recorrido, COUNT(DISTINCT Cabina.ID) AS cant_cabinas, v.fecha_inicio as fecha_inicio, v.fecha_fin as fecha_fin FROM PINKIE_PIE.Viaje v
 JOIN PINKIE_PIE.Cabina ON Cabina.viaje_id = v.ID 

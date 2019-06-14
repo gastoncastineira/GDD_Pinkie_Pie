@@ -11,7 +11,7 @@ using Conexiones;
 
 namespace FrbaCrucero.PagoReserva
 {
-    public partial class PagoReserva : Form
+    public partial class PagoReserva : FormTemplate
     {
 
         private Conexion conexion = new Conexion();
