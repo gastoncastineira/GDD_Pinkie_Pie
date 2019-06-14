@@ -45,7 +45,7 @@
             this.dgvResultados.AllowUserToDeleteRows = false;
             this.dgvResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvResultados.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvResultados.Location = new System.Drawing.Point(0, 159);
+            this.dgvResultados.Location = new System.Drawing.Point(-1, 190);
             this.dgvResultados.MultiSelect = false;
             this.dgvResultados.Name = "dgvResultados";
             this.dgvResultados.ReadOnly = true;
@@ -58,7 +58,7 @@
             this.cbbSemestre.Items.AddRange(new object[] {
             "1",
             "2"});
-            this.cbbSemestre.Location = new System.Drawing.Point(250, 65);
+            this.cbbSemestre.Location = new System.Drawing.Point(249, 96);
             this.cbbSemestre.Name = "cbbSemestre";
             this.cbbSemestre.Size = new System.Drawing.Size(121, 21);
             this.cbbSemestre.TabIndex = 1;
@@ -66,7 +66,7 @@
             // cbbAño
             // 
             this.cbbAño.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbbAño.Location = new System.Drawing.Point(250, 16);
+            this.cbbAño.Location = new System.Drawing.Point(249, 47);
             this.cbbAño.Name = "cbbAño";
             this.cbbAño.Size = new System.Drawing.Size(121, 21);
             this.cbbAño.TabIndex = 2;
@@ -74,7 +74,7 @@
             // lblAño
             // 
             this.lblAño.AutoSize = true;
-            this.lblAño.Location = new System.Drawing.Point(157, 19);
+            this.lblAño.Location = new System.Drawing.Point(156, 50);
             this.lblAño.Name = "lblAño";
             this.lblAño.Size = new System.Drawing.Size(26, 13);
             this.lblAño.TabIndex = 3;
@@ -83,7 +83,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(157, 68);
+            this.label2.Location = new System.Drawing.Point(156, 99);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(51, 13);
             this.label2.TabIndex = 4;
@@ -91,7 +91,7 @@
             // 
             // btnRecorrido
             // 
-            this.btnRecorrido.Location = new System.Drawing.Point(69, 117);
+            this.btnRecorrido.Location = new System.Drawing.Point(68, 148);
             this.btnRecorrido.Name = "btnRecorrido";
             this.btnRecorrido.Size = new System.Drawing.Size(130, 36);
             this.btnRecorrido.TabIndex = 6;
@@ -100,7 +100,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(216, 117);
+            this.button3.Location = new System.Drawing.Point(215, 148);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(127, 36);
             this.button3.TabIndex = 7;
@@ -110,7 +110,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(358, 117);
+            this.button4.Location = new System.Drawing.Point(357, 148);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(114, 36);
             this.button4.TabIndex = 8;
@@ -122,7 +122,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(550, 313);
+            this.ClientSize = new System.Drawing.Size(550, 340);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.btnRecorrido);
