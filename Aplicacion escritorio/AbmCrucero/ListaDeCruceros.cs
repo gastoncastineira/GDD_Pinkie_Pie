@@ -12,7 +12,7 @@ using FrbaCrucero.Acceso;
 
 namespace FrbaCrucero.AbmCrucero
 {
-    public partial class ListaDeCruceros : Form
+    public partial class ListaDeCruceros : FormTemplate
     {
         private Conexion conexion = new Conexion();
         public ListaDeCruceros():base()
