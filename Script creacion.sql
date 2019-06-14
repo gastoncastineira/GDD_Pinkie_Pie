@@ -125,7 +125,8 @@ CREATE TABLE PINKIE_PIE.[Pasaje](
 	[precio] [decimal] (18,2),
 	[medio_de_pago_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.MedioDePago(ID),
 	[cabina_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Cabina(ID),
-	[fecha_de_compra] [datetime2] (3)
+	[fecha_de_compra] [datetime2] (3),
+	[cancelado] bit default 0
 );
 
 CREATE TABLE PINKIE_PIE.[Reserva](
@@ -357,10 +358,6 @@ JOIN PINKIE_PIE.Pasaje p ON p.cabina_id = c.ID
 GROUP BY r.codigo, puerto_origen_id, puerto_destino_id, v.fecha_inicio, v.fecha_fin
 
 GO
-CREATE VIEW PINKIE_PIE.top_5_clientes_puntos AS
-SELECT TOP 5 * FROM PINKIE_PIE.Cliente c ORDER BY c.puntos DESC
-
-GO
 CREATE VIEW PINKIE_PIE.top_5_viajes_cabinas_vacias AS
 SELECT v.ID AS viaje_id, (SELECT r.codigo FROM PINKIE_PIE.Recorrido r WHERE r.ID = v.recorrido_id) AS cod_recorrido, COUNT(DISTINCT Cabina.ID) AS cant_cabinas, v.fecha_inicio as fecha_inicio, v.fecha_fin as fecha_fin FROM PINKIE_PIE.Viaje v
 JOIN PINKIE_PIE.Cabina ON Cabina.viaje_id = v.ID 
@@ -538,4 +535,18 @@ JOIN PINKIE_PIE.Cabina c
 	ON cabina_id = c.ID
 JOIN PINKIE_PIE.Viaje v
 	ON v.ID = viaje_id
+GO
+
+CREATE PROCEDURE PINKIE_PIE.CancelarPasajes @idCrucero int, @fecha datetime2
+AS
+BEGIN TRANSACTION
+UPDATE PINKIE_PIE.Pasaje SET Pasaje.cancelado = 1
+WHERE Pasaje.ID IN (
+	SELECT Pasaje.ID FROM PINKIE_PIE.Pasaje
+	JOIN Cabina ON Cabina.ID = Pasaje.cabina_id
+	JOIN Crucero ON Crucero.ID = Cabina.crucero_id
+	JOIN Viaje ON Viaje.ID = Cabina.viaje_id
+	WHERE Crucero.ID = @idCrucero AND Viaje.fecha_inicio >  @fecha
+)
+COMMIT
 GO

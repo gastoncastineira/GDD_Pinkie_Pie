@@ -456,5 +456,34 @@ namespace Conexiones
         }
 
 
+        public void CancelarPasajes(int id, DateTime fecha)
+        {
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = "PINKIE_PIE.CancelarPasajes";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    SqlParameter parameter1 = new SqlParameter("@idCrucero", SqlDbType.Int);
+                    parameter1.Direction = ParameterDirection.Input;
+                    parameter1.Value = id;
+
+                    SqlParameter parameter2 = new SqlParameter("@fecha", SqlDbType.DateTime2);
+                    parameter2.Direction = ParameterDirection.Input;
+                    parameter2.Value = fecha;
+
+                    command.Parameters.Add(parameter1);
+                    command.Parameters.Add(parameter2);
+
+                    command.ExecuteNonQuery();
+
+                }
+            }
+        }
+
+
     }
 }

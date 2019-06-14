@@ -69,6 +69,9 @@ namespace FrbaCrucero.AbmRol
             }
 
             Transaccion tr = conexion.IniciarTransaccion();
+            Dictionary<string, object> datos = new Dictionary<string, object>();
+            datos["nombre"] = txtNombre.Text;
+            tr.Modificar(idRol, Tabla.Rol, datos);
             foreach (int v in aInsertar)
             {
                 if (!tr.InsertarTablaIntermedia(Tabla.RolXFuncion, "id_rol", "id_funcion", idRol, v))
