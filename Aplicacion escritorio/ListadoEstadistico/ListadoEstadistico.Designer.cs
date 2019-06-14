@@ -33,7 +33,6 @@
             this.cbbAño = new System.Windows.Forms.ComboBox();
             this.lblAño = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnClientes = new System.Windows.Forms.Button();
             this.btnRecorrido = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -90,29 +89,18 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Semestre";
             // 
-            // btnClientes
-            // 
-            this.btnClientes.Location = new System.Drawing.Point(12, 117);
-            this.btnClientes.Name = "btnClientes";
-            this.btnClientes.Size = new System.Drawing.Size(113, 36);
-            this.btnClientes.TabIndex = 5;
-            this.btnClientes.Text = "Puntos de clientes";
-            this.btnClientes.UseVisualStyleBackColor = true;
-            this.btnClientes.Click += new System.EventHandler(this.btnClientes_Click);
-            // 
             // btnRecorrido
             // 
-            this.btnRecorrido.Location = new System.Drawing.Point(143, 117);
+            this.btnRecorrido.Location = new System.Drawing.Point(69, 117);
             this.btnRecorrido.Name = "btnRecorrido";
             this.btnRecorrido.Size = new System.Drawing.Size(130, 36);
             this.btnRecorrido.TabIndex = 6;
             this.btnRecorrido.Text = "Recorrido con mas pasajes";
             this.btnRecorrido.UseVisualStyleBackColor = true;
-            this.btnRecorrido.Click += new System.EventHandler(this.btnRecorrido_Click);
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(291, 117);
+            this.button3.Location = new System.Drawing.Point(216, 117);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(127, 36);
             this.button3.TabIndex = 7;
@@ -122,7 +110,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(424, 117);
+            this.button4.Location = new System.Drawing.Point(358, 117);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(114, 36);
             this.button4.TabIndex = 8;
@@ -138,7 +126,6 @@
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.btnRecorrido);
-            this.Controls.Add(this.btnClientes);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblAño);
             this.Controls.Add(this.cbbAño);
@@ -159,7 +146,6 @@
         private System.Windows.Forms.ComboBox cbbAño;
         private System.Windows.Forms.Label lblAño;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnClientes;
         private System.Windows.Forms.Button btnRecorrido;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;

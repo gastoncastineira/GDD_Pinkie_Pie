@@ -18,7 +18,7 @@ namespace FrbaCrucero.ListadoEstadistico
         private DateTime inicio;
         private DateTime fin;
 
-        public ListadoEstadistico()
+        public ListadoEstadistico() : base()
         {
             InitializeComponent();
             conn = new Conexion();
@@ -48,17 +48,6 @@ namespace FrbaCrucero.ListadoEstadistico
             }
             CalcularFechas();
             dgvResultados.DataSource = conn.TraerLitadoEstadistico(Tabla.Top5PuntosClientes, inicio, fin);
-        }
-
-        private void btnRecorrido_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(cbbAño.Text) || string.IsNullOrEmpty(cbbSemestre.Text))
-            {
-                MessageBox.Show("DEBE ingresar un año y un semestre");
-                return;
-            }
-            CalcularFechas();
-            dgvResultados.DataSource = conn.TraerLitadoEstadistico(Tabla.Top5RecorridosPasajes, inicio, fin);
         }
 
         private void button3_Click(object sender, EventArgs e)
