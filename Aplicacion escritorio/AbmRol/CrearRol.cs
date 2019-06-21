@@ -60,9 +60,14 @@ namespace FrbaCrucero.AbmRol
                 Transaccion tr = conexion.IniciarTransaccion();
 
                 int idinsertada = tr.Insertar(Tabla.Rol, datos);
-                foreach (int f in funciones)
+                if(idinsertada == -1)
                 {
-                    
+                    DialogResult = DialogResult.Abort;
+                    return;
+                }
+
+                foreach (int f in funciones)
+                {                  
                     tr.InsertarTablaIntermedia(Tabla.RolXFuncion, "id_rol", "id_funcion", idinsertada, f);
                 }
 

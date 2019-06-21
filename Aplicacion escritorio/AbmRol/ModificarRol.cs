@@ -24,8 +24,10 @@ namespace FrbaCrucero.AbmRol
             InitializeComponent();
             nombreOG = nombre;
             txtNombre.Text = nombre;
-            if (nombre.ToLower() == "administrador")
+            if (nombre.ToLower() == "administrador" || nombre.ToLower() == "cliente")
+            {
                 txtNombre.Enabled = false;
+            }
         }
 
         private void ModificarRol_Load(object sender, EventArgs e)
@@ -111,6 +113,9 @@ namespace FrbaCrucero.AbmRol
             List<Filtro> filtrosNom = new List<Filtro>();
             filtrosNom.Add(FiltroFactory.Exacto("Nombre", txtNombre.Text));
             filtrosNom.Add(FiltroFactory.Exacto("Nombre", nombreOG));
+
+            if (txtNombre.Text == nombreOG)
+                return;
 
             if (conexion.ExisteRegistro(Tabla.Rol, columnas, filtrosNom))
             {
