@@ -26,6 +26,7 @@ namespace Conexiones
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + ") VALUES (";
                 data.Keys.ToList().ForEach(k => comandoString += "@" + k + ", ");
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + "); SELECT SCOPE_IDENTITY();";
+                PinkieLogger.logInsert(comandoString, data);
                 using (SqlCommand command = new SqlCommand())
                 {
                     command.Connection = connection;
@@ -40,8 +41,9 @@ namespace Conexiones
 
                 }
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
+                PinkieLogger.logExcepcion(ex);
                 transaction.Rollback();
                 return -1;
             }
@@ -61,6 +63,7 @@ namespace Conexiones
                     comandoString += entry.Key + " = @" + entry.Key + ", ";
                 }
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + " WHERE id = @id";
+                PinkieLogger.logUpdate(comandoString, data);
                 using (SqlCommand command = new SqlCommand())
                 {
                     command.Connection = connection;
@@ -75,8 +78,9 @@ namespace Conexiones
                     command.ExecuteNonQuery();
                 }
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
+                PinkieLogger.logExcepcion(ex);
                 transaction.Rollback();
                 return false;
             }

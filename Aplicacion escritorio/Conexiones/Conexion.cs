@@ -36,6 +36,7 @@ namespace Conexiones
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + ") VALUES (";
                 data.Keys.ToList().ForEach(k => comandoString += "@" + k + ", ");
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + "); SELECT SCOPE_IDENTITY();";
+                PinkieLogger.logInsert(comandoString, data);
                 using (SqlConnection sqlConnection = new SqlConnection(conectionString))
                 {
                     sqlConnection.Open();
@@ -53,8 +54,9 @@ namespace Conexiones
                     }
                 }
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
+                PinkieLogger.logExcepcion(ex);
                 return -1;
             }
 
@@ -73,6 +75,7 @@ namespace Conexiones
                     comandoString += entry.Key + " = @" + entry.Key + ", ";
                 }
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + " WHERE id = @id";
+                PinkieLogger.logUpdate(comandoString, data);
                 using (SqlConnection sqlConnection = new SqlConnection(conectionString))
                 {
                     sqlConnection.Open();
@@ -90,8 +93,9 @@ namespace Conexiones
                     }
                 }
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
+                PinkieLogger.logExcepcion(ex);
                 return false;
             }
             return true;
@@ -113,6 +117,7 @@ namespace Conexiones
             string comandoString = string.Copy(comandoSelect) + " * FROM " + tabla;
             if (filtros != null && filtros.Count > 0)
                 comandoString = PonerFiltros(comandoString, filtros);
+            PinkieLogger.logSelect(comandoString, "llenar grid");
             using (SqlConnection sqlConnection = new SqlConnection(conectionString))
             {
                 sqlConnection.Open();
@@ -162,34 +167,6 @@ namespace Conexiones
             }
         }
 
-        public bool ActualizarContraseña(string contraseña, string usuario)
-        {
-            string comandoString = string.Copy(comandoUpdate) + Tabla.Usuario + " SET contrasenia = HASHBYTES('SHA2_256', @contrasenia), contrasena_autogenerada = 0 WHERE usuario = @usuario";
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(conectionString))
-                {
-                    connection.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.Connection = connection;
-                        command.CommandType = CommandType.Text;
-                        command.CommandText = comandoString;
-                        command.Parameters.AddWithValue("@contrasenia", contraseña);
-                        command.Parameters.AddWithValue("@usuario", usuario);
-
-                        command.ExecuteNonQuery();
-
-                        return true;
-                    }
-                }
-            }
-            catch (SqlException)
-            {
-                return false;
-            }
-        }
-
         public bool ExisteRegistro(string tabla, List<string> columnas, List<Filtro> filtros)
         {
             var datos = ConsultaPlana(tabla, columnas, filtros);
@@ -199,6 +176,7 @@ namespace Conexiones
         private void CambiarHabilitacion(string tabla, int id, string cambio)
         {
             string comandoString = string.Copy(comandoUpdate) + tabla + " SET habilitado = " + cambio + " WHERE id = @id";
+            PinkieLogger.EscribirArchivo("Se genera cambio de habilitacion con id = " + id.ToString() +"\n"+comandoString);
             using (SqlConnection connection = new SqlConnection(conectionString))
             {
                 connection.Open();
@@ -334,7 +312,7 @@ namespace Conexiones
         public DataTable TraerLitadoEstadistico(string nombreView, DateTime fechaInicio, DateTime fechaFin)
         {
             string condicion = " WHERE fecha_inicio BETWEEN '" + fechaInicio.ToString("yyyy-MM-dd") + "' AND '" + fechaFin.ToString("yyyy-MM-dd") + "' AND fecha_fin BETWEEN '" + fechaInicio.ToString("yyyy-MM-dd") + "' AND '" + fechaFin.ToString("yyyy-MM-dd") + "'";
-            string comandoString = null;
+            string comandoString = String.Empty;
             switch (nombreView)
             {
                 case "PINKIE_PIE.top_5_recorridos":
@@ -352,6 +330,7 @@ namespace Conexiones
                         + condicion + " GROUP BY identificador, fabricante, modelo ORDER BY cant DESC";
                     break;
             }
+            PinkieLogger.logSelect(comandoString, "listado estadistico");
             DataTable dtRecord = new DataTable();
             using (SqlConnection sqlConnection = new SqlConnection(conectionString))
             {
@@ -422,7 +401,6 @@ namespace Conexiones
                     }
                 }
             }
-
         }
 
         public void LlenarComboTipoPisos(ref DataGridViewComboBoxColumn combo)
