@@ -498,7 +498,7 @@ WHERE r.habilitado = 1
 	AND cru.baja_vida_util = 0 
 	AND cru.baja_fuera_de_servicio = 0
 GROUP BY v.ID, v.fecha_inicio, v.pasajes_vendidos, v.fecha_fin_estimada, t.puerto_destino_id, pOrigen.descripcion,
- r.puerto_destino_id, pDestino.descripcion, pOrigen.ID, r.ID, cru.fabricante, cru.modelo, cru.ID
+ r.puerto_destino_id, pDestino.descripcion, pOrigen.ID, r.ID, cru.fabricante, cru.modelo, cru.ID, pDestino.ID
 HAVING SUM(p.cant_cabina) > v.pasajes_vendidos
 GO
 

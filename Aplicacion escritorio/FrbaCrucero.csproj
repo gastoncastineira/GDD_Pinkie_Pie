@@ -208,6 +208,7 @@
     <Compile Include="Acceso\EnrutarRoles.Designer.cs">
       <DependentUpon>EnrutarRoles.cs</DependentUpon>
     </Compile>
+    <Compile Include="Conexiones\PinkieLogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AbmCrucero\AltaCruceros.resx">
