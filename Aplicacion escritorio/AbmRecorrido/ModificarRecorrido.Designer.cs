@@ -74,7 +74,7 @@
             this.buttonAgregar.Location = new System.Drawing.Point(12, 285);
             this.buttonAgregar.Name = "buttonAgregar";
             this.buttonAgregar.Size = new System.Drawing.Size(75, 23);
-            this.buttonAgregar.TabIndex = 2;
+            this.buttonAgregar.TabIndex = 0;
             this.buttonAgregar.Text = "Agregar Tramo";
             this.buttonAgregar.UseVisualStyleBackColor = true;
             this.buttonAgregar.Click += new System.EventHandler(this.ButtonAgregar_Click);
@@ -92,7 +92,7 @@
             this.ButtonExit.Location = new System.Drawing.Point(261, 332);
             this.ButtonExit.Name = "ButtonExit";
             this.ButtonExit.Size = new System.Drawing.Size(75, 23);
-            this.ButtonExit.TabIndex = 8;
+            this.ButtonExit.TabIndex = 1;
             this.ButtonExit.Text = "Terminar";
             this.ButtonExit.UseVisualStyleBackColor = true;
             this.ButtonExit.Click += new System.EventHandler(this.ButtonExit_Click);
@@ -108,6 +108,7 @@
             this.Controls.Add(this.labelTramos);
             this.Controls.Add(this.dataGridViewTramos);
             this.Name = "ModificarRecorrido";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Modificar Recorrido";
             this.Load += new System.EventHandler(this.ModificarRecorrido_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTramos)).EndInit();

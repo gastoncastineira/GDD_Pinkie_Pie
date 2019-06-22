@@ -44,7 +44,7 @@
             this.button1.Location = new System.Drawing.Point(74, 226);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(108, 45);
-            this.button1.TabIndex = 0;
+            this.button1.TabIndex = 4;
             this.button1.Text = "Pagar";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -61,6 +61,7 @@
             // cmbMetodoDePago
             // 
             this.cmbMetodoDePago.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMetodoDePago.ItemHeight = 13;
             this.cmbMetodoDePago.Items.AddRange(new object[] {
             "EFECTIVO",
             "CREDITO",
@@ -85,7 +86,7 @@
             this.txtNumeroDeTarjerta.Location = new System.Drawing.Point(122, 130);
             this.txtNumeroDeTarjerta.Name = "txtNumeroDeTarjerta";
             this.txtNumeroDeTarjerta.Size = new System.Drawing.Size(121, 20);
-            this.txtNumeroDeTarjerta.TabIndex = 7;
+            this.txtNumeroDeTarjerta.TabIndex = 2;
             this.txtNumeroDeTarjerta.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumeroDeTarjerta_KeyPress);
             // 
             // lblNumeroDeTarjeta
@@ -110,6 +111,7 @@
             // 
             this.cmbCantidadDeCuotas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCantidadDeCuotas.FormattingEnabled = true;
+            this.cmbCantidadDeCuotas.ItemHeight = 13;
             this.cmbCantidadDeCuotas.Items.AddRange(new object[] {
             "1",
             "2",
@@ -141,11 +143,12 @@
             this.textBox1.Location = new System.Drawing.Point(122, 51);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(121, 20);
-            this.textBox1.TabIndex = 11;
+            this.textBox1.TabIndex = 0;
             this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // PagoReserva
             // 
+            this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(274, 306);
@@ -159,6 +162,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Name = "PagoReserva";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Pago de Reserva";
             this.Load += new System.EventHandler(this.PagoReserva_Load);
             this.ResumeLayout(false);

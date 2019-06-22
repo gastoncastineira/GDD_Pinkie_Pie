@@ -50,7 +50,7 @@
             this.buttonAgregar.Location = new System.Drawing.Point(317, 230);
             this.buttonAgregar.Name = "buttonAgregar";
             this.buttonAgregar.Size = new System.Drawing.Size(174, 38);
-            this.buttonAgregar.TabIndex = 1;
+            this.buttonAgregar.TabIndex = 0;
             this.buttonAgregar.Text = "Agregar tramo";
             this.buttonAgregar.UseVisualStyleBackColor = true;
             this.buttonAgregar.Click += new System.EventHandler(this.ButtonAgregar_Click);
@@ -76,7 +76,7 @@
             this.buttonQuitar.Location = new System.Drawing.Point(534, 230);
             this.buttonQuitar.Name = "buttonQuitar";
             this.buttonQuitar.Size = new System.Drawing.Size(174, 38);
-            this.buttonQuitar.TabIndex = 3;
+            this.buttonQuitar.TabIndex = 1;
             this.buttonQuitar.Text = "Quitar ultimo tramo";
             this.buttonQuitar.UseVisualStyleBackColor = true;
             this.buttonQuitar.Click += new System.EventHandler(this.ButtonQuitar_Click);
@@ -86,7 +86,7 @@
             this.buttonConfirmar.Location = new System.Drawing.Point(751, 230);
             this.buttonConfirmar.Name = "buttonConfirmar";
             this.buttonConfirmar.Size = new System.Drawing.Size(174, 38);
-            this.buttonConfirmar.TabIndex = 4;
+            this.buttonConfirmar.TabIndex = 2;
             this.buttonConfirmar.Text = "Confirmar recorrido";
             this.buttonConfirmar.UseVisualStyleBackColor = true;
             this.buttonConfirmar.Click += new System.EventHandler(this.ButtonConfirmar_Click);
@@ -96,7 +96,7 @@
             this.buttonCancelar.Location = new System.Drawing.Point(801, 399);
             this.buttonCancelar.Name = "buttonCancelar";
             this.buttonCancelar.Size = new System.Drawing.Size(130, 37);
-            this.buttonCancelar.TabIndex = 5;
+            this.buttonCancelar.TabIndex = 3;
             this.buttonCancelar.Text = "Cancelar";
             this.buttonCancelar.UseVisualStyleBackColor = true;
             this.buttonCancelar.Click += new System.EventHandler(this.ButtonCancelar_Click);
@@ -113,6 +113,7 @@
             this.Controls.Add(this.buttonAgregar);
             this.Controls.Add(this.checkedListBoxTramos);
             this.Name = "CrearRecorrido";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Generar Recorrido";
             this.Load += new System.EventHandler(this.CrearRecorrido_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRecorrido)).EndInit();

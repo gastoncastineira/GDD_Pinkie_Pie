@@ -94,7 +94,7 @@
             this.textBox1.Location = new System.Drawing.Point(85, 20);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(121, 20);
-            this.textBox1.TabIndex = 6;
+            this.textBox1.TabIndex = 0;
             // 
             // label4
             // 
@@ -110,7 +110,7 @@
             this.button1.Location = new System.Drawing.Point(263, 356);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(109, 49);
-            this.button1.TabIndex = 9;
+            this.button1.TabIndex = 3;
             this.button1.Text = "Crear crucero";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -121,14 +121,14 @@
             this.comboBox2.Location = new System.Drawing.Point(85, 56);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 10;
+            this.comboBox2.TabIndex = 1;
             // 
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(97, 97);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(109, 20);
-            this.textBox2.TabIndex = 11;
+            this.textBox2.TabIndex = 2;
             // 
             // label5
             // 
@@ -154,6 +154,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dataGridView1);
             this.Name = "AltaCruceros";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AltaCruceros";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

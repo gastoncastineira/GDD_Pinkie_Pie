@@ -50,7 +50,7 @@
             this.dgvResultados.Name = "dgvResultados";
             this.dgvResultados.ReadOnly = true;
             this.dgvResultados.Size = new System.Drawing.Size(554, 153);
-            this.dgvResultados.TabIndex = 0;
+            this.dgvResultados.TabIndex = 5;
             // 
             // cbbSemestre
             // 
@@ -69,7 +69,7 @@
             this.cbbAño.Location = new System.Drawing.Point(249, 47);
             this.cbbAño.Name = "cbbAño";
             this.cbbAño.Size = new System.Drawing.Size(121, 21);
-            this.cbbAño.TabIndex = 2;
+            this.cbbAño.TabIndex = 0;
             // 
             // lblAño
             // 
@@ -77,7 +77,7 @@
             this.lblAño.Location = new System.Drawing.Point(156, 50);
             this.lblAño.Name = "lblAño";
             this.lblAño.Size = new System.Drawing.Size(26, 13);
-            this.lblAño.TabIndex = 3;
+            this.lblAño.TabIndex = 10;
             this.lblAño.Text = "Año";
             // 
             // label2
@@ -86,7 +86,7 @@
             this.label2.Location = new System.Drawing.Point(156, 99);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(51, 13);
-            this.label2.TabIndex = 4;
+            this.label2.TabIndex = 11;
             this.label2.Text = "Semestre";
             // 
             // btnRecorrido
@@ -94,7 +94,7 @@
             this.btnRecorrido.Location = new System.Drawing.Point(68, 148);
             this.btnRecorrido.Name = "btnRecorrido";
             this.btnRecorrido.Size = new System.Drawing.Size(130, 36);
-            this.btnRecorrido.TabIndex = 6;
+            this.btnRecorrido.TabIndex = 2;
             this.btnRecorrido.Text = "Recorrido con mas pasajes";
             this.btnRecorrido.UseVisualStyleBackColor = true;
             // 
@@ -103,7 +103,7 @@
             this.button3.Location = new System.Drawing.Point(215, 148);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(127, 36);
-            this.button3.TabIndex = 7;
+            this.button3.TabIndex = 3;
             this.button3.Text = "Mayores viajes libres ";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -113,7 +113,7 @@
             this.button4.Location = new System.Drawing.Point(357, 148);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(114, 36);
-            this.button4.TabIndex = 8;
+            this.button4.TabIndex = 4;
             this.button4.Text = "Cruceros Fuera de Servicio";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
@@ -132,6 +132,7 @@
             this.Controls.Add(this.cbbSemestre);
             this.Controls.Add(this.dgvResultados);
             this.Name = "ListadoEstadistico";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Listado Estadístico";
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultados)).EndInit();
             this.ResumeLayout(false);

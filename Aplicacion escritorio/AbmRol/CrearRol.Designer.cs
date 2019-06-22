@@ -51,7 +51,7 @@
             this.txtNombre.Location = new System.Drawing.Point(185, 25);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(211, 20);
-            this.txtNombre.TabIndex = 1;
+            this.txtNombre.TabIndex = 0;
             // 
             // label2
             // 
@@ -67,7 +67,7 @@
             this.btnCancelar.Location = new System.Drawing.Point(56, 257);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
-            this.btnCancelar.TabIndex = 4;
+            this.btnCancelar.TabIndex = 3;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
@@ -77,7 +77,7 @@
             this.button2.Location = new System.Drawing.Point(262, 257);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
+            this.button2.TabIndex = 2;
             this.button2.Text = "Crear Rol";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -88,19 +88,21 @@
             this.checkedListBoxFuncion.Location = new System.Drawing.Point(185, 71);
             this.checkedListBoxFuncion.Name = "checkedListBoxFuncion";
             this.checkedListBoxFuncion.Size = new System.Drawing.Size(211, 154);
-            this.checkedListBoxFuncion.TabIndex = 2;            // 
+            this.checkedListBoxFuncion.TabIndex = 2;
+            // 
             // btnLimpia
             // 
             this.btnLimpia.Location = new System.Drawing.Point(56, 124);
             this.btnLimpia.Name = "btnLimpia";
             this.btnLimpia.Size = new System.Drawing.Size(75, 23);
-            this.btnLimpia.TabIndex = 6;
+            this.btnLimpia.TabIndex = 1;
             this.btnLimpia.Text = "Limpiar";
             this.btnLimpia.UseVisualStyleBackColor = true;
             this.btnLimpia.Click += new System.EventHandler(this.btnLimpia_Click);
             // 
             // CrearRol
             // 
+            this.AcceptButton = this.button2;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(429, 297);
@@ -112,6 +114,7 @@
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.label1);
             this.Name = "CrearRol";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Crear Rol";
             this.Load += new System.EventHandler(this.CrearRol_Load);
             this.ResumeLayout(false);

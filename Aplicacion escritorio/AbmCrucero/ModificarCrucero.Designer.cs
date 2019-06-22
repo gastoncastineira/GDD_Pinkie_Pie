@@ -40,7 +40,7 @@
             // 
             // buttonAceptar
             // 
-            this.buttonAceptar.Location = new System.Drawing.Point(12, 163);
+            this.buttonAceptar.Location = new System.Drawing.Point(157, 162);
             this.buttonAceptar.Name = "buttonAceptar";
             this.buttonAceptar.Size = new System.Drawing.Size(75, 23);
             this.buttonAceptar.TabIndex = 0;
@@ -50,7 +50,7 @@
             // 
             // buttonCancelar
             // 
-            this.buttonCancelar.Location = new System.Drawing.Point(157, 163);
+            this.buttonCancelar.Location = new System.Drawing.Point(8, 162);
             this.buttonCancelar.Name = "buttonCancelar";
             this.buttonCancelar.Size = new System.Drawing.Size(75, 23);
             this.buttonCancelar.TabIndex = 1;
@@ -63,21 +63,21 @@
             this.textBoxModelo.Location = new System.Drawing.Point(12, 25);
             this.textBoxModelo.Name = "textBoxModelo";
             this.textBoxModelo.Size = new System.Drawing.Size(220, 20);
-            this.textBoxModelo.TabIndex = 2;
+            this.textBoxModelo.TabIndex = 0;
             // 
             // textBoxFabricante
             // 
             this.textBoxFabricante.Location = new System.Drawing.Point(12, 76);
             this.textBoxFabricante.Name = "textBoxFabricante";
             this.textBoxFabricante.Size = new System.Drawing.Size(220, 20);
-            this.textBoxFabricante.TabIndex = 3;
+            this.textBoxFabricante.TabIndex = 1;
             // 
             // textBoxIdentificador
             // 
             this.textBoxIdentificador.Location = new System.Drawing.Point(12, 128);
             this.textBoxIdentificador.Name = "textBoxIdentificador";
             this.textBoxIdentificador.Size = new System.Drawing.Size(220, 20);
-            this.textBoxIdentificador.TabIndex = 4;
+            this.textBoxIdentificador.TabIndex = 2;
             // 
             // label1
             // 
@@ -108,6 +108,7 @@
             // 
             // ModificarCrucero
             // 
+            this.AcceptButton = this.buttonAceptar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(243, 197);
@@ -120,6 +121,7 @@
             this.Controls.Add(this.buttonCancelar);
             this.Controls.Add(this.buttonAceptar);
             this.Name = "ModificarCrucero";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ModificarCrucero";
             this.Load += new System.EventHandler(this.ModificarCrucero_Load);
             this.ResumeLayout(false);

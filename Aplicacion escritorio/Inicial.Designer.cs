@@ -50,7 +50,7 @@
             this.btnIngresar.Location = new System.Drawing.Point(25, 148);
             this.btnIngresar.Name = "btnIngresar";
             this.btnIngresar.Size = new System.Drawing.Size(75, 23);
-            this.btnIngresar.TabIndex = 1;
+            this.btnIngresar.TabIndex = 0;
             this.btnIngresar.Text = "Ingresar";
             this.btnIngresar.UseVisualStyleBackColor = true;
             this.btnIngresar.Click += new System.EventHandler(this.btnIngresar_Click);
@@ -60,7 +60,7 @@
             this.btnAdmin.Location = new System.Drawing.Point(25, 206);
             this.btnAdmin.Name = "btnAdmin";
             this.btnAdmin.Size = new System.Drawing.Size(75, 23);
-            this.btnAdmin.TabIndex = 2;
+            this.btnAdmin.TabIndex = 1;
             this.btnAdmin.Text = "Soy Admin";
             this.btnAdmin.UseVisualStyleBackColor = true;
             this.btnAdmin.Click += new System.EventHandler(this.btnAdmin_Click);
@@ -85,6 +85,7 @@
             this.Controls.Add(this.btnIngresar);
             this.Controls.Add(this.label1);
             this.Name = "Inicial";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Inicio";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
