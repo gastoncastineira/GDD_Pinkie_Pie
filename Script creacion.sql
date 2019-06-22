@@ -91,10 +91,15 @@ CREATE TABLE PINKIE_PIE.[MedioDePago](
 	[numero_de_tarjeta] [nvarchar] (50) NULL
 );
 
+CREATE TABLE PINKIE_PIE.[Fabricante](
+	ID int NOT NULL PRIMARY KEY IDENTITY(1,1),
+	nombre nvarchar(50)
+);
+
 CREATE TABLE PINKIE_PIE.[Crucero](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[modelo] [nvarchar] (50), 
-	[fabricante] [nvarchar] (255),
+	[fabricante_id] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.Fabricante(ID),
 	[identificador] [nvarchar] (50),
 	[fecha_de_alta] [datetime2] (3) NULL, 
 	[fecha_baja_definitiva] [datetime2] (3) NULL,
@@ -263,16 +268,21 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
 	SELECT DISTINCT M.CABINA_TIPO, M.CABINA_TIPO_PORC_RECARGO
 	FROM gd_esquema.Maestra M
 
+	-- Inserto cruceros
+
+  INSERT INTO PINKIE_PIE.Fabricante(nombre)
+  SELECT DISTINCT M.CRU_FABRICANTE FROM gd_esquema.Maestra M
   -- Inserto cruceros
 
-  INSERT INTO PINKIE_PIE.Crucero(identificador, fabricante, modelo)
-  SELECT DISTINCT M.CRUCERO_IDENTIFICADOR, M.CRU_FABRICANTE, M.CRUCERO_MODELO FROM gd_esquema.Maestra M
+  INSERT INTO PINKIE_PIE.Crucero(identificador, fabricante_id, modelo)
+  SELECT DISTINCT M.CRUCERO_IDENTIFICADOR, f.ID, M.CRUCERO_MODELO FROM gd_esquema.Maestra M
+  JOIN PINKIE_PIE.Fabricante f ON (M.CRU_FABRICANTE = f.nombre)
 
   -- Inserto piso
 
   INSERT INTO PINKIE_PIE.Piso(cant_cabina, Nro_piso, id_crucero, id_tipo)
   SELECT COUNT(DISTINCT m.CABINA_NRO), m.CABINA_PISO, c.ID, t.ID FROM gd_esquema.Maestra m
-  JOIN PINKIE_PIE.Crucero c ON m.CRUCERO_IDENTIFICADOR = c.identificador AND m.CRU_FABRICANTE = c.fabricante AND m.CRUCERO_MODELO = c.modelo
+  JOIN PINKIE_PIE.Crucero c ON m.CRUCERO_IDENTIFICADOR = c.identificador AND m.CRU_FABRICANTE = (SELECT nombre FROM PINKIE_PIE.Fabricante WHERE nombre = m.CRU_FABRICANTE) AND m.CRUCERO_MODELO = c.modelo
   JOIN PINKIE_PIE.Tipo t ON t.porcentaje_costo = m.CABINA_TIPO_PORC_RECARGO AND t.tipo = m.CABINA_TIPO
   GROUP BY m.CABINA_PISO, c.ID, t.ID
 
@@ -287,7 +297,7 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
 	-- Inserto Cabina
 	INSERT INTO PINKIE_PIE.Cabina(crucero_id, viaje_id, tipo_id, numero_piso, numero_habitacion, ocupado)
 	SELECT DISTINCT c.ID, v.ID, t.ID, m.CABINA_NRO, m.CABINA_PISO, 1 FROM gd_esquema.Maestra m
-	JOIN PINKIE_PIE.Crucero c ON (m.CRU_FABRICANTE = c.fabricante AND m.CRUCERO_IDENTIFICADOR = c.identificador AND m.CRUCERO_MODELO = c.modelo)
+	JOIN PINKIE_PIE.Crucero c ON (m.CRU_FABRICANTE = (SELECT nombre FROM PINKIE_PIE.Fabricante WHERE nombre = m.CRU_FABRICANTE) AND m.CRUCERO_IDENTIFICADOR = c.identificador AND m.CRUCERO_MODELO = c.modelo)
 	JOIN PINKIE_PIE.Viaje v ON (m.FECHA_LLEGADA = v.fecha_fin AND m.FECHA_LLEGADA_ESTIMADA = v.fecha_fin_estimada AND m.FECHA_SALIDA = v.fecha_inicio AND v.recorrido_id = (SELECT ID FROM PINKIE_PIE.Recorrido r WHERE m.RECORRIDO_CODIGO = r.codigo))
 	JOIN PINKIE_PIE.Tipo t ON (t.porcentaje_costo = m.CABINA_TIPO_PORC_RECARGO AND t.tipo = m.CABINA_TIPO)
 
@@ -303,7 +313,7 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
   m.CABINA_TIPO =
 	 (SELECT t.tipo FROM PINKIE_PIE.Tipo t WHERE t.ID = c.tipo_id AND m.CABINA_TIPO = t.tipo AND m.CABINA_TIPO_PORC_RECARGO = t.porcentaje_costo) AND 
 	c.crucero_id = 
-		(SELECT ID FROM PINKIE_PIE.Crucero c WHERE m.CRU_FABRICANTE = c.fabricante AND m.CRUCERO_IDENTIFICADOR = c.identificador AND m.CRUCERO_MODELO = c.modelo)
+		(SELECT ID FROM PINKIE_PIE.Crucero c WHERE m.CRU_FABRICANTE = (SELECT nombre FROM PINKIE_PIE.Fabricante WHERE nombre = m.CRU_FABRICANTE) AND m.CRUCERO_IDENTIFICADOR = c.identificador AND m.CRUCERO_MODELO = c.modelo)
 	 AND c.viaje_id IN
 		(SELECT ID FROM PINKIE_PIE.Viaje v WHERE m.FECHA_LLEGADA = v.fecha_fin AND m.FECHA_LLEGADA_ESTIMADA = v.fecha_fin_estimada AND m.FECHA_SALIDA = v.fecha_inicio 
 		AND v.recorrido_id = (SELECT ID FROM PINKIE_PIE.Recorrido r 
@@ -323,7 +333,7 @@ FROM gd_esquema.Maestra M WHERE M.RECORRIDO_CODIGO = 43820864 OR M.RECORRIDO_COD
   m.CABINA_TIPO =
 	 (SELECT t.tipo FROM PINKIE_PIE.Tipo t WHERE t.ID = c.tipo_id AND m.CABINA_TIPO = t.tipo AND m.CABINA_TIPO_PORC_RECARGO = t.porcentaje_costo) AND 
 	c.crucero_id = 
-		(SELECT ID FROM PINKIE_PIE.Crucero c WHERE m.CRU_FABRICANTE = c.fabricante AND m.CRUCERO_IDENTIFICADOR = c.identificador AND m.CRUCERO_MODELO = c.modelo)
+		(SELECT ID FROM PINKIE_PIE.Crucero c WHERE m.CRU_FABRICANTE = (SELECT nombre FROM PINKIE_PIE.Fabricante WHERE nombre = m.CRU_FABRICANTE) AND m.CRUCERO_IDENTIFICADOR = c.identificador AND m.CRUCERO_MODELO = c.modelo)
 	 AND c.viaje_id IN
 		(SELECT ID FROM PINKIE_PIE.Viaje v WHERE m.FECHA_LLEGADA = v.fecha_fin AND m.FECHA_LLEGADA_ESTIMADA = v.fecha_fin_estimada AND m.FECHA_SALIDA = v.fecha_inicio 
 		AND v.recorrido_id = (SELECT ID FROM PINKIE_PIE.Recorrido r 
@@ -369,10 +379,11 @@ GROUP BY v.ID, v.recorrido_id, v.fecha_inicio, v.fecha_fin
 
 GO
 CREATE VIEW PINKIE_PIE.top_5_dias_crucero_fuera_servicio AS
-SELECT c.identificador, c.fabricante, c.modelo, fs.fecha_fuera_de_servicio as fecha_inicio, fs.fecha_reinicio_servicio as fecha_fin, DATEDIFF(DAY, fs.fecha_fuera_de_servicio, fs.fecha_reinicio_servicio) AS cant_dias
+SELECT c.identificador, f.nombre as fabricante, c.modelo, fs.fecha_fuera_de_servicio as fecha_inicio, fs.fecha_reinicio_servicio as fecha_fin, DATEDIFF(DAY, fs.fecha_fuera_de_servicio, fs.fecha_reinicio_servicio) AS cant_dias
 FROM PINKIE_PIE.Crucero c
 JOIN PINKIE_PIE.fecha_fuera_servicio fs ON c.ID = fs.id_crucero
-GROUP BY c.identificador, c.fabricante, c.modelo, fs.fecha_fuera_de_servicio, fs.fecha_reinicio_servicio
+JOIN PINKIE_PIE.Fabricante f ON c.fabricante_id = f.ID
+GROUP BY c.identificador, f.nombre, c.modelo, fs.fecha_fuera_de_servicio, fs.fecha_reinicio_servicio
 
 GO
 CREATE VIEW PINKIE_PIE.funciones_usuarios
@@ -473,7 +484,7 @@ SELECT v.fecha_inicio AS FECHA_INICIO, v.fecha_fin_estimada AS FECHA_DE_FIN,
 	pOrigen.ID AS ID_PUERTO_ORIGEN_RECORRIDO,
 	r.ID AS RECORRIDO_ID,
 	v.ID AS VIAJE_ID,
-	cru.fabricante AS CRUCERO_FABRICANTE,
+	fab.nombre AS CRUCERO_FABRICANTE,
 	cru.modelo AS CRUCERO_MODELO,
 	cru.ID AS CRUCERO_ID,
 	pDestino.ID AS RECORRIDO_ID_DESTINO
@@ -494,11 +505,13 @@ JOIN PINKIE_PIE.Crucero cru
 	ON ca.crucero_id = cru.ID
 JOIN PINKIE_PIE.Piso p
 	ON p.id_crucero = cru.ID
+JOIN PINKIE_PIE.Fabricante fab
+	ON cru.fabricante_id = fab.ID
 WHERE r.habilitado = 1 
 	AND cru.baja_vida_util = 0 
 	AND cru.baja_fuera_de_servicio = 0
 GROUP BY v.ID, v.fecha_inicio, v.pasajes_vendidos, v.fecha_fin_estimada, t.puerto_destino_id, pOrigen.descripcion,
- r.puerto_destino_id, pDestino.descripcion, pOrigen.ID, r.ID, cru.fabricante, cru.modelo, cru.ID, pDestino.ID
+ r.puerto_destino_id, pDestino.descripcion, pOrigen.ID, r.ID, fab.nombre, cru.modelo, cru.ID, pDestino.ID
 HAVING SUM(p.cant_cabina) > v.pasajes_vendidos
 GO
 
