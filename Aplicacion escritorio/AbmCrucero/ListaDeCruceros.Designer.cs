@@ -33,11 +33,11 @@
             this.buttonCrear = new System.Windows.Forms.Button();
             this.labelNombreGrid = new System.Windows.Forms.Label();
             this.dataGridViewCruceros = new System.Windows.Forms.DataGridView();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.seleccionado = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ButtomEdit = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ButtonVer = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCabinas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCruceros)).BeginInit();
             this.SuspendLayout();
@@ -66,7 +66,7 @@
             this.buttonCrear.Location = new System.Drawing.Point(9, 253);
             this.buttonCrear.Name = "buttonCrear";
             this.buttonCrear.Size = new System.Drawing.Size(135, 23);
-            this.buttonCrear.TabIndex = 8;
+            this.buttonCrear.TabIndex = 0;
             this.buttonCrear.Text = "Crear nuevo crucero";
             this.buttonCrear.UseVisualStyleBackColor = true;
             this.buttonCrear.Click += new System.EventHandler(this.buttonCrear_Click_1);
@@ -98,26 +98,6 @@
             this.dataGridViewCruceros.TabIndex = 6;
             this.dataGridViewCruceros.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCruceros_CellContentClick);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(503, 253);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(144, 23);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Borrar por fuera de servicio";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(653, 253);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(135, 23);
-            this.button2.TabIndex = 12;
-            this.button2.Text = "Borrar por vida util";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // seleccionado
             // 
             this.seleccionado.HeaderText = "";
@@ -133,6 +113,26 @@
             this.ButtonVer.HeaderText = "Ver detalle";
             this.ButtonVer.Name = "ButtonVer";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(503, 253);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(144, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Borrar por fuera de servicio";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(653, 253);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(135, 23);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "Borrar por vida util";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // ListaDeCruceros
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -146,6 +146,7 @@
             this.Controls.Add(this.labelNombreGrid);
             this.Controls.Add(this.dataGridViewCruceros);
             this.Name = "ListaDeCruceros";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ListaDeCruceros";
             this.Load += new System.EventHandler(this.ListaDeCruceros_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCabinas)).EndInit();

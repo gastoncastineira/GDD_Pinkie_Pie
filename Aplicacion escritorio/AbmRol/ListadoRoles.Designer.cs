@@ -54,7 +54,7 @@
             this.btnModificar.Location = new System.Drawing.Point(10, 237);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(75, 23);
-            this.btnModificar.TabIndex = 1;
+            this.btnModificar.TabIndex = 0;
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
             this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
@@ -64,7 +64,7 @@
             this.btnAgregar.Location = new System.Drawing.Point(120, 237);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(75, 23);
-            this.btnAgregar.TabIndex = 2;
+            this.btnAgregar.TabIndex = 1;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
@@ -74,7 +74,7 @@
             this.btnDeshabilitar.Location = new System.Drawing.Point(231, 237);
             this.btnDeshabilitar.Name = "btnDeshabilitar";
             this.btnDeshabilitar.Size = new System.Drawing.Size(75, 23);
-            this.btnDeshabilitar.TabIndex = 3;
+            this.btnDeshabilitar.TabIndex = 2;
             this.btnDeshabilitar.Text = "deshabilitar";
             this.btnDeshabilitar.UseVisualStyleBackColor = true;
             this.btnDeshabilitar.Click += new System.EventHandler(this.btnDeshabilitar_Click);
@@ -84,7 +84,7 @@
             this.btnHabilitar.Location = new System.Drawing.Point(331, 237);
             this.btnHabilitar.Name = "btnHabilitar";
             this.btnHabilitar.Size = new System.Drawing.Size(75, 23);
-            this.btnHabilitar.TabIndex = 4;
+            this.btnHabilitar.TabIndex = 3;
             this.btnHabilitar.Text = "Habilitar";
             this.btnHabilitar.UseVisualStyleBackColor = true;
             this.btnHabilitar.Click += new System.EventHandler(this.btnHabilitar_Click);
@@ -100,6 +100,7 @@
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.dataGridView1);
             this.Name = "ListadoRoles";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Roles";
             this.Load += new System.EventHandler(this.ListadoRoles_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

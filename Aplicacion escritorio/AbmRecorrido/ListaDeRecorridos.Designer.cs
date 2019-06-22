@@ -131,6 +131,7 @@
             this.Controls.Add(this.labelNombreGrid);
             this.Controls.Add(this.dataGridViewRecorridos);
             this.Name = "ListaDeRecorridos";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Lista de Recorridos";
             this.Load += new System.EventHandler(this.ListaDeRecorridos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRecorridos)).EndInit();

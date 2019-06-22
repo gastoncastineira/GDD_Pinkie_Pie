@@ -229,6 +229,15 @@
     <EmbeddedResource Include="AbmRecorrido\ModificarRecorrido.resx">
       <DependentUpon>ModificarRecorrido.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\CrearRol.resx">
+      <DependentUpon>CrearRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\ListadoRoles.resx">
+      <DependentUpon>ListadoRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\ModificarRol.resx">
+      <DependentUpon>ModificarRol.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CompraReservaPasaje\Comprar o Reservar Viaje.resx">
       <DependentUpon>Comprar o Reservar Viaje.cs</DependentUpon>
     </EmbeddedResource>
