@@ -71,13 +71,11 @@ namespace FrbaCrucero.CompraReservaPasaje
 
             List<string> campos = new List<string>();
             campos.Add("modelo");
-            campos.Add("fabricante");
             campos.Add("identificador");
 
             Dictionary<string, List<object>> crucero = conexion.ConsultaPlana(Tabla.Crucero, campos, filtrosCrucero);
 
             lblIdeCrucero.Text += crucero["identificador"].First().ToString();
-            lblFabricanteCrucero.Text += crucero["fabricante"].First().ToString();
             lblModeloCrucero.Text += crucero["modelo"].First().ToString();
 
             List<Filtro> filtrosTipo = new List<Filtro>();

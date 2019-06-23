@@ -38,7 +38,6 @@
             this.btnConfirmar = new System.Windows.Forms.Button();
             this.dtTramos = new System.Windows.Forms.DataGridView();
             this.lblFechaFin = new System.Windows.Forms.Label();
-            this.lblFabricanteCrucero = new System.Windows.Forms.Label();
             this.lblModeloCrucero = new System.Windows.Forms.Label();
             this.lblPuertoOrigen = new System.Windows.Forms.Label();
             this.lblPuertoDestino = new System.Windows.Forms.Label();
@@ -99,7 +98,7 @@
             // lblTipoDeCabina
             // 
             this.lblTipoDeCabina.AutoSize = true;
-            this.lblTipoDeCabina.Location = new System.Drawing.Point(37, 572);
+            this.lblTipoDeCabina.Location = new System.Drawing.Point(37, 542);
             this.lblTipoDeCabina.Name = "lblTipoDeCabina";
             this.lblTipoDeCabina.Size = new System.Drawing.Size(84, 13);
             this.lblTipoDeCabina.TabIndex = 6;
@@ -107,7 +106,7 @@
             // 
             // btnAtras
             // 
-            this.btnAtras.Location = new System.Drawing.Point(35, 651);
+            this.btnAtras.Location = new System.Drawing.Point(35, 612);
             this.btnAtras.Name = "btnAtras";
             this.btnAtras.Size = new System.Drawing.Size(75, 23);
             this.btnAtras.TabIndex = 1;
@@ -117,7 +116,7 @@
             // 
             // btnConfirmar
             // 
-            this.btnConfirmar.Location = new System.Drawing.Point(435, 651);
+            this.btnConfirmar.Location = new System.Drawing.Point(435, 612);
             this.btnConfirmar.Name = "btnConfirmar";
             this.btnConfirmar.Size = new System.Drawing.Size(75, 23);
             this.btnConfirmar.TabIndex = 0;
@@ -151,19 +150,10 @@
             this.lblFechaFin.TabIndex = 3;
             this.lblFechaFin.Text = "Fecha de finalización del viaje: ";
             // 
-            // lblFabricanteCrucero
-            // 
-            this.lblFabricanteCrucero.AutoSize = true;
-            this.lblFabricanteCrucero.Location = new System.Drawing.Point(37, 511);
-            this.lblFabricanteCrucero.Name = "lblFabricanteCrucero";
-            this.lblFabricanteCrucero.Size = new System.Drawing.Size(119, 13);
-            this.lblFabricanteCrucero.TabIndex = 9;
-            this.lblFabricanteCrucero.Text = "Fabricante del crucero: ";
-            // 
             // lblModeloCrucero
             // 
             this.lblModeloCrucero.AutoSize = true;
-            this.lblModeloCrucero.Location = new System.Drawing.Point(37, 541);
+            this.lblModeloCrucero.Location = new System.Drawing.Point(37, 511);
             this.lblModeloCrucero.Name = "lblModeloCrucero";
             this.lblModeloCrucero.Size = new System.Drawing.Size(104, 13);
             this.lblModeloCrucero.TabIndex = 10;
@@ -191,7 +181,7 @@
             // 
             this.lblPrecioTotal.AutoSize = true;
             this.lblPrecioTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPrecioTotal.Location = new System.Drawing.Point(37, 600);
+            this.lblPrecioTotal.Location = new System.Drawing.Point(37, 570);
             this.lblPrecioTotal.Name = "lblPrecioTotal";
             this.lblPrecioTotal.Size = new System.Drawing.Size(214, 18);
             this.lblPrecioTotal.TabIndex = 13;
@@ -243,14 +233,13 @@
             this.AcceptButton = this.btnConfirmar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(588, 696);
+            this.ClientSize = new System.Drawing.Size(529, 654);
             this.Controls.Add(this.dtNumerosOperacion);
             this.Controls.Add(this.lblFechaDeConcepcion);
             this.Controls.Add(this.lblPrecioTotal);
             this.Controls.Add(this.lblPuertoDestino);
             this.Controls.Add(this.lblPuertoOrigen);
             this.Controls.Add(this.lblModeloCrucero);
-            this.Controls.Add(this.lblFabricanteCrucero);
             this.Controls.Add(this.dtTramos);
             this.Controls.Add(this.btnConfirmar);
             this.Controls.Add(this.btnAtras);
@@ -284,7 +273,6 @@
         private System.Windows.Forms.Button btnConfirmar;
         private System.Windows.Forms.DataGridView dtTramos;
         private System.Windows.Forms.Label lblFechaFin;
-        private System.Windows.Forms.Label lblFabricanteCrucero;
         private System.Windows.Forms.Label lblModeloCrucero;
         private System.Windows.Forms.Label lblPuertoOrigen;
         private System.Windows.Forms.Label lblPuertoDestino;
