@@ -39,6 +39,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(45, 27);
             this.label1.Name = "label1";
@@ -48,6 +49,7 @@
             // 
             // txtNombre
             // 
+            this.txtNombre.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtNombre.Location = new System.Drawing.Point(156, 24);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(211, 20);
@@ -56,6 +58,7 @@
             // 
             // checkedListBoxFuncion
             // 
+            this.checkedListBoxFuncion.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.checkedListBoxFuncion.FormattingEnabled = true;
             this.checkedListBoxFuncion.Location = new System.Drawing.Point(156, 65);
             this.checkedListBoxFuncion.Name = "checkedListBoxFuncion";
@@ -64,6 +67,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(45, 65);
             this.label2.Name = "label2";
@@ -73,6 +77,7 @@
             // 
             // btnRegresar
             // 
+            this.btnRegresar.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnRegresar.Location = new System.Drawing.Point(88, 267);
             this.btnRegresar.Name = "btnRegresar";
             this.btnRegresar.Size = new System.Drawing.Size(75, 23);
@@ -83,6 +88,7 @@
             // 
             // btnGuardar
             // 
+            this.btnGuardar.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnGuardar.Location = new System.Drawing.Point(244, 267);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 23);
@@ -93,6 +99,7 @@
             // 
             // btnLimpiar
             // 
+            this.btnLimpiar.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnLimpiar.Location = new System.Drawing.Point(48, 139);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(75, 23);

@@ -37,6 +37,7 @@
             // 
             // txtusuario
             // 
+            this.txtusuario.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtusuario.Location = new System.Drawing.Point(93, 17);
             this.txtusuario.Name = "txtusuario";
             this.txtusuario.Size = new System.Drawing.Size(100, 20);
@@ -44,6 +45,7 @@
             // 
             // txtContraseña
             // 
+            this.txtContraseña.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtContraseña.Location = new System.Drawing.Point(93, 56);
             this.txtContraseña.Name = "txtContraseña";
             this.txtContraseña.PasswordChar = '*';
@@ -52,6 +54,7 @@
             // 
             // lblUsuario
             // 
+            this.lblUsuario.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblUsuario.AutoSize = true;
             this.lblUsuario.Location = new System.Drawing.Point(26, 20);
             this.lblUsuario.Name = "lblUsuario";
@@ -61,6 +64,7 @@
             // 
             // lblContraseña
             // 
+            this.lblContraseña.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblContraseña.AutoSize = true;
             this.lblContraseña.Location = new System.Drawing.Point(26, 56);
             this.lblContraseña.Name = "lblContraseña";
@@ -70,6 +74,7 @@
             // 
             // btnLogin
             // 
+            this.btnLogin.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnLogin.Location = new System.Drawing.Point(72, 92);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);

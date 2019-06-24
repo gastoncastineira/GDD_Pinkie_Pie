@@ -37,6 +37,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(22, 95);
             this.label1.Name = "label1";
@@ -47,6 +48,7 @@
             // 
             // btnIngresar
             // 
+            this.btnIngresar.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnIngresar.Location = new System.Drawing.Point(25, 148);
             this.btnIngresar.Name = "btnIngresar";
             this.btnIngresar.Size = new System.Drawing.Size(75, 23);
@@ -57,6 +59,7 @@
             // 
             // btnAdmin
             // 
+            this.btnAdmin.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnAdmin.Location = new System.Drawing.Point(25, 206);
             this.btnAdmin.Name = "btnAdmin";
             this.btnAdmin.Size = new System.Drawing.Size(75, 23);
@@ -67,6 +70,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Image = global::FrbaCrucero.Properties.Resources.imagen_loggin_chica;
             this.pictureBox1.Location = new System.Drawing.Point(141, 12);

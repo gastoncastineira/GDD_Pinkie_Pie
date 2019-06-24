@@ -39,6 +39,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(26, 28);
             this.label1.Name = "label1";
@@ -48,6 +49,7 @@
             // 
             // txtNombre
             // 
+            this.txtNombre.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtNombre.Location = new System.Drawing.Point(185, 25);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(211, 20);
@@ -55,6 +57,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(26, 71);
             this.label2.Name = "label2";
@@ -64,6 +67,7 @@
             // 
             // btnCancelar
             // 
+            this.btnCancelar.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnCancelar.Location = new System.Drawing.Point(56, 257);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
@@ -74,6 +78,7 @@
             // 
             // button2
             // 
+            this.button2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button2.Location = new System.Drawing.Point(262, 257);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
@@ -84,6 +89,7 @@
             // 
             // checkedListBoxFuncion
             // 
+            this.checkedListBoxFuncion.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.checkedListBoxFuncion.FormattingEnabled = true;
             this.checkedListBoxFuncion.Location = new System.Drawing.Point(185, 71);
             this.checkedListBoxFuncion.Name = "checkedListBoxFuncion";
@@ -92,6 +98,7 @@
             // 
             // btnLimpia
             // 
+            this.btnLimpia.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnLimpia.Location = new System.Drawing.Point(56, 124);
             this.btnLimpia.Name = "btnLimpia";
             this.btnLimpia.Size = new System.Drawing.Size(75, 23);
