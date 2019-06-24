@@ -38,27 +38,33 @@ namespace FrbaCrucero.AbmRecorrido
             if (e.RowIndex != -1)
             {
                 var senderGrid = (DataGridView)sender;
-                string PK = dataGridViewRecorridos.Rows[e.RowIndex].Cells[3].Value.ToString();
+                string PK = dataGridViewRecorridos.Rows[e.RowIndex].Cells["RECORRIDO"].Value.ToString();
 
                 switch (e.ColumnIndex)
                 {
                     case 0:
                         if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
                         {   //Dar de baja
-                            Dictionary<string, object> valor = new Dictionary<string, object>();
-                            valor.Add("habilitado", 0);
-                            conexion.Modificar(int.Parse(PK), Tabla.Recorrido, valor);
+                            conexion.deshabilitar(Tabla.Recorrido, int.Parse(PK));
                             this.reLoad();
                         }
                         break;
                     case 1:
                         if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
-                        {   //Modificar
-                            ModificarRecorrido mod = new ModificarRecorrido(int.Parse(PK), this);
-                            mod.Show();
+                        {   //Dar de alta
+                            conexion.habilitar(Tabla.Recorrido, int.Parse(PK));
+                            this.reLoad();
                         }
                         break;
                     case 2:
+                        if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+                        {   //Modificar
+                            ModificarRecorrido mod = new ModificarRecorrido(int.Parse(PK), dataGridViewRecorridos.Rows[e.RowIndex].Cells["PUERTO_DESTINO"].Value.ToString());
+                            mod.ShowDialog();
+                            reLoad();
+                        }
+                        break;
+                    case 3:
                         if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
                         {   //Ver datos
                             List<Filtro> listFiltro = new List<Filtro>();
@@ -69,23 +75,11 @@ namespace FrbaCrucero.AbmRecorrido
                 }
             }
         }
-
-        private void LabelNombreGrid_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void ButtonCrear_Click(object sender, EventArgs e)
         {
-            CrearRecorrido create = new CrearRecorrido(this);
-            create.Show();
-        }
-
-        private void ButtonOut_Click(object sender, EventArgs e)
-        {
-            Login log = new Login();
-            log.Show();
-            this.Close();
+            CrearRecorrido create = new CrearRecorrido();
+            create.ShowDialog();
+            reLoad();
         }
     }
 }

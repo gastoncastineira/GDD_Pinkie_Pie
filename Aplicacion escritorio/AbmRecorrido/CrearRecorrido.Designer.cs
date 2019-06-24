@@ -28,106 +28,103 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.checkedListBoxTramos = new System.Windows.Forms.CheckedListBox();
-            this.buttonAgregar = new System.Windows.Forms.Button();
-            this.dataGridViewRecorrido = new System.Windows.Forms.DataGridView();
-            this.buttonQuitar = new System.Windows.Forms.Button();
-            this.buttonConfirmar = new System.Windows.Forms.Button();
-            this.buttonCancelar = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRecorrido)).BeginInit();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnSacar = new System.Windows.Forms.Button();
+            this.lbResultado = new System.Windows.Forms.ListBox();
+            this.lbTramos = new System.Windows.Forms.ListBox();
+            this.ButtonExit = new System.Windows.Forms.Button();
+            this.btnAgregar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // checkedListBoxTramos
+            // button1
             // 
-            this.checkedListBoxTramos.FormattingEnabled = true;
-            this.checkedListBoxTramos.Location = new System.Drawing.Point(12, 12);
-            this.checkedListBoxTramos.Name = "checkedListBoxTramos";
-            this.checkedListBoxTramos.Size = new System.Drawing.Size(284, 424);
-            this.checkedListBoxTramos.TabIndex = 0;
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button1.Location = new System.Drawing.Point(564, 327);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "Cancelar";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // buttonAgregar
+            // btnSacar
             // 
-            this.buttonAgregar.Location = new System.Drawing.Point(317, 230);
-            this.buttonAgregar.Name = "buttonAgregar";
-            this.buttonAgregar.Size = new System.Drawing.Size(174, 38);
-            this.buttonAgregar.TabIndex = 0;
-            this.buttonAgregar.Text = "Agregar tramo";
-            this.buttonAgregar.UseVisualStyleBackColor = true;
-            this.buttonAgregar.Click += new System.EventHandler(this.ButtonAgregar_Click);
+            this.btnSacar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSacar.Location = new System.Drawing.Point(339, 171);
+            this.btnSacar.Name = "btnSacar";
+            this.btnSacar.Size = new System.Drawing.Size(75, 23);
+            this.btnSacar.TabIndex = 10;
+            this.btnSacar.Text = "<<";
+            this.btnSacar.UseVisualStyleBackColor = true;
+            this.btnSacar.Click += new System.EventHandler(this.btnSacar_Click);
             // 
-            // dataGridViewRecorrido
+            // lbResultado
             // 
-            this.dataGridViewRecorrido.AllowUserToAddRows = false;
-            this.dataGridViewRecorrido.AllowUserToDeleteRows = false;
-            this.dataGridViewRecorrido.AllowUserToResizeColumns = false;
-            this.dataGridViewRecorrido.AllowUserToResizeRows = false;
-            this.dataGridViewRecorrido.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewRecorrido.Location = new System.Drawing.Point(302, 12);
-            this.dataGridViewRecorrido.MultiSelect = false;
-            this.dataGridViewRecorrido.Name = "dataGridViewRecorrido";
-            this.dataGridViewRecorrido.ReadOnly = true;
-            this.dataGridViewRecorrido.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dataGridViewRecorrido.Size = new System.Drawing.Size(629, 212);
-            this.dataGridViewRecorrido.StandardTab = true;
-            this.dataGridViewRecorrido.TabIndex = 2;
+            this.lbResultado.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbResultado.FormattingEnabled = true;
+            this.lbResultado.Location = new System.Drawing.Point(420, 40);
+            this.lbResultado.Name = "lbResultado";
+            this.lbResultado.Size = new System.Drawing.Size(315, 225);
+            this.lbResultado.TabIndex = 9;
+            this.lbResultado.SelectedIndexChanged += new System.EventHandler(this.lbResultado_SelectedIndexChanged);
             // 
-            // buttonQuitar
+            // lbTramos
             // 
-            this.buttonQuitar.Location = new System.Drawing.Point(534, 230);
-            this.buttonQuitar.Name = "buttonQuitar";
-            this.buttonQuitar.Size = new System.Drawing.Size(174, 38);
-            this.buttonQuitar.TabIndex = 1;
-            this.buttonQuitar.Text = "Quitar ultimo tramo";
-            this.buttonQuitar.UseVisualStyleBackColor = true;
-            this.buttonQuitar.Click += new System.EventHandler(this.ButtonQuitar_Click);
+            this.lbTramos.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbTramos.FormattingEnabled = true;
+            this.lbTramos.Location = new System.Drawing.Point(35, 40);
+            this.lbTramos.Name = "lbTramos";
+            this.lbTramos.Size = new System.Drawing.Size(298, 225);
+            this.lbTramos.TabIndex = 8;
             // 
-            // buttonConfirmar
+            // ButtonExit
             // 
-            this.buttonConfirmar.Location = new System.Drawing.Point(751, 230);
-            this.buttonConfirmar.Name = "buttonConfirmar";
-            this.buttonConfirmar.Size = new System.Drawing.Size(174, 38);
-            this.buttonConfirmar.TabIndex = 2;
-            this.buttonConfirmar.Text = "Confirmar recorrido";
-            this.buttonConfirmar.UseVisualStyleBackColor = true;
-            this.buttonConfirmar.Click += new System.EventHandler(this.ButtonConfirmar_Click);
+            this.ButtonExit.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ButtonExit.Location = new System.Drawing.Point(660, 327);
+            this.ButtonExit.Name = "ButtonExit";
+            this.ButtonExit.Size = new System.Drawing.Size(75, 23);
+            this.ButtonExit.TabIndex = 7;
+            this.ButtonExit.Text = "Terminar";
+            this.ButtonExit.UseVisualStyleBackColor = true;
+            this.ButtonExit.Click += new System.EventHandler(this.ButtonExit_Click);
             // 
-            // buttonCancelar
+            // btnAgregar
             // 
-            this.buttonCancelar.Location = new System.Drawing.Point(801, 399);
-            this.buttonCancelar.Name = "buttonCancelar";
-            this.buttonCancelar.Size = new System.Drawing.Size(130, 37);
-            this.buttonCancelar.TabIndex = 3;
-            this.buttonCancelar.Text = "Cancelar";
-            this.buttonCancelar.UseVisualStyleBackColor = true;
-            this.buttonCancelar.Click += new System.EventHandler(this.ButtonCancelar_Click);
+            this.btnAgregar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnAgregar.Location = new System.Drawing.Point(339, 105);
+            this.btnAgregar.Name = "btnAgregar";
+            this.btnAgregar.Size = new System.Drawing.Size(75, 23);
+            this.btnAgregar.TabIndex = 6;
+            this.btnAgregar.Text = ">>";
+            this.btnAgregar.UseVisualStyleBackColor = true;
+            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
             // CrearRecorrido
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(937, 450);
-            this.Controls.Add(this.buttonCancelar);
-            this.Controls.Add(this.buttonConfirmar);
-            this.Controls.Add(this.buttonQuitar);
-            this.Controls.Add(this.dataGridViewRecorrido);
-            this.Controls.Add(this.buttonAgregar);
-            this.Controls.Add(this.checkedListBoxTramos);
+            this.ClientSize = new System.Drawing.Size(762, 362);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnSacar);
+            this.Controls.Add(this.lbResultado);
+            this.Controls.Add(this.lbTramos);
+            this.Controls.Add(this.ButtonExit);
+            this.Controls.Add(this.btnAgregar);
             this.Name = "CrearRecorrido";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Generar Recorrido";
-            this.Load += new System.EventHandler(this.CrearRecorrido_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRecorrido)).EndInit();
+            this.Load += new System.EventHandler(this.AgregarRecorrido_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.CheckedListBox checkedListBoxTramos;
-        private System.Windows.Forms.Button buttonAgregar;
-        private System.Windows.Forms.DataGridView dataGridViewRecorrido;
-        private System.Windows.Forms.Button buttonQuitar;
-        private System.Windows.Forms.Button buttonConfirmar;
-        private System.Windows.Forms.Button buttonCancelar;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSacar;
+        private System.Windows.Forms.ListBox lbResultado;
+        private System.Windows.Forms.ListBox lbTramos;
+        private System.Windows.Forms.Button ButtonExit;
+        private System.Windows.Forms.Button btnAgregar;
     }
 }

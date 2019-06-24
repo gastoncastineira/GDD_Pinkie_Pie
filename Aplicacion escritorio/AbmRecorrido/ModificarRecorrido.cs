@@ -15,129 +15,129 @@ namespace FrbaCrucero.AbmRecorrido
     {
         private Conexion conexion = new Conexion();
         int PkRecorrido;
-        ListaDeRecorridos viewPadre;
-        public ModificarRecorrido(int PK, ListaDeRecorridos view)
+        string destinoOg;
+        List<int> IDsActual;
+        List<int> IDsInsert = new List<int>();
+        List<int> IDsOG = new List<int>();
+        List<int> IDsDelete = new List<int>();
+        public ModificarRecorrido(int PK, string destino)
         {
             PkRecorrido = PK;
-            viewPadre = view;
             InitializeComponent();
+            destinoOg = destino;
         }
 
-        private void ButtonAgregar_Click(object sender, EventArgs e)
+        private void actualizarTramos(string destino)
         {
-            List<string> tramos = new List<string>();
-                for (int i = 0; i < checkedListBoxTramos.Items.Count; i++)
-                {
-                    if (checkedListBoxTramos.GetItemChecked(i))
-                    {
-                    tramos.Add( checkedListBoxTramos.Items[i].ToString() );
-                    }
-                }
-                if (tramos.Count == 0)
-                {
-                    MessageBox.Show("Se debe seleccionar al menos un tramo");
-                    return;
-                }
-            Dictionary<string, List<object> > res;
-
-            
-            Transaccion tr = conexion.IniciarTransaccion();
-            int idTramo;
-            string origen = "";
-            string destino ="";
-
-            for (int i = 0; i < tramos.Count(); i++)
+            lbTramos.Items.Clear();
+            List<string> col = new List<string>();
+            col.Add("ID");
+            col.Add("ORIGEN_DESC");
+            col.Add("DESTINO_DESC");
+            List<Filtro> filtro = new List<Filtro>();
+            if(lbResultado.Items.Count > 0)
+                filtro.Add(FiltroFactory.Exacto("ORIGEN_DESC", destino));
+            Dictionary<string, List<object>> resul = conexion.ConsultaPlana(Tabla.TramoConDescripcion, col, filtro);
+            IDsActual = new List<int>();
+            for (int i = 0; i < resul["ORIGEN_DESC"].Count; i++)
             {
-                string[] cadenas = tramos[i].Split('.'); 
-                if (cadenas[0].Split(' ').Length == 3)
-                {
-                    origen = cadenas[0].Split(' ')[1] + " " + cadenas[0].Split(' ')[2];
-                }
-                else { origen = cadenas[0].Split(' ')[1]; }
-                if (cadenas[1].TrimStart(' ').Split(' ').Length == 3)
-                {
-                    destino = cadenas[1].TrimStart(' ').Split(' ')[1] + " " + cadenas[1].TrimStart(' ').Split(' ')[2];
-                }
-                else { destino = cadenas[1].TrimStart(' ').Split(' ')[1]; }
-
-                Filtro filtroOrigen = FiltroFactory.Exacto("ORIGEN_DESC",origen );
-                Filtro filtroDestino = FiltroFactory.Exacto("DESTINO_DESC", destino );
-                List<Filtro> filtros = new List<Filtro>();
-                filtros.Add(filtroOrigen);
-                filtros.Add(filtroDestino);
-
-                res = conexion.ConsultaPlana(Tabla.TramoConDescripcion, new List<string>(new string[] { "ID" }), filtros);
-
-                idTramo = int.Parse(res["ID"].Last().ToString());
-                tr.InsertarTablaIntermedia(Tabla.Tramo_X_Recorrido, "ID_Recorrido", "ID_Tramo", PkRecorrido, idTramo);        
+                lbTramos.Items.Add("DESDE: " + resul["ORIGEN_DESC"][i] + "; HASTA: " + resul["DESTINO_DESC"][i]);
+                IDsActual.Add(Convert.ToInt32(resul["ID"][i]));
             }
-
-            tr.Commit();
-
-            actualizarCheckedListBoxConUltimoDestino(destino);
-            this.reLoad();
-
-        }
-
-        private void actualizarCheckedListBoxConUltimoDestino(string ultimoDestino)
-        {
-            for (int i = checkedListBoxTramos.Items.Count; i > 0; i--)
-            {
-                checkedListBoxTramos.Items.RemoveAt(i - 1);
-            }
-            checkedListBoxTramos.Refresh();
-            conexion.LlenarCheckedListConTramosDescriptos(ref checkedListBoxTramos, ultimoDestino);
-        }
-
-        private void DataGridViewTramos_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if(e.RowIndex != -1)
-            {
-                var senderGrid = (DataGridView)sender;
-                string PkTramo = dataGridViewTramos.Rows[e.RowIndex].Cells[2].Value.ToString();
-
-
-                if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.ColumnIndex == 0)
-                {
-                    conexion.eliminarTablaIntermedia(Tabla.Tramo_X_Recorrido, "ID_Recorrido", "ID_Tramo", PkRecorrido, int.Parse(PkTramo));
-
-                    if (dataGridViewTramos.Rows.Count > 1)
-                    {
-                        string ID = dataGridViewTramos.Rows[e.RowIndex - 1].Cells[2].Value.ToString();
-
-                        List<Filtro> filtros = new List<Filtro>();
-                        filtros.Add(FiltroFactory.Exacto("TRAMO_ID", ID));
-                        List<string> columnas = new List<string>();
-                        columnas.Add("PUERTO_DESTINO");
-                        Dictionary<string, List<object>> res = conexion.ConsultaPlana(Tabla.TramosParaGridView, columnas, filtros);
-                        actualizarCheckedListBoxConUltimoDestino(res["PUERTO_DESTINO"].Last().ToString());
-                    }
-                    else
-                    {
-                        actualizarCheckedListBoxConUltimoDestino(null);
-                    }
-                }
-                this.reLoad();
-            }
-        }
-
-        private void ModificarRecorrido_Load(object sender, EventArgs e)
-        {
-            this.reLoad();
-            conexion.LlenarCheckedListConTramosDescriptos(ref checkedListBoxTramos, null);
-        }
-
-        private void reLoad()
-        {
-            List<Filtro> listFiltro = new List<Filtro>();
-            listFiltro.Add(FiltroFactory.Exacto("RECORRIDO_ID", PkRecorrido.ToString()));
-            conexion.LlenarDataGridView(Tabla.TramosParaGridView, ref dataGridViewTramos, listFiltro);
+            lbTramos.SelectedIndex = lbTramos.Items.Count - 1;
         }
 
         private void ButtonExit_Click(object sender, EventArgs e)
         {
-            viewPadre.reLoad();
-            this.Close();
+            string puertoHasta = lbResultado.Items[lbResultado.Items.Count - 1].ToString();
+            int longDesde = puertoHasta.LastIndexOf("HASTA: ") + 7;
+            int longHasta = puertoHasta.Length - longDesde;
+            List<Filtro> filtros = new List<Filtro>();
+            filtros.Add(FiltroFactory.Exacto("descripcion", puertoHasta.Substring(longDesde, longHasta)));
+            Dictionary<string, List<object>> resul = conexion.ConsultaPlana(Tabla.Puerto, new List<string>(new string[] { "ID" }), filtros);
+            int IdPuertoDest = Convert.ToInt32(resul["ID"][0]);
+            Dictionary<string, object> data = new Dictionary<string, object>();
+            data["puerto_destino_id"] = IdPuertoDest;
+            if (IDsOG.Count == 0)
+            {
+                string puertoDesde = lbResultado.Items[0].ToString();
+                longDesde = 7;
+                longHasta = puertoDesde.LastIndexOf(';') - longDesde;
+                filtros[0] = FiltroFactory.Exacto("descripcion", puertoDesde.Substring(longDesde, longHasta));
+                resul = conexion.ConsultaPlana(Tabla.Puerto, new List<string>(new string[] { "ID" }), filtros);
+                data["puerto_origen_id"] = resul["ID"][0];
+            }
+            Transaccion tr = conexion.IniciarTransaccion();
+            tr.Modificar(PkRecorrido, Tabla.Recorrido, data);
+            foreach (int cod in IDsInsert)
+                tr.InsertarTablaIntermedia(Tabla.Tramo_X_Recorrido, "id_recorrido", "id_tramo", PkRecorrido, cod);
+            foreach (int cod in IDsDelete)
+                tr.eliminarTablaIntermedia(Tabla.Tramo_X_Recorrido, "id_recorrido", "id_tramo", PkRecorrido, cod);
+            tr.Commit();
+            DialogResult  = DialogResult.OK;
+        }
+
+        private void ModificarRecorrido_Load(object sender, EventArgs e)
+        {
+            List<string> col = new List<string>();
+            col.Add("TRAMO_ID");
+            col.Add("PUERTO_ORIGEN");
+            col.Add("PUERTO_DESTINO");
+            List<Filtro> filtro = new List<Filtro>();
+            filtro.Add(FiltroFactory.Exacto("RECORRIDO_ID", PkRecorrido.ToString()));
+            Dictionary<string, List<object>> resul = conexion.ConsultaPlana(Tabla.TramosParaGridView, col, filtro);
+            for (int i = 0; i < resul["PUERTO_DESTINO"].Count; i++)
+            {
+                lbResultado.Items.Add("DESDE: " + resul["PUERTO_ORIGEN"][i] + "; HASTA: " + resul["PUERTO_DESTINO"][i]);
+                IDsOG.Add(Convert.ToInt32(resul["TRAMO_ID"][i]));
+            }
+            lbResultado.SelectedIndex = lbResultado.Items.Count - 1;
+            actualizarTramos(destinoOg);
+        }
+
+        private void lbResultado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lbResultado.SelectedIndex = lbResultado.Items.Count - 1;
+        }
+
+        private void btnSacar_Click(object sender, EventArgs e)
+        {
+            if (lbResultado.Items.Count == 0)
+                return;
+            lbResultado.Items.RemoveAt(lbResultado.SelectedIndex);
+            if (IDsInsert.Count > 0)
+                IDsInsert.RemoveAt(IDsInsert.Count - 1);
+            else
+            {
+                IDsDelete.Add(IDsOG[IDsOG.Count - 1]);
+                IDsOG.RemoveAt(IDsOG.Count - 1);
+            }
+            lbResultado.SelectedIndex = lbResultado.Items.Count - 1;
+            string cadena = null;
+            if (lbResultado.Items.Count > 0)
+            {
+                cadena = lbResultado.SelectedItem.ToString();
+                int longDesde = cadena.LastIndexOf("HASTA: ") + 7;
+                int longHasta = cadena.Length - longDesde;
+                cadena = cadena.Substring(longDesde, longHasta);
+            }
+            actualizarTramos(cadena);
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            lbResultado.Items.Add(lbTramos.SelectedItem);
+            IDsInsert.Add(IDsActual[lbTramos.SelectedIndex]);
+            string cadena = lbTramos.SelectedItem.ToString();
+            int longDesde = cadena.LastIndexOf("HASTA: ") + 7;
+            int longHasta = cadena.Length - longDesde;
+            actualizarTramos(cadena.Substring(longDesde, longHasta));
+            lbResultado.SelectedIndex = lbResultado.Items.Count - 1;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
         }
     }
 }

@@ -60,6 +60,7 @@ CREATE TABLE PINKIE_PIE.[Tramo](
 );
 
 CREATE TABLE PINKIE_PIE.[Tramo_X_Recorrido](
+	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[ID_Recorrido] [decimal] (18,0) NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.[Recorrido](ID),
 	[ID_Tramo] [int] NOT NULL FOREIGN KEY REFERENCES PINKIE_PIE.[Tramo](ID)
 );
@@ -406,12 +407,12 @@ WHERE r.Habilitado = 1
 GO
 CREATE VIEW PINKIE_PIE.RecorridosParaGridView
 AS
-SELECT R.Id AS RECORRIDO, Po.descripcion AS PUERTO_ORIGEN, pd.descripcion AS PUERTO_DESTINO, SUM(precio) AS PRECIO 
+SELECT R.Id AS RECORRIDO, Po.descripcion AS PUERTO_ORIGEN, pd.descripcion AS PUERTO_DESTINO, SUM(precio) AS PRECIO, R.habilitado
 FROM PINKIE_PIE.Recorrido R JOIN PINKIE_PIE.Tramo_X_Recorrido TR ON R.ID = TR.ID_Recorrido
 JOIN PINKIE_PIE.Tramo T ON T.ID = TR.ID_Tramo
 JOIN PINKIE_PIE.Puerto Po ON Po.ID = R.puerto_origen_id
 JOIN PINKIE_PIE.Puerto Pd ON Pd.ID = R.puerto_destino_id
-WHERE R.habilitado = 1 GROUP BY R.ID, Po.descripcion, pd.descripcion
+GROUP BY R.ID, Po.descripcion, pd.descripcion, R.habilitado
 
 GO
 CREATE VIEW PINKIE_PIE.TramosParaGridView
