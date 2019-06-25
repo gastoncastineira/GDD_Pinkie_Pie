@@ -103,6 +103,7 @@
             this.btnRecorrido.TabIndex = 2;
             this.btnRecorrido.Text = "Recorrido con mas pasajes";
             this.btnRecorrido.UseVisualStyleBackColor = true;
+            this.btnRecorrido.Click += new System.EventHandler(this.btnRecorrido_Click);
             // 
             // button3
             // 

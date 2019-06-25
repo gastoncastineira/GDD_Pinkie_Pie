@@ -22,7 +22,7 @@ namespace FrbaCrucero.ListadoEstadistico
         {
             InitializeComponent();
             conn = new Conexion();
-            for (int i = 2010; i <= 2019; cbbAño.Items.Add((i++).ToString()));
+            for (int i = 2010; i <= ConfigurationHelper.FechaActual.Year; cbbAño.Items.Add((i++).ToString()));
         }
 
         private void CalcularFechas()
@@ -70,6 +70,17 @@ namespace FrbaCrucero.ListadoEstadistico
             }
             CalcularFechas();
             dgvResultados.DataSource = conn.TraerLitadoEstadistico(Tabla.Top5CrucerosFueraServicio, inicio, fin);
+        }
+
+        private void btnRecorrido_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(cbbAño.Text) || string.IsNullOrEmpty(cbbSemestre.Text))
+            {
+                MessageBox.Show("DEBE ingresar un año y un semestre");
+                return;
+            }
+            CalcularFechas();
+            dgvResultados.DataSource = conn.TraerLitadoEstadistico(Tabla.Top5RecorridosPasajes, inicio, fin);
         }
     }
 }
