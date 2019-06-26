@@ -46,7 +46,7 @@ namespace FrbaCrucero.AbmCrucero
 
                     Dictionary<string, object> modificacion = new Dictionary<string, object>();
                     modificacion.Add("baja_fuera_de_servicio", true);
-                    trans.Modificar(id, Tabla.Crucero, modificacion);
+                    conexion.Modificar(id, Tabla.Crucero, modificacion);
 
                     Dictionary<string, object> insert = new Dictionary<string, object>();
                     insert.Add("fecha_fuera_de_servicio", fechaActual);
