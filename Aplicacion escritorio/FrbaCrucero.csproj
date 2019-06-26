@@ -52,6 +52,12 @@
     <Compile Include="AbmCrucero\AltaCruceros.Designer.cs">
       <DependentUpon>AltaCruceros.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmCrucero\BajaServicio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCrucero\BajaServicio.Designer.cs">
+      <DependentUpon>BajaServicio.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmCrucero\ComboboxItem.cs" />
     <Compile Include="AbmCrucero\ListaDeCruceros.cs">
       <SubType>Form</SubType>
@@ -213,6 +219,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AbmCrucero\AltaCruceros.resx">
       <DependentUpon>AltaCruceros.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCrucero\BajaServicio.resx">
+      <DependentUpon>BajaServicio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmCrucero\ListaDeCruceros.resx">
       <DependentUpon>ListaDeCruceros.cs</DependentUpon>

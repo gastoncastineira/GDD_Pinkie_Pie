@@ -552,16 +552,15 @@ JOIN PINKIE_PIE.Viaje v
 	ON v.ID = viaje_id
 GO
 
-CREATE PROCEDURE PINKIE_PIE.CancelarPasajes @idCrucero int, @fecha datetime2
+CREATE PROCEDURE PINKIE_PIE.CancelarPasajes @idCrucero int, @fecha datetime2, @fechaFin datetime2 = NULL
 AS
 BEGIN TRANSACTION
-UPDATE PINKIE_PIE.Pasaje SET Pasaje.cancelado = 1
-WHERE Pasaje.ID IN (
-	SELECT Pasaje.ID FROM PINKIE_PIE.Pasaje
-	JOIN Cabina ON Cabina.ID = Pasaje.cabina_id
-	JOIN Crucero ON Crucero.ID = Cabina.crucero_id
-	JOIN Viaje ON Viaje.ID = Cabina.viaje_id
-	WHERE Crucero.ID = @idCrucero AND Viaje.fecha_inicio >  @fecha
-)
+		UPDATE PINKIE_PIE.Pasaje SET Pasaje.cancelado = 1
+		WHERE Pasaje.ID IN (
+			SELECT Pasaje.ID FROM PINKIE_PIE.Pasaje
+			JOIN Cabina ON Cabina.ID = Pasaje.cabina_id
+			JOIN Crucero ON Crucero.ID = Cabina.crucero_id
+			JOIN Viaje ON Viaje.ID = Cabina.viaje_id
+			WHERE Crucero.ID = @idCrucero AND Viaje.fecha_inicio >  @fecha AND Viaje.fecha_fin < ISNULL(@fechaFin, CAST('9999.12.31 23:59:59.997' AS datetime2)))
 COMMIT
 GO

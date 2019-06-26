@@ -29,7 +29,6 @@ namespace FrbaCrucero.AbmCrucero
         {
 
             conexion.LlenarDataGridViewCruceros(ref dataGridViewCruceros);
-            //conexion.LlenarDataGridView(Tabla.Crucero, ref dataGridViewCruceros, null);
             dataGridViewCabinas.DataSource = null;
             dataGridViewCabinas.Rows.Clear();
             dataGridViewCabinas.Refresh();
@@ -108,29 +107,41 @@ namespace FrbaCrucero.AbmCrucero
 
         private void darDeBajaCrucero(string baja){
 
+            List<int> idsFueraServ = new List<int>(); 
+
             for (int j = 0; j < dataGridViewCruceros.Rows.Count - 1; j++)
             {
 
                 var check = dataGridViewCruceros.Rows[j].Cells[0];
 
-                if (check.Selected)
+                if (Convert.ToBoolean(check.Value))
                 {
 
                     var id = int.Parse(dataGridViewCruceros.Rows[j].Cells[3].Value.ToString());
                     Dictionary<string,object> modificacion = new Dictionary<string,object>();
                     modificacion.Add(baja, true);
 
-                    if(baja == "baja_vida_util"){
+                    if (baja == "baja_vida_util")
+                    {
                         modificacion.Add("fecha_baja_definitiva", ConfigurationHelper.FechaActual);
+                        conexion.Modificar(id, Tabla.Crucero, modificacion);
+                        conexion.CancelarPasajes(id, ConfigurationHelper.FechaActual);
                     }
-
-                    conexion.Modificar(id, Tabla.Crucero, modificacion);
-                    conexion.CancelarPasajes(id, ConfigurationHelper.FechaActual);
+                    else
+                    {
+                        idsFueraServ.Add(id);
+                    }
 
                 }
 
             }
 
+            if (idsFueraServ.Count > 0)
+            {
+                Form asd = new BajaServicio(idsFueraServ);
+                asd.ShowDialog();
+            }
+            
         }
 
     }
