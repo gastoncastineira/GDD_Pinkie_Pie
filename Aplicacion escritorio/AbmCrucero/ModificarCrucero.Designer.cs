@@ -31,11 +31,11 @@
             this.buttonAceptar = new System.Windows.Forms.Button();
             this.buttonCancelar = new System.Windows.Forms.Button();
             this.textBoxModelo = new System.Windows.Forms.TextBox();
-            this.textBoxFabricante = new System.Windows.Forms.TextBox();
             this.textBoxIdentificador = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // buttonAceptar
@@ -64,13 +64,6 @@
             this.textBoxModelo.Name = "textBoxModelo";
             this.textBoxModelo.Size = new System.Drawing.Size(220, 20);
             this.textBoxModelo.TabIndex = 0;
-            // 
-            // textBoxFabricante
-            // 
-            this.textBoxFabricante.Location = new System.Drawing.Point(12, 76);
-            this.textBoxFabricante.Name = "textBoxFabricante";
-            this.textBoxFabricante.Size = new System.Drawing.Size(220, 20);
-            this.textBoxFabricante.TabIndex = 1;
             // 
             // textBoxIdentificador
             // 
@@ -106,17 +99,25 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "Identificador: ";
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(12, 77);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(219, 21);
+            this.comboBox1.TabIndex = 8;
+            // 
             // ModificarCrucero
             // 
             this.AcceptButton = this.buttonAceptar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(243, 197);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxIdentificador);
-            this.Controls.Add(this.textBoxFabricante);
             this.Controls.Add(this.textBoxModelo);
             this.Controls.Add(this.buttonCancelar);
             this.Controls.Add(this.buttonAceptar);
@@ -134,10 +135,10 @@
         private System.Windows.Forms.Button buttonAceptar;
         private System.Windows.Forms.Button buttonCancelar;
         private System.Windows.Forms.TextBox textBoxModelo;
-        private System.Windows.Forms.TextBox textBoxFabricante;
         private System.Windows.Forms.TextBox textBoxIdentificador;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

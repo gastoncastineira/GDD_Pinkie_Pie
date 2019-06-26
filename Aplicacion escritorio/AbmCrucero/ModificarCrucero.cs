@@ -51,7 +51,13 @@ namespace FrbaCrucero.AbmCrucero
             {
 
                 cambios.Add("modelo", textBoxModelo.Text.Trim());
-                cambios.Add("fabricante", textBoxFabricante.Text.Trim());
+                
+                // Extraigo fabricante
+                Filtro filtroNombre = FiltroFactory.Exacto("nombre", comboBox1.Text);
+                var returnFabricante = conexion.ConsultaPlana(Tabla.Fabricante, new List<string> { "id" }, new List<Filtro> { filtroNombre });
+                var id = returnFabricante["id"][0];
+
+                cambios.Add("fabricante_id", id);
                 cambios.Add("identificador", textBoxIdentificador.Text.Trim());
                 conexion.Modificar(int.Parse(ID), Tabla.Crucero, cambios);
                 padre.reLoad();
@@ -63,14 +69,15 @@ namespace FrbaCrucero.AbmCrucero
 
         private void ModificarCrucero_Load(object sender, EventArgs e)
         {
+            conexion.LlenarComboFabricantes(ref comboBox1);
             textBoxModelo.Text = modelo;
-            textBoxFabricante.Text = fabricante;
+            comboBox1.SelectedIndex = comboBox1.FindString(fabricante);
             textBoxIdentificador.Text = identificador;
         }
 
         private bool camposVacios()
         {
-            return (this.stringVacio(textBoxModelo.Text) || this.stringVacio(textBoxFabricante.Text) || this.stringVacio(textBoxIdentificador.Text)) ;
+            return (this.stringVacio(textBoxModelo.Text) || this.stringVacio(comboBox1.Text) || this.stringVacio(textBoxIdentificador.Text)) ;
         }
 
         private bool stringVacio(string str)
@@ -79,8 +86,17 @@ namespace FrbaCrucero.AbmCrucero
         }
 
         private bool identRepetido() {
-            Dictionary<string, List<object>> rdos = conexion.ConsultaPlana(Tabla.Crucero, new List<string> { "identificador" }, new List<Filtro> { FiltroFactory.Exacto("identificador", textBoxIdentificador.Text) });
-            return rdos["identificador"].Count > 0;
+
+            if (identificador != textBoxIdentificador.Text)
+            {
+                Dictionary<string, List<object>> rdos = conexion.ConsultaPlana(Tabla.Crucero, new List<string> { "identificador" }, new List<Filtro> { FiltroFactory.Exacto("identificador", textBoxIdentificador.Text) });
+                return rdos["identificador"].Count > 0;
+            }
+            else
+            {
+                return false;
+            }
+           
         }
 
     }

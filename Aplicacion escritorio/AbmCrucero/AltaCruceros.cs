@@ -54,11 +54,16 @@ namespace FrbaCrucero.AbmCrucero
             else
             {
 
+                // Extraigo fabricante
+                Filtro filtroNombre = FiltroFactory.Exacto("nombre", comboBox2.Text);
+                var returnFabricante = conexion.ConsultaPlana(Tabla.Fabricante, new List<string> { "id" }, new List<Filtro> { filtroNombre });
+                var id = returnFabricante["id"][0];
+
                 Transaccion tr = conexion.IniciarTransaccion();
 
                 Dictionary<string, object> crucero = new Dictionary<string, object>();
                 crucero.Add("modelo", textBox1.Text);
-                crucero.Add("fabricante", comboBox2.Text.ToUpper());
+                crucero.Add("fabricante_id", id);
                 crucero.Add("identificador", textBox2.Text);
                 crucero.Add("baja_fuera_de_servicio", false);
                 crucero.Add("baja_vida_util", false);
@@ -79,9 +84,9 @@ namespace FrbaCrucero.AbmCrucero
 
                     var tipo = row.Cells["tipoPiso"].Value.ToString();
 
-                    Filtro filtro = FiltroFactory.Exacto("tipo", tipo);
+                    Filtro filtroTipo = FiltroFactory.Exacto("tipo", tipo);
 
-                    var returnAsqueroso = conexion.ConsultaPlana(Tabla.Tipo, new List<string>() { "ID" }, new List<Filtro> { filtro });
+                    var returnAsqueroso = conexion.ConsultaPlana(Tabla.Tipo, new List<string>() { "ID" }, new List<Filtro> { filtroTipo });
 
                     piso["id_tipo"] = returnAsqueroso["ID"][0];
 
@@ -156,5 +161,6 @@ namespace FrbaCrucero.AbmCrucero
                 e.Handled = true;
             }
         }
+
     }
 }

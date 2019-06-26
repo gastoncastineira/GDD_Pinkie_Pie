@@ -27,7 +27,9 @@ namespace FrbaCrucero.AbmCrucero
 
         public void reLoad()
         {
-            conexion.LlenarDataGridView(Tabla.Crucero, ref dataGridViewCruceros, null);
+
+            conexion.LlenarDataGridViewCruceros(ref dataGridViewCruceros);
+            //conexion.LlenarDataGridView(Tabla.Crucero, ref dataGridViewCruceros, null);
             dataGridViewCabinas.DataSource = null;
             dataGridViewCabinas.Rows.Clear();
             dataGridViewCabinas.Refresh();
@@ -37,12 +39,6 @@ namespace FrbaCrucero.AbmCrucero
                 DataGridViewColumn row = dataGridViewCruceros.Columns[i];
                 row.ReadOnly = true;
             }
-
-
-        }
-
-        private void LabelNombreGrid_Click(object sender, EventArgs e)
-        {
 
         }
 
@@ -62,6 +58,8 @@ namespace FrbaCrucero.AbmCrucero
 
         private void dataGridViewCruceros_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+
+            if (e.RowIndex == -1) return;
 
             var senderGrid = (DataGridView)sender;
             string PK = dataGridViewCruceros.Rows[e.RowIndex].Cells[3].Value.ToString();
@@ -94,6 +92,7 @@ namespace FrbaCrucero.AbmCrucero
         {
 
             this.darDeBajaCrucero("baja_fuera_de_servicio");
+            this.reLoad();
         
         }
 
@@ -101,6 +100,7 @@ namespace FrbaCrucero.AbmCrucero
         {
 
             this.darDeBajaCrucero("baja_vida_util");
+            this.reLoad();
 
         }
 

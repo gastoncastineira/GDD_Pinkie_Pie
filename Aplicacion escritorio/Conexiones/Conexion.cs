@@ -353,7 +353,7 @@ namespace Conexiones
         public void LlenarComboFabricantes(ref ComboBox combo)
         {
 
-            string comandoString = "SELECT DISTINCT fabricante FROM " + Tabla.Crucero;
+            string comandoString = "SELECT nombre FROM " + Tabla.Fabricante;
 
             using (SqlConnection sqlConnection = new SqlConnection(conectionString))
             {
@@ -368,7 +368,7 @@ namespace Conexiones
 
                     while (reader.Read())
                     {
-                        combo.Items.Add(reader[0].ToString().ToUpper());
+                        combo.Items.Add(reader[0].ToString());
                     }
                 }
             }
@@ -433,6 +433,30 @@ namespace Conexiones
             }
         }
 
+        
+        public void LlenarDataGridViewCruceros(ref DataGridView dataGrid)
+        {
 
+            string comandoString = "SELECT cru.id, cru.modelo, fab.nombre as 'fabricante', cru.identificador, cru.fecha_de_alta, cru.fecha_baja_definitiva, cru.baja_fuera_de_servicio, cru.baja_vida_util FROM " + Tabla.Crucero + "cru JOIN " + Tabla.Fabricante + " fab ON cru.fabricante_id=fab.id";
+            PinkieLogger.logSelect(comandoString, "llenar grid");
+            using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCmd = new SqlCommand())
+                {
+                    sqlCmd.Connection = sqlConnection;
+                    sqlCmd.CommandType = CommandType.Text;
+                    sqlCmd.CommandText = comandoString;
+                    SqlDataAdapter sqlDataAdap = new SqlDataAdapter(sqlCmd);
+
+                    DataTable dtRecord = new DataTable();
+                    sqlDataAdap.Fill(dtRecord);
+
+                    dataGrid.DataSource = dtRecord;
+                }
+            }
+
+        }
+        
     }
 }
