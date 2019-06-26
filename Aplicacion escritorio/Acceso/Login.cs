@@ -44,6 +44,7 @@ namespace FrbaCrucero.Acceso
             int cantAccesos = Convert.ToInt32(resul["cant_accesos_fallidos"][0]);
             if (conexion.ValidarLogin(txtusuario.Text, txtContraseña.Text))
             {
+                conexion.ActualizarFecha(ConfigurationHelper.FechaActual);
                 new EnrutarRoles(txtusuario.Text).Show();
                 Close();
             }

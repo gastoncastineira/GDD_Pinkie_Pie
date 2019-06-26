@@ -8,11 +8,11 @@ namespace FrbaCrucero
     public partial class FormTemplate : Form
     {
         private bool flag = false;
-        public static List<Funcion> Funciones { get; set; }
+        public static List<Funcion> Funciones = new List<Funcion>();
         public static string usuario { get; set; }
         public static int idCliente { get; set; }
         public static bool isAdmin { get; set; }
-        public FormTemplate()
+        public FormTemplate() : base()
         {
             InitializeComponent();
 

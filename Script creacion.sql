@@ -360,6 +360,34 @@ BEGIN
 	end
 END
 
+
+CREATE PROCEDURE PINKIE_PIE.CancelarPasajes @idCrucero int, @fecha datetime2, @fechaFin datetime2 = NULL
+AS
+BEGIN TRANSACTION
+		UPDATE PINKIE_PIE.Pasaje SET Pasaje.cancelado = 1
+		WHERE Pasaje.ID IN (
+			SELECT Pasaje.ID FROM PINKIE_PIE.Pasaje
+			JOIN Cabina ON Cabina.ID = Pasaje.cabina_id
+			JOIN Crucero ON Crucero.ID = Cabina.crucero_id
+			JOIN Viaje ON Viaje.ID = Cabina.viaje_id
+			WHERE Crucero.ID = @idCrucero AND Viaje.fecha_inicio >  @fecha AND Viaje.fecha_fin < ISNULL(@fechaFin, convert(datetime2, '9999.12.31 23:59:59.997', 23)))
+COMMIT
+
+GO
+CREATE PROCEDURE PINKIE_PIE.actualizar_fecha @fecha datetime2
+AS
+BEGIN
+	UPDATE PINKIE_PIE.Crucero SET baja_fuera_de_servicio = 0
+	WHERE ID IN
+		(SELECT c.ID FROM PINKIE_PIE.fecha_fuera_servicio f 
+		JOIN PINKIE_PIE.Crucero c ON c.ID = f.id_crucero
+		WHERE @fecha <
+			(SELECT TOP 1 f1.fecha_fuera_de_servicio FROM PINKIE_PIE.fecha_fuera_servicio f1 WHERE id_crucero = c.ID ORDER BY f1.fecha_fuera_de_servicio DESC)
+		OR @fecha >
+			(SELECT TOP 1 f1.fecha_reinicio_servicio FROM PINKIE_PIE.fecha_fuera_servicio f1 WHERE id_crucero = c.ID  ORDER BY f1.fecha_fuera_de_servicio DESC) 
+		)
+END	
+
 GO
 CREATE VIEW PINKIE_PIE.top_5_recorridos AS 
 SELECT r.codigo as codigo_recorrido , (SELECT p.descripcion FROM PINKIE_PIE.Puerto p WHERE r.puerto_origen_id = p.ID) AS puerto_origen, (SELECT p.descripcion FROM PINKIE_PIE.Puerto p WHERE r.puerto_destino_id = p.ID) AS puerto_destino, COUNT(p.ID) AS cant_pasaje, v.fecha_inicio as fecha_inicio, v.fecha_fin as fecha_fin
@@ -550,18 +578,4 @@ JOIN PINKIE_PIE.Cabina c
 	ON cabina_id = c.ID
 JOIN PINKIE_PIE.Viaje v
 	ON v.ID = viaje_id
-GO
-
-CREATE PROCEDURE PINKIE_PIE.CancelarPasajes @idCrucero int, @fecha datetime2
-AS
-BEGIN TRANSACTION
-UPDATE PINKIE_PIE.Pasaje SET Pasaje.cancelado = 1
-WHERE Pasaje.ID IN (
-	SELECT Pasaje.ID FROM PINKIE_PIE.Pasaje
-	JOIN Cabina ON Cabina.ID = Pasaje.cabina_id
-	JOIN Crucero ON Crucero.ID = Cabina.crucero_id
-	JOIN Viaje ON Viaje.ID = Cabina.viaje_id
-	WHERE Crucero.ID = @idCrucero AND Viaje.fecha_inicio >  @fecha
-)
-COMMIT
 GO

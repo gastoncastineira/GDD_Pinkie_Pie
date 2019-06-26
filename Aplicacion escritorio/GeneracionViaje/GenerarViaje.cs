@@ -314,6 +314,12 @@ namespace FrbaCrucero.GeneracionViaje
 
             return "";
         }
+
+        private void GenerarViaje_Load(object sender, EventArgs e)
+        {
+            dtFechaFin.MinDate = ConfigurationHelper.FechaActual;
+            dtFechaInicio.MinDate = ConfigurationHelper.FechaActual;
+        }
     }
 }
 

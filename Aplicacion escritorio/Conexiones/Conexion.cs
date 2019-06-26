@@ -433,6 +433,39 @@ namespace Conexiones
             }
         }
 
+        public void CancelarPasajes(int id, DateTime fechaBaja, DateTime fechaVuelta)
+        {
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = "PINKIE_PIE.CancelarPasajes";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    SqlParameter parameter1 = new SqlParameter("@idCrucero", SqlDbType.Int);
+                    parameter1.Direction = ParameterDirection.Input;
+                    parameter1.Value = id;
+
+                    SqlParameter parameter2 = new SqlParameter("@fecha", SqlDbType.DateTime2);
+                    parameter2.Direction = ParameterDirection.Input;
+                    parameter2.Value = fechaBaja;
+
+                    SqlParameter parameter3 = new SqlParameter("@fechaFin", SqlDbType.DateTime2);
+                    parameter3.Direction = ParameterDirection.Input;
+                    parameter3.Value = fechaVuelta;
+
+                    command.Parameters.Add(parameter1);
+                    command.Parameters.Add(parameter2);
+                    command.Parameters.Add(parameter3);
+
+                    command.ExecuteNonQuery();
+
+                }
+            }
+        }
+
         
         public void LlenarDataGridViewCruceros(ref DataGridView dataGrid)
         {
@@ -457,6 +490,28 @@ namespace Conexiones
             }
 
         }
-        
+
+
+        public void ActualizarFecha(DateTime dateTime)
+        {
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = "PINKIE_PIE.actualizar_fecha";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    SqlParameter parameter1 = new SqlParameter("@fecha", SqlDbType.DateTime2);
+                    parameter1.Direction = ParameterDirection.Input;
+                    parameter1.Value = dateTime;
+
+                    command.Parameters.Add(parameter1);
+
+                    command.ExecuteNonQuery();
+                }
+            }   
+        }
     }
 }

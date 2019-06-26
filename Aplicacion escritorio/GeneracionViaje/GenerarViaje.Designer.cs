@@ -216,8 +216,24 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "GenerarViaje";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Generar un viaje";
+            this.Load += new System.EventHandler(this.GenerarViaje_Load);
+            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.btnConsultarCruceros, 0);
+            this.Controls.SetChildIndex(this.btnConsultarRecorridos, 0);
+            this.Controls.SetChildIndex(this.btnGuardar, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
+            this.Controls.SetChildIndex(this.label3, 0);
+            this.Controls.SetChildIndex(this.label4, 0);
+            this.Controls.SetChildIndex(this.txtRecorrido, 0);
+            this.Controls.SetChildIndex(this.dtFechaInicio, 0);
+            this.Controls.SetChildIndex(this.dtHoraInicio, 0);
+            this.Controls.SetChildIndex(this.dtHoraFin, 0);
+            this.Controls.SetChildIndex(this.dtFechaFin, 0);
+            this.Controls.SetChildIndex(this.label5, 0);
+            this.Controls.SetChildIndex(this.label6, 0);
+            this.Controls.SetChildIndex(this.label7, 0);
+            this.Controls.SetChildIndex(this.txtCrucero, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 

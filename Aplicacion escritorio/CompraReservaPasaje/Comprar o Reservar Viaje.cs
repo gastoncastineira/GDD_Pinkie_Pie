@@ -24,6 +24,7 @@ namespace FrbaCrucero.CompraPasaje
 
         private void ComprarReservarViaje_Load(object sender, EventArgs e)
         {
+            dtFechaDeViaje.MinDate = ConfigurationHelper.FechaActual;
             txtOrigen.AutoCompleteCustomSource = CargarDatos();
             txtDestino.AutoCompleteCustomSource = CargarDatos();
         }

@@ -21,6 +21,7 @@ DROP TABLE [PINKIE_PIE].[Fabricante]
 DROP TABLE [PINKIE_PIE].[MedioDePago]
 DROP PROCEDURE [PINKIE_PIE].existe_usuario
 DROP PROCEDURE PINKIE_PIE.CancelarPasajes
+DROP PROCEDURE PINKIE_PIE.actualizar_fecha
 DROP VIEW PINKIE_PIE.top_5_recorridos
 DROP VIEW PINKIE_PIE.top_5_viajes_cabinas_vacias
 DROP VIEW PINKIE_PIE.top_5_dias_crucero_fuera_servicio
