@@ -311,7 +311,7 @@ namespace Conexiones
 
         public DataTable TraerLitadoEstadistico(string nombreView, DateTime fechaInicio, DateTime fechaFin)
         {
-            string condicion = " WHERE fecha_inicio BETWEEN '" + fechaInicio.ToString("yyyy-MM-dd") + "' AND '" + fechaFin.ToString("yyyy-MM-dd") + "' AND fecha_fin BETWEEN '" + fechaInicio.ToString("yyyy-MM-dd") + "' AND '" + fechaFin.ToString("yyyy-MM-dd") + "'";
+            string condicion = " WHERE fecha_fin BETWEEN '" + fechaInicio.ToString("yyyy-MM-dd") + "' AND '" + fechaFin.ToString("yyyy-MM-dd") + "'";
             string comandoString = String.Empty;
             switch (nombreView)
             {
