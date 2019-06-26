@@ -52,8 +52,9 @@ namespace FrbaCrucero.AbmCrucero
         private void buttonCrear_Click_1(object sender, EventArgs e)
         {
             AltaCruceros form = new AltaCruceros();
-            form.Show();
+            form.ShowDialog();
             form.Focus();
+            reLoad();
         }
 
         private void dataGridViewCruceros_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -73,7 +74,8 @@ namespace FrbaCrucero.AbmCrucero
                             dataGridViewCruceros.Rows[e.RowIndex].Cells[4].Value.ToString(),
                             dataGridViewCruceros.Rows[e.RowIndex].Cells[5].Value.ToString(),
                             dataGridViewCruceros.Rows[e.RowIndex].Cells[6].Value.ToString()
-                            , this).Show();
+                            ).ShowDialog();
+                        reLoad();
                     }
                     break;
                 case 2:

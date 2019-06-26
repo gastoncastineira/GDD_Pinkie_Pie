@@ -100,7 +100,7 @@ namespace FrbaCrucero.AbmCrucero
                 tr.Commit();
 
                 MessageBox.Show("Crucero dado de alta exitosamente. Felicidades :D", "Crucero creado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                DialogResult = DialogResult.OK;
             }
              
         }

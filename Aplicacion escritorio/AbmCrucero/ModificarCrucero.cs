@@ -14,15 +14,13 @@ namespace FrbaCrucero.AbmCrucero
     public partial class ModificarCrucero : Form
     {
         private Conexion conexion = new Conexion();
-        private ListaDeCruceros padre;
         private string ID;
         private string modelo;
         private string fabricante;
         private string identificador;
-        public ModificarCrucero(string ID_, string modelo_, string fabricante_, string identificador_, ListaDeCruceros padre_)
+        public ModificarCrucero(string ID_, string modelo_, string fabricante_, string identificador_)
         {
             ID = ID_;
-            padre = padre_;
             modelo = modelo_;
             fabricante = fabricante_;
             identificador = identificador_;
@@ -60,8 +58,7 @@ namespace FrbaCrucero.AbmCrucero
                 cambios.Add("fabricante_id", id);
                 cambios.Add("identificador", textBoxIdentificador.Text.Trim());
                 conexion.Modificar(int.Parse(ID), Tabla.Crucero, cambios);
-                padre.reLoad();
-                this.Close();
+                DialogResult = DialogResult.OK;
 
             }
 
