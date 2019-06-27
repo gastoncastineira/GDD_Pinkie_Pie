@@ -98,6 +98,10 @@ namespace FrbaCrucero.PagoReserva
 
                         MessageBox.Show("Se pago el pasaje exitosamente", "Pago exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                        txtNumeroDeTarjerta.Text = string.Empty;
+                        cmbCantidadDeCuotas.Text = string.Empty;
+                        cmbMetodoDePago.Text = string.Empty;
+                        textBox1.Text = string.Empty;
                     }
                     else
                     {

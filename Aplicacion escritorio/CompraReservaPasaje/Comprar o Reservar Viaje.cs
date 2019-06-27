@@ -56,9 +56,9 @@ namespace FrbaCrucero.CompraPasaje
                         txtDestino.Text = string.Empty;
                         txtOrigen.Text = string.Empty;
                         dtFechaDeViaje.Value = ConfigurationHelper.FechaActual;
+
                     }
-                    else
-                        Visible = true;
+                    Visible = true;
                 }
                 else
                 {
