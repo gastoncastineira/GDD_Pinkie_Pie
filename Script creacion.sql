@@ -360,7 +360,7 @@ BEGIN
 	end
 END
 
-
+GO
 CREATE PROCEDURE PINKIE_PIE.CancelarPasajes @idCrucero int, @fecha datetime2, @fechaFin datetime2 = NULL
 AS
 BEGIN TRANSACTION
