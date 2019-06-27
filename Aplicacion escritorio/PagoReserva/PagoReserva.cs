@@ -44,7 +44,7 @@ namespace FrbaCrucero.PagoReserva
                 Dictionary<string, List<object>> resulta3 = conexion.ConsultaPlana(Tabla.Reserva, colum, filtros2);
                 if (resulta3["precio"].Count == 0)
                 {
-                    MessageBox.Show("No se encontro reserva con ese ID","Error ID Reserva",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("No se encontro reserva con ese código","Error ID Reserva",MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -94,7 +94,7 @@ namespace FrbaCrucero.PagoReserva
                     if (conexion.Insertar(Tabla.Pasaje, valores) != -1)
                     {
 
-                        conexion.Modificar(int.Parse(resulta3["ID"][0].ToString()), Tabla.Reserva, new Dictionary<string, object> { { "pagado", true } });
+                        conexion.PagarReserva(int.Parse(textBox1.Text), Tabla.Reserva);
 
                         MessageBox.Show("Se pago el pasaje exitosamente", "Pago exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -128,9 +128,12 @@ namespace FrbaCrucero.PagoReserva
         }
 
         private bool camposVacios(){
-
-            return this.stringVacio(textBox1.Text) || this.stringVacio(cmbMetodoDePago.Text) || this.stringVacio(txtNumeroDeTarjerta.Text) || this.stringVacio(cmbCantidadDeCuotas.Text);
-
+            if (cmbCantidadDeCuotas.Text.ToLower() == "credito")
+                return this.stringVacio(textBox1.Text) || this.stringVacio(cmbMetodoDePago.Text) || this.stringVacio(txtNumeroDeTarjerta.Text) || this.stringVacio(cmbCantidadDeCuotas.Text);
+            else if (cmbCantidadDeCuotas.Text.ToLower() == "debito")
+                return this.stringVacio(textBox1.Text) || this.stringVacio(cmbMetodoDePago.Text) || this.stringVacio(txtNumeroDeTarjerta.Text);
+            else
+                return this.stringVacio(textBox1.Text) || this.stringVacio(cmbMetodoDePago.Text);
         }
 
 
@@ -166,7 +169,7 @@ namespace FrbaCrucero.PagoReserva
 
                 cmbCantidadDeCuotas.Visible = false;
                 cmbCantidadDeCuotas.Text = "0";
-
+                lblCantidadDeCuotas.Visible = false;
             }
 
 

@@ -73,16 +73,13 @@ namespace FrbaCrucero.AbmRol
 
                 tr.Commit();
                 MessageBox.Show("Rol creado exitosamente");
-                foreach (int i in checkedListBoxFuncion.CheckedIndices)
-                {
-                    checkedListBoxFuncion.SetItemCheckState(i, CheckState.Unchecked);
-                }
             }
             else
             {
                 MessageBox.Show("Ese rol ya existe.");
                 txtNombre.Text = string.Empty;
             }
+            DialogResult = DialogResult.OK;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -92,7 +89,8 @@ namespace FrbaCrucero.AbmRol
 
         private void btnLimpia_Click(object sender, EventArgs e)
         {
-            txtNombre.Text = string.Empty;
+            if (txtNombre.Text.ToLower() != "administrador" && txtNombre.Text.ToLower() != "cliente")
+                txtNombre.Text = string.Empty;
             foreach (int i in checkedListBoxFuncion.CheckedIndices)
             {
                 checkedListBoxFuncion.SetItemCheckState(i, CheckState.Unchecked);

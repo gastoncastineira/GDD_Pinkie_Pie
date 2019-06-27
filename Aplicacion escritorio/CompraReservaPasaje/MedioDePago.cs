@@ -12,7 +12,7 @@ using FrbaCrucero.model;
 
 namespace FrbaCrucero.CompraReservaPasaje
 {
-    public partial class MedioDePago : FormTemplate
+    public partial class MedioDePago : Form
     {
         public string IdPuertoOrigen, IdPuertoDestino, RecorridoId;
         private int CantidadDePasajes;
@@ -52,8 +52,11 @@ namespace FrbaCrucero.CompraReservaPasaje
             if (mensaje == "")
             {
                 this.Visible = false;
-                
-                new Confirmacion(CantidadDePasajes, ViajeElegido, IdPuertoOrigen, IdPuertoDestino, ClienteComprador, PrecioTotal, GetMetodoDePago(), cmbTipoOperacion.Items[cmbTipoOperacion.SelectedIndex].ToString()).Show();
+
+                if (new Confirmacion(CantidadDePasajes, ViajeElegido, IdPuertoOrigen, IdPuertoDestino, ClienteComprador, PrecioTotal, GetMetodoDePago(), cmbTipoOperacion.Items[cmbTipoOperacion.SelectedIndex].ToString()).ShowDialog() == DialogResult.OK)
+                    DialogResult = DialogResult.OK;
+                else
+                    Visible = true;
             }
             else
             {
@@ -63,8 +66,7 @@ namespace FrbaCrucero.CompraReservaPasaje
 
         private void BtnAtras_Click(object sender, EventArgs e)
         {
-            this.Visible = false;
-            new DatosPersonales(CantidadDePasajes, ViajeElegido, IdPuertoOrigen, IdPuertoDestino, PrecioTotal).Show();
+            DialogResult = DialogResult.Cancel;
         }
 
         private MetodoDePago GetMetodoDePago()

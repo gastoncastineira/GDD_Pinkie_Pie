@@ -103,7 +103,12 @@ namespace FrbaCrucero.AbmRol
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            txtNombre.Text = string.Empty;
+            if (txtNombre.Text.ToLower() != "administrador" && txtNombre.Text.ToLower() != "cliente")
+                txtNombre.Text = string.Empty;
+            foreach (int i in checkedListBoxFuncion.CheckedIndices)
+            {
+                checkedListBoxFuncion.SetItemCheckState(i, CheckState.Unchecked);
+            }
         }
 
         private void txtNombre_Leave(object sender, EventArgs e)

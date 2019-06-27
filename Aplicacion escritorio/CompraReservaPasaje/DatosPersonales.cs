@@ -12,7 +12,7 @@ using FrbaCrucero.model;
 
 namespace FrbaCrucero.CompraReservaPasaje
 {
-    public partial class DatosPersonales : FormTemplate
+    public partial class DatosPersonales : Form
     {
         private string IdPuertoOrigen, IdPuertoDestino;
         private Viaje ViajeElegido;
@@ -33,8 +33,7 @@ namespace FrbaCrucero.CompraReservaPasaje
 
         private void BtnAtras_Click(object sender, EventArgs e)
         {
-            this.Visible = false;
-            new SeleccionarViaje(ViajeElegido.FechaInicio, IdPuertoOrigen, IdPuertoDestino).Show();
+            DialogResult = DialogResult.Cancel;
         }
 
         private void BtnSiguiente_Click(object sender, EventArgs e)
@@ -44,7 +43,10 @@ namespace FrbaCrucero.CompraReservaPasaje
             {
                 this.Visible = false;
 
-                new MedioDePago(CantidadDePasajes, ViajeElegido, IdPuertoOrigen, IdPuertoDestino, GetCliente(), PrecioTotal).Show();
+                if (new MedioDePago(CantidadDePasajes, ViajeElegido, IdPuertoOrigen, IdPuertoDestino, GetCliente(), PrecioTotal).ShowDialog() == DialogResult.OK)
+                    DialogResult = DialogResult.OK;
+                else
+                    Visible = true;
             }
             else
             {
@@ -249,5 +251,14 @@ namespace FrbaCrucero.CompraReservaPasaje
 
             return "";
         }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
     }
 }

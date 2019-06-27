@@ -13,7 +13,7 @@ using FrbaCrucero.model;
 
 namespace FrbaCrucero.CompraReservaPasaje
 {
-    public partial class SeleccionarViaje : FormTemplate
+    public partial class SeleccionarViaje : Form
     {
         private Conexion conexion = new Conexion();
         private DataTable Datos;
@@ -166,8 +166,7 @@ namespace FrbaCrucero.CompraReservaPasaje
 
         private void BtnAtras_Click(object sender, EventArgs e)
         {
-            this.Visible = false;
-            new ComprarReservarViaje().Show();
+            DialogResult = DialogResult.Cancel;
         }
 
         private void BtnConfirmar_Click(object sender, EventArgs e)
@@ -192,7 +191,10 @@ namespace FrbaCrucero.CompraReservaPasaje
                 cabinas.Add(cabina);
                 viaje.Cabinas = cabinas;
 
-                new DatosPersonales(Convert.ToInt16(txtCantidadPasajes.Text), viaje, IdPuertoOrigen, IdPuertoDestino, PrecioTotal).Show();
+                if(new DatosPersonales(Convert.ToInt16(txtCantidadPasajes.Text), viaje, IdPuertoOrigen, IdPuertoDestino, PrecioTotal).ShowDialog() == DialogResult.OK)
+                    DialogResult = DialogResult.OK;
+                else
+                    Visible = true;
             }
             else
             {

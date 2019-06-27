@@ -102,6 +102,13 @@ namespace FrbaCrucero.GeneracionViaje
                 InsertarViaje();
 
                 MessageBox.Show("Se ha guardado correctamente!", "Generar viaje");
+
+                txtCrucero.Text = string.Empty;
+                txtRecorrido.Text = string.Empty;
+                dtFechaFin.Value = ConfigurationHelper.FechaActual;
+                dtFechaInicio.Value = ConfigurationHelper.FechaActual;
+                dtHoraFin.Value = ConfigurationHelper.FechaActual;
+                dtHoraInicio.Value = ConfigurationHelper.FechaActual;
             }
             else
             {

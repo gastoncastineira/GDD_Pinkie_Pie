@@ -91,8 +91,13 @@ namespace FrbaCrucero.AbmCrucero
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if(Convert.ToBoolean(dataGridViewCruceros.Rows[dataGridViewCruceros.CurrentCell.RowIndex].Cells["baja_vida_util"].Value))
+            {
+                MessageBox.Show("No se puede dar de baja temporal un crucero dado de baja definitiva");
+                return;
+            }
             bool flag = false;
-            for (int j = 0; j < dataGridViewCruceros.Rows.Count - 1; j++)
+            for (int j = 0; j < dataGridViewCruceros.Rows.Count; j++)
             {
 
                 var check = dataGridViewCruceros.Rows[j].Cells[0];
@@ -115,7 +120,7 @@ namespace FrbaCrucero.AbmCrucero
         private void button2_Click(object sender, EventArgs e)
         {
             bool flag = false;
-            for (int j = 0; j < dataGridViewCruceros.Rows.Count - 1; j++)
+            for (int j = 0; j < dataGridViewCruceros.Rows.Count; j++)
             {
 
                 var check = dataGridViewCruceros.Rows[j].Cells[0];
@@ -139,7 +144,7 @@ namespace FrbaCrucero.AbmCrucero
 
             List<int> idsFueraServ = new List<int>(); 
 
-            for (int j = 0; j < dataGridViewCruceros.Rows.Count - 1; j++)
+            for (int j = 0; j < dataGridViewCruceros.Rows.Count; j++)
             {
 
                 var check = dataGridViewCruceros.Rows[j].Cells[0];

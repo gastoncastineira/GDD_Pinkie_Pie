@@ -51,7 +51,14 @@ namespace FrbaCrucero.CompraPasaje
                 if (HayViajes())
                 {
                     this.Visible = false;
-                    new SeleccionarViaje(Convert.ToDateTime(dtFechaDeViaje.Value), getIdPuerto(txtOrigen.Text.ToString()), getIdPuerto(txtDestino.Text.ToString())).Show();
+                    if(new SeleccionarViaje(Convert.ToDateTime(dtFechaDeViaje.Value), getIdPuerto(txtOrigen.Text.ToString()), getIdPuerto(txtDestino.Text.ToString())).ShowDialog() == DialogResult.OK)
+                    {
+                        txtDestino.Text = string.Empty;
+                        txtOrigen.Text = string.Empty;
+                        dtFechaDeViaje.Value = ConfigurationHelper.FechaActual;
+                    }
+                    else
+                        Visible = true;
                 }
                 else
                 {

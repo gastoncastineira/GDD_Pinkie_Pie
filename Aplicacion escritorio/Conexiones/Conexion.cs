@@ -100,6 +100,33 @@ namespace Conexiones
             }
             return true;
         }
+
+        public bool PagarReserva(int codigo, string tabla)
+        {
+            try
+            {
+                string comandoString = string.Copy(comandoUpdate) + tabla + " SET pagado = 1 WHERE codigo = @id";
+                using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+                {
+                    sqlConnection.Open();
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.Connection = sqlConnection;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = comandoString;
+                        command.Parameters.AddWithValue("@id", codigo);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                PinkieLogger.logExcepcion(ex);
+                return false;
+            }
+            return true;
+        }
+
         public void LlenarComboBox(string tabla, ref ComboBox comboBox, List<Filtro> filtros)
         {
             comboBox.DataSource = ConseguirTabla(tabla, filtros);

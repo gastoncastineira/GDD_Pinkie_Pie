@@ -12,7 +12,7 @@ using FrbaCrucero.model;
 
 namespace FrbaCrucero.CompraReservaPasaje
 {
-    public partial class Confirmacion : FormTemplate
+    public partial class Confirmacion : Form
     {
         public string IdPuertoOrigen, IdPuertoDestino, TipoDeOperacion;
         private Viaje ViajeElegido;
@@ -119,9 +119,7 @@ namespace FrbaCrucero.CompraReservaPasaje
 
         private void BtnAtras_Click(object sender, EventArgs e)
         {
-            this.Visible = false;
-
-            new MedioDePago(CantidadDePasajes, ViajeElegido, IdPuertoOrigen, IdPuertoDestino, ClienteComprador, PrecioTotal).Show();
+            DialogResult = DialogResult.Cancel;
         }
 
         private void BtnConfirmar_Click(object sender, EventArgs e)
@@ -201,7 +199,7 @@ namespace FrbaCrucero.CompraReservaPasaje
                     else
                     {
                         // Se inserta una reserva
-                        nroOperacion = NumerosOperacion[i];
+                        nroOperacion = NumerosOperacion[0];
 
                         datosOperacion["fecha_de_reserva"] = FrbaCrucero.ConfigurationHelper.FechaActual;
                         datosOperacion["codigo"] = nroOperacion;
@@ -216,6 +214,9 @@ namespace FrbaCrucero.CompraReservaPasaje
                 }
 
                 MessageBox.Show("Se ha hecho la " + tipo + " correctamente!\n" + "Gracias por su " + tipo + "\n", "Confirmación");
+                if (tipo == "reserva")
+                    MessageBox.Show("Su codigo de reserva es " + NumerosOperacion[0]);
+                DialogResult = DialogResult.OK;
             }
             else
             {
